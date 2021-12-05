@@ -91,16 +91,6 @@ MSG_HASH( /* FIXME Is a specific image format used? Is it determined automatical
    MENU_ENUM_SUBLABEL_DUMP_DISC,
    "Wykonaj zrzut fizycznej płyty multimedialnej do pamięci wewnętrznej. Zostanie ona zapisana jako plik obrazu."
    )
-#ifdef HAVE_LAKKA
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_EJECT_DISC,
-   "Wyrzuć płytę"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_EJECT_DISC,
-   "Wyrzuca płytę z fizycznego napędu CD/DVD."
-   )
-#endif
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLISTS_TAB,
    "Playlisty"
@@ -1347,7 +1337,7 @@ MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_DINGUX_IPU_FILTER_NEAREST,
    "Najbliższy sąsiad"
    )
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90)
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_DINGUX_RS90_SOFTFILTER_TYPE,
    "Interpolacja obrazów"
@@ -1471,14 +1461,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_GPU_INDEX,
    "Wybierz kartę graficzną do użycia."
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_VIDEO_WINDOW_OFFSET_X,
-   "Przesunięcie ekranu w poziomie"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_VIDEO_WINDOW_OFFSET_Y,
-   "Przesunięcie pionowe ekranu"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_REFRESH_RATE,
@@ -1702,7 +1684,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_HDR_MAX_NITS,
-   "Ustaw szczytową luminancję (w cd/m2) wyświetlacza. Zobacz RTings dla szczytowej luminancji wyświetlacza."
+   "Ustaw szczytową luminancję (w cd/m2) wyświetlacza. Zobacz RTings dla szczytowej luminancji wyświetlacza"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_HDR_PAPER_WHITE_NITS,
@@ -1758,10 +1740,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_FRAME_DELAY,
    "Zmniejsza opóźnienie kosztem zwiększonego ryzyka stłuczenia wideo. Dodaje opóźnienie po VSync (w ms)."
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_VIDEO_FRAME_DELAY_AUTO,
-   "Automatyczne opóźnienie ramki"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_HARD_SYNC,
@@ -2335,10 +2313,6 @@ MSG_HASH(
    "Kombinacja przycisków kontrolera do przełączania menu."
    )
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_QUIT_GAMEPAD_COMBO,
-   "Wyjście Combo kontrolera"
-   )
-MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_QUIT_GAMEPAD_COMBO,
    "Kombinacja przycisków kontrolera aby wyjść z RetroArch."
    )
@@ -2770,14 +2744,6 @@ MSG_HASH(
    "Przycisk X (góra)"
    )
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
-   "Przycisk C"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
-   "Przycisk Z"
-   )
-MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L,
    "Przycisk L (ramię)"
    )
@@ -2802,8 +2768,20 @@ MSG_HASH(
    "Przycisk R3 (kciuk)"
    )
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
-   "Przycisk Menu"
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "Przycisk C"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Przycisk Z"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT1,
+   "Przycisk OPT1"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT2,
+   "Przycisk OPT2"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
@@ -3912,10 +3890,6 @@ MSG_HASH(
    "Wyświetlaj komunikat ekranowy podczas ustawiania częstotliwości odświeżania."
    )
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_NOTIFICATION_SHOW_NETPLAY_EXTRA,
-   "Dodatkowe powiadomienia Netplay"
-   )
-MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_FONT_PATH,
    "Czcionka powiadomienia"
    )
@@ -4225,16 +4199,6 @@ MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SHOW_DUMP_DISC,
    "Pokaż opcję \"Zrzut Dysku\" w menu głównym."
    )
-#ifdef HAVE_LAKKA
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_MENU_SHOW_EJECT_DISC,
-   "Pokaż 'Wyrzuć dysk'"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_MENU_SHOW_EJECT_DISC,
-   "Pokaż opcję 'Wyrzuć dysk' w menu głównym."
-   )
-#endif
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SHOW_ONLINE_UPDATER,
    "Pokaż 'Aktualizator Online'"
@@ -5105,10 +5069,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_TCP_UDP_PORT,
    "Port adresu IP hosta. Może to być port TCP lub UDP."
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_NETPLAY_MAX_CONNECTIONS,
-   "Maksymalna liczba połączeń równoległych"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_PASSWORD,
@@ -6089,10 +6049,6 @@ MSG_HASH(
    )
 
 /* Explore tab */
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_EXPLORE_INITIALISING_LIST,
-   "Inicjowanie listy..."
-   )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_EXPLORE_CATEGORY_RELEASE_YEAR,
    "Rok wydania"
@@ -8543,11 +8499,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_OZONE_COLOR_THEME_SOLARIZED_DARK,
-   "Ciemny Solaryzowany"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_OZONE_COLOR_THEME_SOLARIZED_LIGHT,
-   "Solarized jasny"
+   "Solarized ciemny"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_LEFT_THUMBNAILS_OZONE,
@@ -11110,10 +11062,6 @@ MSG_HASH(
    "Skanowanie Bluetooth zakończone."
    )
 MSG_HASH(
-   MSG_BLUETOOTH_PAIRING_REMOVED,
-   "Parowanie usunięte. Zrestartuj RetroArch, aby ponownie się połączyć/sparować."
-   )
-MSG_HASH(
    MSG_WIFI_SCAN_COMPLETE,
    "Skanowanie Wi-Fi zostało zakończone."
    )
@@ -11202,6 +11150,18 @@ MSG_HASH(
    "Wykonywanie z wyprzedzeniem zostało wyłączone, ponieważ ten rdzeń nie obsługuje zapisywania stanów."
    )
 MSG_HASH(
+   MSG_RUNAHEAD_FAILED_TO_SAVE_STATE,
+   "Nie udało się zapisać stanu. Wykonywanie z wyprzedzeniem zostało wyłączone."
+   )
+MSG_HASH(
+   MSG_RUNAHEAD_FAILED_TO_LOAD_STATE,
+   "Nie udało się załadować stanu. Wykonywanie z wyprzedzeniem zostało wyłączone."
+   )
+MSG_HASH(
+   MSG_RUNAHEAD_FAILED_TO_CREATE_SECONDARY_INSTANCE,
+   "Nie udało się utworzyć drugiej instancji. Wykonywanie z wyprzedzeniem wykorzystuje teraz tylko jedną instancję."
+   )
+MSG_HASH(
    MSG_SCANNING_OF_FILE_FINISHED,
    "Skanowanie pliku zakończone"
    )
@@ -11288,22 +11248,6 @@ MSG_HASH(
 MSG_HASH(
    MSG_FAILED_TO_SET_INITIAL_DISK,
    "Nie udało się ustawić ostatnio używanego dysku..."
-   )
-MSG_HASH(
-   MSG_FAILED_TO_CONNECT_TO_CLIENT,
-   "Nie udało się połączyć z klientem"
-   )
-MSG_HASH(
-   MSG_FAILED_TO_CONNECT_TO_HOST,
-   "Nie udało się połączyć z serwerem"
-   )
-MSG_HASH(
-   MSG_NETPLAY_HOST_FULL,
-   "Serwer Netplay pełen"
-   )
-MSG_HASH(
-   MSG_FAILED_TO_RECEIVE_HEADER_FROM_HOST,
-   "Nie udało się odebrać nagłówka z serwera"
    )
 MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED,
@@ -11538,42 +11482,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SCREEN_RESOLUTION,
    "Rozdzielczość ekranu"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_DEFAULT,
-   "Rozdzielczość ekranu: Domyślna"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_NO_DESC,
-   "Rozdzielczość ekranu: %dx%d"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_DESC,
-   "Rozdzielczość ekranu: %dx%d - %s"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_APPLYING_DEFAULT,
-   "Zastosowanie: Domyślne"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_APPLYING_NO_DESC,
-   "Zastosowanie: %dx%d\nROZPOCZNIJ aby zresetować"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_APPLYING_DESC,
-   "Zastosowanie: %dx%d - %s\nROZPOCZNIJ aby zresetować"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_RESETTING_DEFAULT,
-   "Resetowanie do: Domyślnych"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_RESETTING_NO_DESC,
-   "Resetowanie do: %dx%d"
-   )
-MSG_HASH(
-   MSG_SCREEN_RESOLUTION_RESETTING_DESC,
-   "Resetowanie do: %dx%d - %s"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_SCREEN_RESOLUTION,
@@ -11816,10 +11724,6 @@ MSG_HASH(
    "Lokalny"
    )
 MSG_HASH(
-   MSG_READ_WRITE,
-   "Status pamięci wewnętrznej: Odczyt/Zapis"
-   )
-MSG_HASH(
    MSG_READ_ONLY,
    "Status pamięci wewnętrznej: Tylko do odczytu"
    )
@@ -12009,24 +11913,8 @@ MSG_HASH(
    "nie znaleziono bottom_menu.png\nw folderze /ctr"
    )
 MSG_HASH(
-   MSG_3DS_BOTTOM_MENU_NO_STATE_DATA,
-   "Brak\nDanych"
-   )
-MSG_HASH(
-   MSG_3DS_BOTTOM_MENU_NO_STATE_THUMBNAIL,
-   "Brak\nZrzutu ekranu"
-   )
-MSG_HASH(
    MSG_3DS_BOTTOM_MENU_RESUME,
    "Wznów grę"
-   )
-MSG_HASH(
-   MSG_3DS_BOTTOM_MENU_SAVE_STATE,
-   "Utwórz\nPunkt przywracania"
-   )
-MSG_HASH(
-   MSG_3DS_BOTTOM_MENU_LOAD_STATE,
-   "Załaduj\nPunkt przywracania"
    )
 #endif
 #ifdef HAVE_QT
