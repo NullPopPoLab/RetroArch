@@ -2042,7 +2042,7 @@ bool runloop_environment_cb(unsigned cmd, void *data)
             "B (bottom)", "Y (left)", "Select", "Start",
             "D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
             "A (right)", "X (up)",
-            "L", "R", "L2", "R2", "L3", "R3",
+            "L", "R", "L2", "R2", "L3", "R3","C","Z","Menu","Opt",
          };
 
          if (system)

@@ -2784,6 +2784,10 @@ MSG_HASH(
    "Przycisk OPT2"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Przycisk Opt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Lewy analog X+ (prawo)"
    )

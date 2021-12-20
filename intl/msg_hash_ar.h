@@ -2452,6 +2452,10 @@ MSG_HASH(
    "زر OPT2"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "زر Opt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "تناظري يسار X+ (اليمين)"
    )

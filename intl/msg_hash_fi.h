@@ -2776,6 +2776,10 @@ MSG_HASH(
    "OPT2-painike"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt-painike"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Vasen analogi X+ (Oikealle)"
    )

@@ -2500,6 +2500,10 @@ MSG_HASH(
    "Кнопка OPT2"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Кнопка Opt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_LIGHTGUN_RELOAD,
    "Перезаряджання рушниці"
    )

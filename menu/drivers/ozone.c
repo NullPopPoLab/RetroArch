@@ -2107,61 +2107,61 @@ static uintptr_t ozone_entries_icon_get_texture(ozone_handle_t *ozone,
          }
 
          /* This is utilized for both Input Binds and Quickmenu controls*/
-         if (type == input_id) // up 
+         if (type == input_id)
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_DPAD_U];
-         if (type == (input_id + 1)) // down 
+         if (type == (input_id + 1))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_DPAD_D];
-         if (type == (input_id + 2)) // left 
+         if (type == (input_id + 2))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_DPAD_L];
-         if (type == (input_id + 3)) // right 
+         if (type == (input_id + 3))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_DPAD_R];
-         if (type == (input_id + 4)) // A 
+         if (type == (input_id + 4)) // A
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_R];
-         if (type == (input_id + 5)) // B 
+         if (type == (input_id + 5)) // B
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_D];
-         if (type == (input_id + 6)) // C 
+         if (type == (input_id + 6)) // C
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_D];
-         if (type == (input_id + 7)) // X 
+         if (type == (input_id + 7)) // X
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_U];
-         if (type == (input_id + 8)) // Y 
+         if (type == (input_id + 8)) // Y
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_L];
-         if (type == (input_id + 9)) // Z 
+         if (type == (input_id + 9)) // Z
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_BTN_L];
-         if (type == (input_id + 10)) // SELECT 
+         if (type == (input_id + 10))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_SELECT];
-         if (type == (input_id + 11)) // START 
+         if (type == (input_id + 11))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_START];
-         if (type == (input_id + 12)) // L1 
+         if (type == (input_id + 12)) // L1
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_LB];
-         if (type == (input_id + 13)) // R1 
+         if (type == (input_id + 13)) // R1
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_RB];
-         if (type == (input_id + 14)) // L2 
+         if (type == (input_id + 14)) // L2
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_LT];
-         if (type == (input_id + 15)) // R2 
+         if (type == (input_id + 15)) // R2
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_RT];
-         if (type == (input_id + 16)) // L3 
+         if (type == (input_id + 16)) // L3
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_P];
-         if (type == (input_id + 17)) // R3 
+         if (type == (input_id + 17)) // R3
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_P];
-         if (type == (input_id + 18)) // OPT1 
+         if (type == (input_id + 18)) // MENU
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_SELECT];
-         if (type == (input_id + 19)) // OPT2 
+         if (type == (input_id + 19)) // OPT
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_START];
-         if (type == (input_id + 20)) // ANALOG L UP 
+         if (type == (input_id + 20))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_U];
-         if (type == (input_id + 21)) // ANALOG L DOWN 
+         if (type == (input_id + 21))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_D];
-         if (type == (input_id + 22)) // ANALOG L LEFT 
+         if (type == (input_id + 22))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_L];
-         if (type == (input_id + 23)) // ANALOG L RIGHT 
+         if (type == (input_id + 23))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_R];
-         if (type == (input_id + 24)) // ANALOG R UP 
+         if (type == (input_id + 24))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_U];
-         if (type == (input_id + 25)) // ANALOG R DOWN 
+         if (type == (input_id + 25))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_D];
-         if (type == (input_id + 26)) // ANALOG R LEFT 
+         if (type == (input_id + 26))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_L];
-         if (type == (input_id + 27)) // ANALOG R RIGHT 
+         if (type == (input_id + 27))
             return ozone->icons_textures[OZONE_ENTRIES_ICONS_TEXTURE_INPUT_STCK_R];
       }
 
