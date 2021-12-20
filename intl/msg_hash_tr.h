@@ -2840,6 +2840,10 @@ MSG_HASH(
    "OPT2 Düğmesi (Tetik)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt Düğmesi"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Sol Analog X+ (Sağ)"
    )

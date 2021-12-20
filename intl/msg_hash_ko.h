@@ -2872,6 +2872,10 @@ MSG_HASH(
    "OPT2 버튼"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt 버튼"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "좌 아날로그 X+ (우)"
    )

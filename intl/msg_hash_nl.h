@@ -2236,6 +2236,10 @@ MSG_HASH(
    "OPT2 knop"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt knop"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Linker Analoog X+ (Rechts)"
    )
