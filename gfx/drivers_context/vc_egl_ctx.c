@@ -77,6 +77,9 @@ typedef struct
 /* TODO/FIXME - static globals */
 static enum gfx_ctx_api vc_api = GFX_CTX_NONE;
 
+static bool gfx_ctx_vc_bind_api(void *data,
+      enum gfx_ctx_api api, unsigned major, unsigned minor);
+
 static INLINE bool gfx_ctx_vc_egl_query_extension(vc_ctx_data_t *vc, const char *ext)
 {
    const char *str = (const char*)eglQueryString(vc->egl.dpy, EGL_EXTENSIONS);

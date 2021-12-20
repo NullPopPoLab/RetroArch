@@ -4305,6 +4305,36 @@ static bool retroarch_parse_input_and_config(
       { NULL, 0, NULL, 0 }
    };
 
+   if(argc >= 2) {
+     if(strcmp(argv[1], "-x") == 0) {
+       struct retro_system_info info;
+       bool load_no_content;
+       int x = 0;
+
+       printf("{\n");
+       for(int i=2; i<argc; i++) {
+	 if(libretro_get_system_info(argv[i], &info, &load_no_content)) {
+	   if(strlen(argv[i]) >= 12) {
+	     if(strcmp("_libretro.so", argv[i]+(strlen(argv[i]) - 12)) == 0) {
+	       if(x > 0) {
+		 printf(",\n");
+	       }
+	       argv[i][strlen(argv[i]) - 12] = '\0';
+	       printf("  \"%s\": {\n", path_basename(argv[i]));
+	       printf("    \"name\": \"%s\",\n", info.library_name);
+	       printf("    \"version\": \"%s\",\n", info.library_version);
+	       printf("    \"extensions\": \"%s\"\n", info.valid_extensions);
+	       printf("  }");
+	       x++;
+	     }
+	   }
+	 }
+       }
+       printf("\n}\n");
+       exit(0);
+     }
+   }
+
    if (first_run)
    {
       /* Copy the args into a buffer so launch arguments can be reused */

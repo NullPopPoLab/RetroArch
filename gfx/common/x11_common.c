@@ -517,25 +517,25 @@ static void x11_handle_key_event(unsigned keycode, XEvent *event, XIC ic, bool f
          char keybuf[32];
 
          keybuf[0] = '\0';
-#ifdef X_HAVE_UTF8_STRING
-         status = 0;
-
-         /* XwcLookupString doesn't seem to work. */
-         num = Xutf8LookupString(ic, &event->xkey, keybuf,
-               ARRAY_SIZE(keybuf), &keysym, &status);
-
-         /* libc functions need UTF-8 locale to work properly,
-          * which makes mbrtowc a bit impractical.
-          *
-          * Use custom UTF8 -> UTF-32 conversion. */
-         num = utf8_conv_utf32(chars, ARRAY_SIZE(chars), keybuf, num);
-#else
+//#ifdef X_HAVE_UTF8_STRING
+//         status = 0;
+//
+//         /* XwcLookupString doesn't seem to work. */
+//         num = Xutf8LookupString(ic, &event->xkey, keybuf,
+//               ARRAY_SIZE(keybuf), &keysym, &status);
+//
+//         /* libc functions need UTF-8 locale to work properly,
+//          * which makes mbrtowc a bit impractical.
+//          *
+//          * Use custom UTF8 -> UTF-32 conversion. */
+//         num = utf8_conv_utf32(chars, ARRAY_SIZE(chars), keybuf, num);
+//#else
          (void)ic;
          num = XLookupString(&event->xkey, keybuf,
                sizeof(keybuf), &keysym, NULL); /* ASCII only. */
          for (i = 0; i < num; i++)
             chars[i] = keybuf[i] & 0x7f;
-#endif
+//#endif
       }
       else
          keysym = XLookupKeysym(&event->xkey, (state & ShiftMask) || (state & LockMask));
@@ -736,6 +736,7 @@ bool x11_has_focus_internal(void *data)
 
 bool x11_has_focus(void *data)
 {
+  return true;
    Window win;
    int rev;
 
@@ -782,9 +783,9 @@ void x11_update_title(void *data)
 
 bool x11_input_ctx_new(bool true_full)
 {
-   if (!x11_create_input_context(g_x11_dpy, g_x11_win,
-            &g_x11_xim, &g_x11_xic))
-      return false;
+   //if (!x11_create_input_context(g_x11_dpy, g_x11_win,
+   //         &g_x11_xim, &g_x11_xic))
+   //   return false;
 
    video_driver_display_type_set(RARCH_DISPLAY_X11);
    video_driver_display_set((uintptr_t)g_x11_dpy);
