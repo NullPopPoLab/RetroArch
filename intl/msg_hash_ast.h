@@ -1181,6 +1181,18 @@ MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_X,
    "Botón X (Arriba)"
    )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "Botón C"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Botón Z"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
+   "Botón Menu"
+   )
 
 /* Settings > Latency */
 
