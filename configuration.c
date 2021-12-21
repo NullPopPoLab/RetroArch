@@ -5042,7 +5042,8 @@ bool input_remapping_load_file(void *data, const char *path)
       "b", "y", "select", "start",
       "up", "down", "left", "right",
       "a", "x", "l", "r", "l2", "r2",
-      "l3", "r3", "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
+      "l3", "r3", "c","z","menu","opt",
+      "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
 
    if (!conf || string_is_empty(path))
       return false;
@@ -5175,7 +5176,8 @@ bool input_remapping_save_file(const char *path)
       "b", "y", "select", "start",
       "up", "down", "left", "right",
       "a", "x", "l", "r", "l2", "r2",
-      "l3", "r3", "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
+      "l3", "r3", "c", "z", "menu", "opt",
+      "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
    config_file_t               *conf = NULL;
    settings_t              *settings = config_st;
    unsigned max_users                = settings->uints.input_max_users;
