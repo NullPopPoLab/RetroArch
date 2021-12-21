@@ -4367,10 +4367,16 @@ static void input_config_save_keybinds_user(config_file_t *conf, unsigned user)
       const struct retro_keybind *bind     = &input_config_binds[user][i];
       const char                 *base     = NULL;
 
-      if (!prefix || !bind->valid || !keybind)
-         continue;
-
+      if (!prefix || !bind->valid || !keybind){
+//         continue;
+		if(!prefix)prefix="_ng_prefix";
+		else if(!bind->valid)prefix="_ng_invalid";
+		else if(!keybind)prefix="_ng_keybind";
+	}
+	else{
       base                                 = keybind->base;
+	}
+
       key[0] = btn[0]                      = '\0';
 
       fill_pathname_join_delim(key, prefix, base, '_', sizeof(key));
