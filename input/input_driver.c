@@ -2681,7 +2681,7 @@ bool input_driver_ungrab_mouse(void)
 void input_config_reset(void)
 {
    unsigned i,i2;
-const retro_keybind_set *bp;
+const retro_keybind *bp;
    input_driver_state_t *input_st = &input_driver_st;
 
    retro_assert(sizeof(input_config_binds[0]) >= sizeof(retro_keybinds_1));
@@ -2713,7 +2713,7 @@ const retro_keybind_set *bp;
 
       input_st->libretro_input_binds[i] = (const retro_keybind *)&input_config_binds[i];
 		for(i2=0;i2<RARCH_BIND_LIST_END;++i2){
-			bp=input_st->libretro_input_binds[i][j];
+			bp=input_st->libretro_input_binds[i][i2];
 			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp->valid?'o':'x',bp->id,bp->joykey_label);
 		}
    }
