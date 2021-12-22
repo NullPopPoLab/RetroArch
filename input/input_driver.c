@@ -2680,10 +2680,7 @@ bool input_driver_ungrab_mouse(void)
 
 void input_config_reset(void)
 {
-   unsigned i,i2;
-const struct retro_keybind *bp1;
-const struct retro_keybind *bp2;
-const struct retro_keybind *bp3;
+   unsigned i;
    input_driver_state_t *input_st = &input_driver_st;
 
    retro_assert(sizeof(input_config_binds[0]) >= sizeof(retro_keybinds_1));
@@ -2714,14 +2711,6 @@ const struct retro_keybind *bp3;
       input_config_reset_autoconfig_binds(i);
 
       input_st->libretro_input_binds[i] = (const retro_keybind_set *)&input_config_binds[i];
-		for(i2=0;i2<40;++i2){
-			bp1=&input_config_binds[i][i2];
-			bp2=&input_st->libretro_input_binds[i][i2];
-			bp3=&(*input_st->libretro_input_binds[i])[i2];
-			printf("input_config_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp1->valid?'o':'x',bp1->id,bp1->joykey_label);
-			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp2->valid?'o':'x',bp2->id,bp2->joykey_label); // NG
-			printf("(*libretro_input_binds[%d])[%d]: %c; %d(%s)\n",i,i2,bp3->valid?'o':'x',bp3->id,bp3->joykey_label);
-		}
    }
 }
 

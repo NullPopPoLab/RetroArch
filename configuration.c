@@ -4367,16 +4367,6 @@ static void input_config_save_keybinds_user(config_file_t *conf, unsigned user)
       const struct retro_keybind *bind     = &input_config_binds[user][i];
       const char                 *base     = NULL;
 
-	if(!prefix){
-		fprintf(stderr,"input_config_save_keybinds_user:%d: invalid prefix\n",i);
-	}
-	if(!bind->valid){
-		fprintf(stderr,"input_config_save_keybinds_user:%d: invalid bound\n",i);
-	}
-	if(!keybind){
-		fprintf(stderr,"input_config_save_keybinds_user:%d: invalid keybind\n",i);
-	}
-
       if (!prefix || !bind->valid || !keybind)
          continue;
 
