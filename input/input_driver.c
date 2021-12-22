@@ -2695,10 +2695,10 @@ const struct retro_keybind *bp;
             sizeof(retro_keybinds_rest));
 
 		for(i=0;i<RARCH_BIND_LIST_END;++i){
-			bp=input_config_binds[0][i];
+			bp=&input_config_binds[0][i];
 			printf("input_config_binds[0][%d]: %c; %d(%s)\n",i,bp->valid?'o':'x',bp->id,bp->joykey_label);
 
-			bp=input_config_binds[1][i];
+			bp=&input_config_binds[1][i];
 			printf("input_config_binds[1][%d]: %c; %d(%s)\n",i,bp->valid?'o':'x',bp->id,bp->joykey_label);
 		}
 
