@@ -2719,7 +2719,7 @@ const struct retro_keybind *bp3;
 			bp2=&input_st->libretro_input_binds[i][i2];
 			bp3=&(*input_st->libretro_input_binds[i])[i2];
 			printf("input_config_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp1->valid?'o':'x',bp1->id,bp1->joykey_label);
-			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp2->valid?'o':'x',bp2->id,bp2->joykey_label);
+			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp2->valid?'o':'x',bp2->id,bp2->joykey_label); // NG
 			printf("(*libretro_input_binds[%d])[%d]: %c; %d(%s)\n",i,i2,bp3->valid?'o':'x',bp3->id,bp3->joykey_label);
 		}
    }
