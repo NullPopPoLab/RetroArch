@@ -2680,9 +2680,10 @@ bool input_driver_ungrab_mouse(void)
 
 void input_config_reset(void)
 {
-   unsigned i,i2;
-const struct retro_keybind *bp;
+   unsigned i;
    input_driver_state_t *input_st = &input_driver_st;
+
+const struct retro_keybind *bp;
 
    retro_assert(sizeof(input_config_binds[0]) >= sizeof(retro_keybinds_1));
    retro_assert(sizeof(input_config_binds[1]) >= sizeof(retro_keybinds_rest));
@@ -2692,6 +2693,14 @@ const struct retro_keybind *bp;
    for (i = 1; i < MAX_USERS; i++)
       memcpy(input_config_binds[i], retro_keybinds_rest,
             sizeof(retro_keybinds_rest));
+
+		for(i=0;i<RARCH_BIND_LIST_END;++i){
+			bp=input_config_binds[0][i];
+			printf("input_config_binds[0][%d]: %c; %d(%s)\n",i,bp->valid?'o':'x',bp->id,bp->joykey_label);
+
+			bp=input_config_binds[1][i];
+			printf("input_config_binds[1][%d]: %c; %d(%s)\n",i,bp->valid?'o':'x',bp->id,bp->joykey_label);
+		}
 
    for (i = 0; i < MAX_USERS; i++)
    {
@@ -2712,10 +2721,6 @@ const struct retro_keybind *bp;
       input_config_reset_autoconfig_binds(i);
 
       input_st->libretro_input_binds[i] = (const retro_keybind_set *)&input_config_binds[i];
-		for(i2=0;i2<RARCH_BIND_LIST_END;++i2){
-			bp=input_st->libretro_input_binds[i][i2];
-			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp->valid?'o':'x',bp->id,bp->joykey_label);
-		}
    }
 }
 
