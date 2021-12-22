@@ -2680,7 +2680,7 @@ bool input_driver_ungrab_mouse(void)
 
 void input_config_reset(void)
 {
-   unsigned i;
+   unsigned i,i2;
 const struct retro_keybind *bp;
    input_driver_state_t *input_st = &input_driver_st;
 
