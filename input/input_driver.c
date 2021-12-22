@@ -2711,7 +2711,7 @@ const struct retro_keybind *bp;
 
       input_config_reset_autoconfig_binds(i);
 
-      input_st->libretro_input_binds[i] = (const retro_keybind *)&input_config_binds[i];
+      input_st->libretro_input_binds[i] = (const retro_keybind_set *)&input_config_binds[i];
 		for(i2=0;i2<RARCH_BIND_LIST_END;++i2){
 			bp=input_st->libretro_input_binds[i][i2];
 			printf("libretro_input_binds[%d][%d]: %c; %d(%s)\n",i,i2,bp->valid?'o':'x',bp->id,bp->joykey_label);
