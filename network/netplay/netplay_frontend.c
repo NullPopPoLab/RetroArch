@@ -6542,7 +6542,7 @@ static bool get_self_input_state(
             case RETRO_DEVICE_JOYPAD:
                for (i = 0; i <= RETRO_DEVICE_ID_JOYPAD_MENU; i++)
                {
-                  int16_t tmp = cb(local_device,
+                  int32_t tmp = cb(local_device,
                         RETRO_DEVICE_JOYPAD, 0, (unsigned)i);
                   state[0] |= tmp ? 1 << i : 0;
                }
