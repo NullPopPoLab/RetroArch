@@ -570,6 +570,15 @@ static void handle_translation_cb(
                input_st->ai_gamepad_state[14] = 2;
             if (string_is_equal(key, "r3"))
                input_st->ai_gamepad_state[15] = 2;
+
+            if (string_is_equal(key, "c"))
+               input_st->ai_gamepad_state[16] = 2;
+            if (string_is_equal(key, "z"))
+               input_st->ai_gamepad_state[17] = 2;
+            if (string_is_equal(key, "menu"))
+               input_st->ai_gamepad_state[18] = 2;
+            if (string_is_equal(key, "opt"))
+               input_st->ai_gamepad_state[19] = 2;
 #endif
 
             if (string_is_equal(key, "pause"))
@@ -1002,7 +1011,7 @@ bool run_translation_service(settings_t *settings, bool paused)
    rjsonwriter_add_space(jsonwriter);
    rjsonwriter_add_unsigned(jsonwriter, (paused ? 1 : 0));
    {
-      static const char* state_labels[] = { "b", "y", "select", "start", "up", "down", "left", "right", "a", "x", "l", "r", "l2", "r2", "l3", "r3" };
+      static const char* state_labels[] = { "b", "y", "select", "start", "up", "down", "left", "right", "a", "x", "l", "r", "l2", "r2", "l3", "r3","c","z","menu","opt" };
       int i;
       for (i = 0; i < ARRAY_SIZE(state_labels); i++)
       {
