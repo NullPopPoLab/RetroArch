@@ -6950,6 +6950,11 @@ static enum runloop_state_enum runloop_check_state(
       input_st->ai_gamepad_state[13] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R2);
       input_st->ai_gamepad_state[14] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L3);
       input_st->ai_gamepad_state[15] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R3);
+
+      input_st->ai_gamepad_state[16] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_C);
+      input_st->ai_gamepad_state[17] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_Z);
+      input_st->ai_gamepad_state[18] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_MENU);
+      input_st->ai_gamepad_state[19] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_OPT);
    }
 #endif
 #endif
