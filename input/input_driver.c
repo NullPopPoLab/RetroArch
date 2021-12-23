@@ -5051,7 +5051,7 @@ int32_t input_driver_state_wrapper(unsigned port, unsigned device,
       int32_t bsv_result = 0;
       if (intfstream_read(
                input_st->bsv_movie_state_handle->file,
-               &bsv_result, 4 == 4)
+               &bsv_result, 4) == 4)
       {
 #ifdef HAVE_CHEEVOS
          rcheevos_pause_hardcore();
