@@ -666,7 +666,7 @@ bool input_driver_button_combo(
    return false;
 }
 
-int16_t input_state_wrap(
+int32_t input_state_wrap(
       input_driver_t *current_input,
       void *data,
       const input_device_driver_t *joypad,
@@ -679,7 +679,7 @@ int16_t input_state_wrap(
       unsigned idx,
       unsigned id)
 {
-   int16_t ret                   = 0;
+   int32_t ret                   = 0;
 
    if(!binds || !binds[_port]) {
       return 0;
@@ -796,7 +796,7 @@ int16_t input_joypad_axis(
    return val;
 }
 
-int16_t input_joypad_analog_button(
+int32_t input_joypad_analog_button(
       float input_analog_deadzone,
       float input_analog_sensitivity,
       const input_device_driver_t *drv,
@@ -3576,7 +3576,7 @@ void input_keys_pressed(
    }
 
    {
-      int16_t ret = 0;
+      int32_t ret = 0;
 
       /* Check the libretro input first */
       if (!input_st->block_libretro_input)
@@ -4136,7 +4136,7 @@ void input_driver_poll(void)
                if (joypad)
                {
                   unsigned k, j;
-                  int16_t ret = input_state_wrap(
+                  int32_t ret = input_state_wrap(
                         input_st->current_driver,
                         input_st->current_data,
                         input_st->primary_joypad,
@@ -4876,7 +4876,7 @@ int16_t input_state_internal(unsigned port, unsigned device,
     * 'virtual' port index */
    while ((mapped_port = *(input_remap_port_map++)) < MAX_USERS)
    {
-      int16_t ret                     = 0;
+      int32_t ret                     = 0;
       int16_t port_result             = 0;
       unsigned input_analog_dpad_mode = settings->uints.input_analog_dpad_mode[mapped_port];
 
