@@ -840,7 +840,7 @@ int16_t input_joypad_axis(
  *
  * Returns: analog value on success, otherwise 0.
  **/
-int16_t input_joypad_analog_button(
+int32_t input_joypad_analog_button(
       float input_analog_deadzone,
       float input_analog_sensitivity,
       const input_device_driver_t *drv,
