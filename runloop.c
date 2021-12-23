@@ -5206,7 +5206,7 @@ static bool core_verify_api_version(void)
    return true;
 }
 
-static int16_t core_input_state_poll_late(unsigned port,
+static int32_t core_input_state_poll_late(unsigned port,
       unsigned device, unsigned idx, unsigned id)
 {
    runloop_state_t     *runloop_st = &runloop_state;
