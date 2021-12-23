@@ -4839,7 +4839,7 @@ bool bsv_movie_check(input_driver_state_t *input_st,
 }
 #endif
 
-int16_t input_state_internal(unsigned port, unsigned device,
+int32_t input_state_internal(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    rarch_joypad_info_t joypad_info;
@@ -5038,25 +5038,25 @@ int16_t input_state_internal(unsigned port, unsigned device,
    return result;
 }
 
-int16_t input_driver_state_wrapper(unsigned port, unsigned device,
+int32_t input_driver_state_wrapper(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    input_driver_state_t 
       *input_st                = &input_driver_st;
-   int16_t result              = 0;
+   int32_t result              = 0;
 #ifdef HAVE_BSV_MOVIE
    /* Load input from BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_ON())
    {
-      int16_t bsv_result = 0;
+      int32_t bsv_result = 0;
       if (intfstream_read(
                input_st->bsv_movie_state_handle->file,
-               &bsv_result, 2) == 2)
+               &bsv_result, 4 == 4)
       {
 #ifdef HAVE_CHEEVOS
          rcheevos_pause_hardcore();
 #endif
-         return swap_if_big16(bsv_result);
+         return swap_if_big32(bsv_result);
       }
 
       input_st->bsv_movie_state.movie_end = true;
@@ -5077,8 +5077,8 @@ int16_t input_driver_state_wrapper(unsigned port, unsigned device,
    /* Save input to BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_OFF())
    {
-      result = swap_if_big16(result);
-      intfstream_write(input_st->bsv_movie_state_handle->file, &result, 2);
+      result = swap_if_big32(result);
+      intfstream_write(input_st->bsv_movie_state_handle->file, &result, 4);
    }
 #endif
 
