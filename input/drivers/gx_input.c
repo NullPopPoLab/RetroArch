@@ -59,7 +59,7 @@ typedef struct gx_input
 } gx_input_t;
 
 #ifdef HW_RVL
-static int16_t rvl_input_state(
+static int32_t rvl_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,

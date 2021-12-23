@@ -253,9 +253,10 @@ struct input_driver
     *                         (eg RETRO_DEVICE_ID_JOYPAD_START)
     *
     * @return 1 for pressed digital control, 0 for non-pressed digital control.
-    *          Values in the range of a signed 16-bit integer,[-0x8000, 0x7fff]
+    *          Values in the range of a signed 32-bit integer,[-0x80000000, 0x7fffffff]
+    *          or analog control value [-0x7fff, 0x7fff]
     */
-   int16_t (*input_state)(void *data,
+   int32_t (*input_state)(void *data,
          const input_device_driver_t *joypad_data,
          const input_device_driver_t *sec_joypad_data,
          rarch_joypad_info_t *joypad_info,
@@ -341,7 +342,7 @@ struct rarch_joypad_driver
    bool (*query_pad)(unsigned);
    void (*destroy)(void);
    int32_t (*button)(unsigned, uint16_t);
-   int16_t (*state)(rarch_joypad_info_t *joypad_info,
+   int32_t (*state)(rarch_joypad_info_t *joypad_info,
          const struct retro_keybind *binds, unsigned port);
    void (*get_buttons)(unsigned, input_bits_t *);
    int16_t (*axis)(unsigned, uint32_t);
@@ -801,7 +802,7 @@ bool input_driver_find_driver(
       const char *prefix,
       bool verbosity_enabled);
 
-int16_t input_state_wrap(
+int32_t input_state_wrap(
       input_driver_t *current_input,
       void *data,
       const input_device_driver_t *joypad,
