@@ -319,13 +319,13 @@ static int16_t wpad_axis(unsigned port, uint32_t axis)
          joypad_state.wpad.pads[channel].analog_state, data.is_negative);
 }
 
-static int16_t wpad_state(
+static int32_t wpad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
 
    for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
