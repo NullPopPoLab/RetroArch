@@ -97,13 +97,13 @@ static int16_t android_joypad_axis(unsigned port, uint32_t joyaxis)
    return android_joypad_axis_state(android_app, port, joyaxis);
 }
 
-static int16_t android_joypad_state(
+static int32_t android_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    struct android_app *android_app      = (struct android_app*)g_android;
    uint8_t *buf                         = android_keyboard_state_get(port);
    uint16_t port_idx                    = joypad_info->joy_idx;

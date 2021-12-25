@@ -64,13 +64,13 @@ static int16_t hidpad_axis(unsigned port, uint32_t axis)
    return wiiu_hid.axis(hid_driver_get_data(), port, axis);
 }
 
-static int16_t hidpad_state(
+static int32_t hidpad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
 
    if (!hidpad_query_pad(port_idx))
