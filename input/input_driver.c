@@ -94,7 +94,7 @@ uint64_t lifecycle_state                                        = 0;
 
 static void *input_null_init(const char *joypad_driver) { return (void*)-1; }
 static void input_null_poll(void *data) { }
-static int16_t input_null_input_state(
+static int32_t input_null_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
