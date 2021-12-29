@@ -4425,6 +4425,9 @@ bool config_save_autoconf_profile(const
          goto end;
    }
 
+   /* need extra directory */
+   if(!path_is_directory(autoconf_dir))path_mkdir(autoconf_dir);
+
    sanitised_name = strdup(device_name);
 
    /* Remove invalid filename characters from
