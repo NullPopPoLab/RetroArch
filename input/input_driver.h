@@ -190,7 +190,7 @@ typedef struct input_remote_state
 
 typedef struct input_list_element_t
 {
-   int16_t *state;
+   int32_t *state;
    unsigned port;
    unsigned device;
    unsigned index;
