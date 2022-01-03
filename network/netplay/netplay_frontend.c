@@ -6382,7 +6382,7 @@ void netplay_toggle_play_spectate(netplay_t *netplay)
    }
 }
 
-int16_t netplay_input_state(netplay_t *netplay,
+int32_t netplay_input_state(netplay_t *netplay,
       unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
@@ -6430,7 +6430,7 @@ int16_t netplay_input_state(netplay_t *netplay,
          if (istate->size == 3)
          {
             uint32_t state = curr_input_state[1 + idx];
-            return (int16_t)(uint16_t)(state >> (id * 16));
+            return (int32_t)(uint32_t)(state >> (id * 16));
          }
          break;
       case RETRO_DEVICE_MOUSE:
@@ -6438,7 +6438,7 @@ int16_t netplay_input_state(netplay_t *netplay,
          if (istate->size == 2)
          {
             if (id <= RETRO_DEVICE_ID_MOUSE_Y)
-               return (int16_t)(uint16_t)(curr_input_state[1] >> (id * 16));
+               return (int32_t)(uint32_t)(curr_input_state[1] >> (id * 16));
             return ((1 << id) & curr_input_state[0]) ? 1 : 0;
          }
          break;
@@ -7206,7 +7206,7 @@ static void netplay_announce(void)
    free(frontend_ident);
 }
 
-int16_t input_state_net(unsigned port, unsigned device,
+int32_t input_state_net(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    net_driver_state_t *net_st  = &networking_driver_st;

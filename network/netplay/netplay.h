@@ -264,7 +264,7 @@ void netplay_load_savestate(netplay_t *netplay,
  **/
 void netplay_core_reset(netplay_t *netplay);
 
-int16_t netplay_input_state(netplay_t *netplay,
+int32_t netplay_input_state(netplay_t *netplay,
       unsigned port, unsigned device,
       unsigned idx, unsigned id);
 
