@@ -3596,7 +3596,7 @@ static void uninit_libretro_symbols(
 }
 
 #if defined(HAVE_RUNAHEAD)
-static int16_t input_state_get_last(unsigned port,
+static int32_t input_state_get_last(unsigned port,
       unsigned device, unsigned index, unsigned id)
 {
    unsigned i;
@@ -4268,7 +4268,7 @@ static void *input_list_element_constructor(void)
    element->port               = 0;
    element->device             = 0;
    element->index              = 0;
-   element->state              = (int16_t*)calloc(256, sizeof(int16_t));
+   element->state              = (int32_t*)calloc(256, sizeof(int32_t));
    element->state_size         = 256;
 
    return ptr;
@@ -4280,10 +4280,10 @@ static void input_list_element_realloc(
 {
    if (new_size > element->state_size)
    {
-      element->state = (int16_t*)realloc(element->state,
-            new_size * sizeof(int16_t));
+      element->state = (int32_t*)realloc(element->state,
+            new_size * sizeof(int32_t));
       memset(&element->state[element->state_size], 0,
-            (new_size - element->state_size) * sizeof(int16_t));
+            (new_size - element->state_size) * sizeof(int32_t));
       element->state_size = new_size;
    }
 }
@@ -4353,17 +4353,17 @@ static void input_state_set_last(
    }
 }
 
-static int16_t input_state_with_logging(unsigned port,
+static int32_t input_state_with_logging(unsigned port,
       unsigned device, unsigned index, unsigned id)
 {
    runloop_state_t     *runloop_st  = &runloop_state;
 
    if (runloop_st->input_state_callback_original)
    {
-      int16_t result                = 
+      int32_t result                = 
          runloop_st->input_state_callback_original(
             port, device, index, id);
-      int16_t last_input            =
+      int32_t last_input            =
          input_state_get_last(port, device, index, id);
       if (result != last_input)
          runloop_st->input_is_dirty = true;
