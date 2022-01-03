@@ -4312,7 +4312,7 @@ static void input_list_element_destructor(void* element_ptr)
 static void input_state_set_last(
       runloop_state_t *runloop_st,
       unsigned port, unsigned device,
-      unsigned index, unsigned id, int16_t value)
+      unsigned index, unsigned id, int32_t value)
 {
    unsigned i;
    input_list_element *element = NULL;
