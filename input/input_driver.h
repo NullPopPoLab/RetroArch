@@ -980,7 +980,7 @@ bool input_keys_pressed_other_sources(
       unsigned i,
       input_bits_t* p_new_state);
 
-int16_t input_state_device(
+int32_t input_state_device(
       input_driver_state_t *input_st,
       settings_t *settings,
       input_mapper_t *handle,
