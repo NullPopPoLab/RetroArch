@@ -3641,17 +3641,17 @@ void input_keys_pressed(
    }
 }
 
-int16_t input_state_device(
+int32_t input_state_device(
       input_driver_state_t *input_st,
       settings_t *settings,
       input_mapper_t *handle,
       unsigned input_analog_dpad_mode,
-      int16_t ret,
+      int32_t ret,
       unsigned port, unsigned device,
       unsigned idx, unsigned id,
       bool button_mask)
 {
-   int16_t res  = 0;
+   int32_t res  = 0;
 
    switch (device)
    {
@@ -4865,7 +4865,7 @@ int32_t input_state_internal(unsigned port, unsigned device,
 #endif
    bool bitmask_enabled                    = false;
    unsigned max_users                      = settings->uints.input_max_users;
-   int16_t result                          = 0;
+   int32_t result                          = 0;
 
    device                                 &= RETRO_DEVICE_MASK;
    bitmask_enabled                         = (device == RETRO_DEVICE_JOYPAD) &&
@@ -4877,7 +4877,7 @@ int32_t input_state_internal(unsigned port, unsigned device,
    while ((mapped_port = *(input_remap_port_map++)) < MAX_USERS)
    {
       int32_t ret                     = 0;
-      int16_t port_result             = 0;
+      int32_t port_result             = 0;
       unsigned input_analog_dpad_mode = settings->uints.input_analog_dpad_mode[mapped_port];
 
       joypad_info.joy_idx             = settings->uints.input_joypad_index[mapped_port];
@@ -5012,9 +5012,9 @@ int32_t input_state_internal(unsigned port, unsigned device,
             result = port_result;
          else
          {
-            int16_t port_result_abs = (port_result >= 0) ?
+            int32_t port_result_abs = (port_result >= 0) ?
                port_result : -port_result;
-            int16_t result_abs      = (result >= 0) ?
+            int32_t result_abs      = (result >= 0) ?
                result : -result;
 
             if (port_result_abs > result_abs)
@@ -5029,9 +5029,9 @@ int32_t input_state_internal(unsigned port, unsigned device,
    /* Save input to BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_OFF())
    {
-      result = swap_if_big16(result);
+      result = swap_if_big32(result);
       intfstream_write(
-            input_st->bsv_movie_state_handle->file, &result, 2);
+            input_st->bsv_movie_state_handle->file, &result, 4);
    }
 #endif
 
