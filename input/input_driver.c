@@ -5480,7 +5480,7 @@ void input_driver_collect_system_input(input_driver_state_t *input_st,
 
          input_st->gamepad_input_override = 0;
 
-         for (i = 0; i < MAX_USERS; i++)
+         for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
          {
             /* Set gamepad input override */
             if (input_st->ai_gamepad_state[i] == 2)
