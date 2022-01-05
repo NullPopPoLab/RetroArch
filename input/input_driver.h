@@ -406,7 +406,7 @@ typedef struct
    char    *osk_grid[45];                                /* ptr alignment */ 
 #if defined(HAVE_TRANSLATE)
 #if defined(HAVE_ACCESSIBILITY)
-   int ai_gamepad_state[MAX_USERS];
+   int ai_gamepad_state[RARCH_FIRST_CUSTOM_BIND];
 #endif
 #endif
    int osk_ptr;
