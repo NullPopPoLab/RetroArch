@@ -2883,6 +2883,18 @@ static int menu_displaylist_parse_load_content_settings(
                MENU_SETTING_ACTION_RUN, 0, 0))
             count++;
 
+#ifdef HAVE_CHEATS
+      if (settings->bools.quick_menu_show_cheats)
+      {
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_CHEAT_OPTIONS),
+               msg_hash_to_str(MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS),
+               MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS,
+               MENU_SETTING_ACTION, 0, 0))
+            count++;
+      }
+#endif
+
       if (settings->bools.quick_menu_show_save_load_state)
       {
          if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(list,
@@ -2941,18 +2953,6 @@ static int menu_displaylist_parse_load_content_settings(
                MENU_SETTING_ACTION, 0, 0))
             count++;
       }
-
-#ifdef HAVE_CHEATS
-      if (settings->bools.quick_menu_show_cheats)
-      {
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_CHEAT_OPTIONS),
-               msg_hash_to_str(MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS),
-               MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS,
-               MENU_SETTING_ACTION, 0, 0))
-            count++;
-      }
-#endif
 
       if (
             settings->bools.quick_menu_show_add_to_favorites &&
