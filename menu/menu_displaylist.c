@@ -6204,6 +6204,26 @@ unsigned menu_displaylist_build_list(
             unsigned p;
             unsigned max_users          = settings->uints.input_max_users;
 
+            if (menu_entries_append_enum(list,
+                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_INPUT_TURBO_FIRE_SETTINGS),
+                     msg_hash_to_str(MENU_ENUM_LABEL_INPUT_TURBO_FIRE_SETTINGS),
+                     MENU_ENUM_LABEL_INPUT_TURBO_FIRE_SETTINGS,
+                     MENU_SETTING_ACTION, 0, 0))
+               count++;
+
+            for (p = 0; p < max_users; p++)
+            {
+               char val_s[256], val_d[16];
+               snprintf(val_s, sizeof(val_s),
+                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_INPUT_USER_BINDS),
+                     p+1);
+               snprintf(val_d, sizeof(val_d), "%d", p);
+               if (menu_entries_append_enum(list, val_s, val_d,
+                        MSG_UNKNOWN,
+                        MENU_SETTINGS_REMAPPING_PORT_BEGIN + p, p, 0))
+                  count++;
+            }
+
 #ifdef HAVE_CONFIGFILE
             if (menu_entries_append_enum(list,
                      msg_hash_to_str(MENU_ENUM_LABEL_VALUE_REMAP_FILE_LOAD),
@@ -6254,26 +6274,6 @@ unsigned menu_displaylist_build_list(
                         MENU_SETTING_ACTION, 0, 0))
                   count++;
 #endif
-
-            if (menu_entries_append_enum(list,
-                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_INPUT_TURBO_FIRE_SETTINGS),
-                     msg_hash_to_str(MENU_ENUM_LABEL_INPUT_TURBO_FIRE_SETTINGS),
-                     MENU_ENUM_LABEL_INPUT_TURBO_FIRE_SETTINGS,
-                     MENU_SETTING_ACTION, 0, 0))
-               count++;
-
-            for (p = 0; p < max_users; p++)
-            {
-               char val_s[256], val_d[16];
-               snprintf(val_s, sizeof(val_s),
-                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_INPUT_USER_BINDS),
-                     p+1);
-               snprintf(val_d, sizeof(val_d), "%d", p);
-               if (menu_entries_append_enum(list, val_s, val_d,
-                        MSG_UNKNOWN,
-                        MENU_SETTINGS_REMAPPING_PORT_BEGIN + p, p, 0))
-                  count++;
-            }
          }
          break;
       case DISPLAYLIST_LOAD_CONTENT_LIST:
