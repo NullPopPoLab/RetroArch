@@ -2883,44 +2883,6 @@ static int menu_displaylist_parse_load_content_settings(
                MENU_SETTING_ACTION_RUN, 0, 0))
             count++;
 
-      if (quickmenu_show_restart_content)
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_RESTART_CONTENT),
-               msg_hash_to_str(MENU_ENUM_LABEL_RESTART_CONTENT),
-               MENU_ENUM_LABEL_RESTART_CONTENT,
-               MENU_SETTING_ACTION_RUN, 0, 0))
-            count++;
-
-      /* Note: Entry type depends on whether quick menu
-       * was accessed via a playlist ('horizontal content')
-       * or the main menu
-       * > This allows us to identify a close content event
-       *   triggered via 'Main Menu > Quick Menu', which
-       *   subsequently requires the menu stack to be flushed
-       *   in order to prevent the display of an empty
-       *   'No items' menu */
-      if (settings->bools.quick_menu_show_close_content)
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CLOSE_CONTENT),
-               msg_hash_to_str(MENU_ENUM_LABEL_CLOSE_CONTENT),
-               MENU_ENUM_LABEL_CLOSE_CONTENT,
-               horizontal ? MENU_SETTING_ACTION_CLOSE_HORIZONTAL :
-                     MENU_SETTING_ACTION_CLOSE,
-               0, 0))
-            count++;
-
-#ifdef HAVE_SCREENSHOTS
-      if (settings->bools.quick_menu_show_take_screenshot)
-      {
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_TAKE_SCREENSHOT),
-               msg_hash_to_str(MENU_ENUM_LABEL_TAKE_SCREENSHOT),
-               MENU_ENUM_LABEL_TAKE_SCREENSHOT,
-               MENU_SETTING_ACTION_SCREENSHOT, 0, 0))
-            count++;
-      }
-#endif
-
       if (settings->bools.quick_menu_show_save_load_state)
       {
          if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(list,
@@ -2970,6 +2932,28 @@ static int menu_displaylist_parse_load_content_settings(
             count++;
       }
 
+      if (settings->bools.quick_menu_show_controls && !settings->bools.kiosk_mode_enable)
+      {
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_INPUT_REMAPPING_OPTIONS),
+               msg_hash_to_str(MENU_ENUM_LABEL_CORE_INPUT_REMAPPING_OPTIONS),
+               MENU_ENUM_LABEL_CORE_INPUT_REMAPPING_OPTIONS,
+               MENU_SETTING_ACTION, 0, 0))
+            count++;
+      }
+
+#ifdef HAVE_CHEATS
+      if (settings->bools.quick_menu_show_cheats)
+      {
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_CHEAT_OPTIONS),
+               msg_hash_to_str(MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS),
+               MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS,
+               MENU_SETTING_ACTION, 0, 0))
+            count++;
+      }
+#endif
+
       if (
             settings->bools.quick_menu_show_add_to_favorites &&
             settings->bools.menu_content_show_favorites
@@ -3000,6 +2984,18 @@ static int menu_displaylist_parse_load_content_settings(
                   MENU_ENUM_LABEL_ADD_TO_FAVORITES, FILE_TYPE_PLAYLIST_ENTRY, 0, 0))
             count++;
       }
+
+#ifdef HAVE_SCREENSHOTS
+      if (settings->bools.quick_menu_show_take_screenshot)
+      {
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_TAKE_SCREENSHOT),
+               msg_hash_to_str(MENU_ENUM_LABEL_TAKE_SCREENSHOT),
+               MENU_ENUM_LABEL_TAKE_SCREENSHOT,
+               MENU_SETTING_ACTION_SCREENSHOT, 0, 0))
+            count++;
+      }
+#endif
 
       if (string_is_not_equal(settings->arrays.record_driver, "null"))
       {
@@ -3111,37 +3107,6 @@ static int menu_displaylist_parse_load_content_settings(
          count++;
 #endif
 
-      if (settings->bools.quick_menu_show_controls && !settings->bools.kiosk_mode_enable)
-      {
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_INPUT_REMAPPING_OPTIONS),
-               msg_hash_to_str(MENU_ENUM_LABEL_CORE_INPUT_REMAPPING_OPTIONS),
-               MENU_ENUM_LABEL_CORE_INPUT_REMAPPING_OPTIONS,
-               MENU_SETTING_ACTION, 0, 0))
-            count++;
-      }
-
-#ifdef HAVE_CHEATS
-      if (settings->bools.quick_menu_show_cheats)
-      {
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_CHEAT_OPTIONS),
-               msg_hash_to_str(MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS),
-               MENU_ENUM_LABEL_CORE_CHEAT_OPTIONS,
-               MENU_SETTING_ACTION, 0, 0))
-            count++;
-      }
-#endif
-
-      if ((!retroarch_ctl(RARCH_CTL_IS_DUMMY_CORE, NULL))
-            && disk_control_enabled(&system->disk_control))
-         if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_OPTIONS),
-               msg_hash_to_str(MENU_ENUM_LABEL_DISK_OPTIONS),
-               MENU_ENUM_LABEL_DISK_OPTIONS,
-               MENU_SETTING_ACTION_CORE_DISK_OPTIONS, 0, 0))
-            count++;
-
 #if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
       if (video_shader_any_supported())
       {
@@ -3157,6 +3122,18 @@ static int menu_displaylist_parse_load_content_settings(
       }
 #endif
 
+#ifdef HAVE_CHEEVOS
+      if (settings->bools.cheevos_enable)
+      {
+         if (menu_entries_append_enum(list,
+            msg_hash_to_str(MENU_ENUM_LABEL_VALUE_ACHIEVEMENT_LIST),
+            msg_hash_to_str(MENU_ENUM_LABEL_ACHIEVEMENT_LIST),
+            MENU_ENUM_LABEL_ACHIEVEMENT_LIST,
+            MENU_SETTING_ACTION, 0, 0))
+            count++;
+      }
+#endif
+
       if ((settings->bools.quick_menu_show_save_core_overrides ||
          settings->bools.quick_menu_show_save_game_overrides) &&
          !settings->bools.kiosk_mode_enable)
@@ -3169,17 +3146,40 @@ static int menu_displaylist_parse_load_content_settings(
             count++;
       }
 
-#ifdef HAVE_CHEEVOS
-      if (settings->bools.cheevos_enable)
-      {
+      if ((!retroarch_ctl(RARCH_CTL_IS_DUMMY_CORE, NULL))
+            && disk_control_enabled(&system->disk_control))
          if (menu_entries_append_enum(list,
-            msg_hash_to_str(MENU_ENUM_LABEL_VALUE_ACHIEVEMENT_LIST),
-            msg_hash_to_str(MENU_ENUM_LABEL_ACHIEVEMENT_LIST),
-            MENU_ENUM_LABEL_ACHIEVEMENT_LIST,
-            MENU_SETTING_ACTION, 0, 0))
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_OPTIONS),
+               msg_hash_to_str(MENU_ENUM_LABEL_DISK_OPTIONS),
+               MENU_ENUM_LABEL_DISK_OPTIONS,
+               MENU_SETTING_ACTION_CORE_DISK_OPTIONS, 0, 0))
             count++;
-      }
-#endif
+
+      if (quickmenu_show_restart_content)
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_RESTART_CONTENT),
+               msg_hash_to_str(MENU_ENUM_LABEL_RESTART_CONTENT),
+               MENU_ENUM_LABEL_RESTART_CONTENT,
+               MENU_SETTING_ACTION_RUN, 0, 0))
+            count++;
+
+      /* Note: Entry type depends on whether quick menu
+       * was accessed via a playlist ('horizontal content')
+       * or the main menu
+       * > This allows us to identify a close content event
+       *   triggered via 'Main Menu > Quick Menu', which
+       *   subsequently requires the menu stack to be flushed
+       *   in order to prevent the display of an empty
+       *   'No items' menu */
+      if (settings->bools.quick_menu_show_close_content)
+         if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CLOSE_CONTENT),
+               msg_hash_to_str(MENU_ENUM_LABEL_CLOSE_CONTENT),
+               MENU_ENUM_LABEL_CLOSE_CONTENT,
+               horizontal ? MENU_SETTING_ACTION_CLOSE_HORIZONTAL :
+                     MENU_SETTING_ACTION_CLOSE,
+               0, 0))
+            count++;
 
       if (settings->bools.quick_menu_show_information)
       {
