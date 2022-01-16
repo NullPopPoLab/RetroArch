@@ -278,6 +278,7 @@ typedef struct settings
       unsigned menu_xmb_theme;
       unsigned menu_xmb_color_theme;
       unsigned menu_xmb_thumbnail_scale_factor;
+      unsigned menu_xmb_vertical_fade_factor;
       unsigned menu_materialui_color_theme;
       unsigned menu_materialui_transition_animation;
       unsigned menu_materialui_thumbnail_view_portrait;
@@ -299,6 +300,7 @@ typedef struct settings
 
       unsigned playlist_entry_remove_enable;
       unsigned playlist_show_inline_core_name;
+      unsigned playlist_show_history_icons;
       unsigned playlist_sublabel_runtime_type;
       unsigned playlist_sublabel_last_played_style;
 
@@ -455,6 +457,7 @@ typedef struct settings
       char netplay_spectate_password[128];
 
       char netplay_server[255];
+      char netplay_custom_mitm_server[255];
       char network_buildbot_url[255];
       char network_buildbot_assets_url[255];
 
@@ -590,6 +593,7 @@ typedef struct settings
       bool input_sensors_enable;
       bool input_overlay_enable;
       bool input_overlay_enable_autopreferred;
+      bool input_overlay_behind_menu;
       bool input_overlay_hide_in_menu;
       bool input_overlay_hide_when_gamepad_connected;
       bool input_overlay_show_mouse_cursor;
@@ -759,6 +763,7 @@ typedef struct settings
       bool crt_switch_hires_menu;
 
       /* Netplay */
+      bool netplay_show_only_connectable;
       bool netplay_public_announce;
       bool netplay_start_as_spectator;
       bool netplay_fade_chat;

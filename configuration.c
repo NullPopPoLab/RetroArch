@@ -333,6 +333,7 @@ const struct input_bind_map input_config_bind_map[RARCH_BIND_LIST_END_NULL] = {
    DECLARE_META_BIND(2, audio_mute,            RARCH_MUTE,                   MENU_ENUM_LABEL_VALUE_INPUT_META_MUTE),
    DECLARE_META_BIND(2, osk_toggle,            RARCH_OSK,                    MENU_ENUM_LABEL_VALUE_INPUT_META_OSK),
    DECLARE_META_BIND(2, fps_toggle,            RARCH_FPS_TOGGLE,             MENU_ENUM_LABEL_VALUE_INPUT_META_FPS_TOGGLE),
+   DECLARE_META_BIND(2, toggle_statistics,     RARCH_STATISTICS_TOGGLE,      MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE),
    DECLARE_META_BIND(2, netplay_ping_toggle,   RARCH_NETPLAY_PING_TOGGLE,    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE),
    DECLARE_META_BIND(2, send_debug_info,       RARCH_SEND_DEBUG_INFO,        MENU_ENUM_LABEL_VALUE_INPUT_META_SEND_DEBUG_INFO),
    DECLARE_META_BIND(2, netplay_host_toggle,   RARCH_NETPLAY_HOST_TOGGLE,    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_HOST_TOGGLE),
@@ -1455,7 +1456,8 @@ static struct config_path_setting *populate_settings_path(
    SETTING_PATH("core_updater_buildbot_cores_url", settings->paths.network_buildbot_url, false, NULL, true);
    SETTING_PATH("core_updater_buildbot_assets_url", settings->paths.network_buildbot_assets_url, false, NULL, true);
 #ifdef HAVE_NETWORKING
-   SETTING_PATH("netplay_ip_address",       settings->paths.netplay_server, false, NULL, true);
+   SETTING_PATH("netplay_ip_address",         settings->paths.netplay_server, false, NULL, true);
+   SETTING_PATH("netplay_custom_mitm_server", settings->paths.netplay_custom_mitm_server, false, NULL, true);
    SETTING_PATH("netplay_password",           settings->paths.netplay_password, false, NULL, true);
    SETTING_PATH("netplay_spectate_password",  settings->paths.netplay_spectate_password, false, NULL, true);
 #endif
@@ -1601,6 +1603,7 @@ static struct config_bool_setting *populate_settings_bool(
    SETTING_BOOL("all_users_control_menu",        &settings->bools.input_all_users_control_menu, true, DEFAULT_ALL_USERS_CONTROL_MENU, false);
    SETTING_BOOL("menu_swap_ok_cancel_buttons",   &settings->bools.input_menu_swap_ok_cancel_buttons, true, DEFAULT_MENU_SWAP_OK_CANCEL_BUTTONS, false);
 #ifdef HAVE_NETWORKING
+   SETTING_BOOL("netplay_show_only_connectable", &settings->bools.netplay_show_only_connectable, true, DEFAULT_NETPLAY_SHOW_ONLY_CONNECTABLE, false);
    SETTING_BOOL("netplay_public_announce",       &settings->bools.netplay_public_announce, true, DEFAULT_NETPLAY_PUBLIC_ANNOUNCE, false);
    SETTING_BOOL("netplay_start_as_spectator",    &settings->bools.netplay_start_as_spectator, false, netplay_start_as_spectator, false);
    SETTING_BOOL("netplay_fade_chat",             &settings->bools.netplay_fade_chat, true, netplay_fade_chat, false);
@@ -1895,7 +1898,7 @@ static struct config_bool_setting *populate_settings_bool(
    SETTING_BOOL("cheevos_test_unofficial",      &settings->bools.cheevos_test_unofficial, true, false, false);
    SETTING_BOOL("cheevos_hardcore_mode_enable", &settings->bools.cheevos_hardcore_mode_enable, true, true, false);
    SETTING_BOOL("cheevos_challenge_indicators", &settings->bools.cheevos_challenge_indicators, true, true, false);
-   SETTING_BOOL("cheevos_richpresence_enable",  &settings->bools.cheevos_richpresence_enable, true, true, false);
+   SETTING_BOOL("cheevos_richpresence_enable",  &settings->bools.cheevos_richpresence_enable, true, false, false);
    SETTING_BOOL("cheevos_unlock_sound_enable",  &settings->bools.cheevos_unlock_sound_enable, true, false, false);
    SETTING_BOOL("cheevos_verbose_enable",       &settings->bools.cheevos_verbose_enable, true, true, false);
    SETTING_BOOL("cheevos_auto_screenshot",      &settings->bools.cheevos_auto_screenshot, true, false, false);
@@ -1905,6 +1908,7 @@ static struct config_bool_setting *populate_settings_bool(
 #ifdef HAVE_OVERLAY
    SETTING_BOOL("input_overlay_enable",         &settings->bools.input_overlay_enable, true, config_overlay_enable_default(), false);
    SETTING_BOOL("input_overlay_enable_autopreferred", &settings->bools.input_overlay_enable_autopreferred, true, DEFAULT_OVERLAY_ENABLE_AUTOPREFERRED, false);
+   SETTING_BOOL("input_overlay_behind_menu",    &settings->bools.input_overlay_behind_menu, true, DEFAULT_OVERLAY_BEHIND_MENU, false);
    SETTING_BOOL("input_overlay_hide_in_menu",   &settings->bools.input_overlay_hide_in_menu, true, DEFAULT_OVERLAY_HIDE_IN_MENU, false);
    SETTING_BOOL("input_overlay_hide_when_gamepad_connected", &settings->bools.input_overlay_hide_when_gamepad_connected, true, DEFAULT_OVERLAY_HIDE_WHEN_GAMEPAD_CONNECTED, false);
    SETTING_BOOL("input_overlay_show_mouse_cursor",   &settings->bools.input_overlay_show_mouse_cursor, true, DEFAULT_OVERLAY_SHOW_MOUSE_CURSOR, false);
@@ -2125,8 +2129,13 @@ static struct config_uint_setting *populate_settings_uint(
    SETTING_UINT("keyboard_gamepad_mapping_type",&settings->uints.input_keyboard_gamepad_mapping_type, true, 1, false);
    SETTING_UINT("input_poll_type_behavior",     &settings->uints.input_poll_type_behavior, true, 2, false);
    SETTING_UINT("video_monitor_index",          &settings->uints.video_monitor_index, true, DEFAULT_MONITOR_INDEX, false);
-   SETTING_UINT("video_fullscreen_x",           &settings->uints.video_fullscreen_x,  true, DEFAULT_FULLSCREEN_X, false);
-   SETTING_UINT("video_fullscreen_y",           &settings->uints.video_fullscreen_y,  true, DEFAULT_FULLSCREEN_Y, false);
+#ifdef __WINRT__
+   SETTING_UINT("video_fullscreen_x", &settings->uints.video_fullscreen_x, true, uwp_get_width(), false);
+   SETTING_UINT("video_fullscreen_y", &settings->uints.video_fullscreen_y, true, uwp_get_height(), false);
+#else
+   SETTING_UINT("video_fullscreen_x", &settings->uints.video_fullscreen_x, true, DEFAULT_FULLSCREEN_X, false);
+   SETTING_UINT("video_fullscreen_y", &settings->uints.video_fullscreen_y, true, DEFAULT_FULLSCREEN_Y, false);
+#endif
    SETTING_UINT("video_window_opacity",         &settings->uints.video_window_opacity, true, DEFAULT_WINDOW_OPACITY, false);
 #ifdef HAVE_VIDEO_LAYOUT
    SETTING_UINT("video_layout_selected_view",   &settings->uints.video_layout_selected_view, true, 0, false);
@@ -2187,6 +2196,7 @@ static struct config_uint_setting *populate_settings_uint(
    SETTING_UINT("menu_font_color_green",        &settings->uints.menu_font_color_green, true, menu_font_color_green, false);
    SETTING_UINT("menu_font_color_blue",         &settings->uints.menu_font_color_blue, true, menu_font_color_blue, false);
    SETTING_UINT("menu_xmb_thumbnail_scale_factor", &settings->uints.menu_xmb_thumbnail_scale_factor, true, xmb_thumbnail_scale_factor, false);
+   SETTING_UINT("menu_xmb_vertical_fade_factor",&settings->uints.menu_xmb_vertical_fade_factor, true, DEFAULT_XMB_VERTICAL_FADE_FACTOR, false);
 #endif
    SETTING_UINT("materialui_menu_color_theme",  &settings->uints.menu_materialui_color_theme, true, DEFAULT_MATERIALUI_THEME, false);
    SETTING_UINT("materialui_menu_transition_animation", &settings->uints.menu_materialui_transition_animation, true, DEFAULT_MATERIALUI_TRANSITION_ANIM, false);
@@ -2289,6 +2299,7 @@ static struct config_uint_setting *populate_settings_uint(
 #ifdef HAVE_MENU
    SETTING_UINT("playlist_entry_remove_enable",    &settings->uints.playlist_entry_remove_enable, true, DEFAULT_PLAYLIST_ENTRY_REMOVE_ENABLE, false);
    SETTING_UINT("playlist_show_inline_core_name",  &settings->uints.playlist_show_inline_core_name, true, DEFAULT_PLAYLIST_SHOW_INLINE_CORE_NAME, false);
+   SETTING_UINT("playlist_show_history_icons",     &settings->uints.playlist_show_history_icons, true, DEFAULT_PLAYLIST_SHOW_HISTORY_ICONS, false);
    SETTING_UINT("playlist_sublabel_runtime_type",  &settings->uints.playlist_sublabel_runtime_type, true, DEFAULT_PLAYLIST_SUBLABEL_RUNTIME_TYPE, false);
    SETTING_UINT("playlist_sublabel_last_played_style", &settings->uints.playlist_sublabel_last_played_style, true, DEFAULT_PLAYLIST_SUBLABEL_LAST_PLAYED_STYLE, false);
 
@@ -3180,7 +3191,7 @@ error:
 }
 
 #ifdef RARCH_CONSOLE
-static void video_driver_load_settings(global_t *global, 
+static void video_driver_load_settings(global_t *global,
       config_file_t *conf)
 {
    bool               tmp_bool = false;
@@ -3337,7 +3348,7 @@ static bool config_load_file(global_t *global,
       else
          verbosity_disable();
    }
-   /* On first config load, make sure log_to_file is true if 'log-file' command line 
+   /* On first config load, make sure log_to_file is true if 'log-file' command line
     * argument was used. */
    if (retroarch_override_setting_is_set(RARCH_OVERRIDE_SETTING_LOG_TO_FILE, NULL) &&
       first_load)
@@ -3370,10 +3381,10 @@ static bool config_load_file(global_t *global,
       size_t tmp = 0;
       if (config_get_size_t(conf, size_settings[i].ident, &tmp))
          *size_settings[i].ptr = tmp ;
-      /* Special case for rewind_buffer_size - need to convert 
+      /* Special case for rewind_buffer_size - need to convert
        * low values to what they were
        * intended to be based on the default value in config.def.h
-       * If the value is less than 10000 then multiple by 1MB because if 
+       * If the value is less than 10000 then multiple by 1MB because if
        * the retroarch.cfg
        * file contains rewind_buffer_size = "100",
        * then that ultimately gets interpreted as
@@ -3577,7 +3588,7 @@ static bool config_load_file(global_t *global,
          *settings->paths.directory_screenshot = '\0';
       }
    }
-   
+
 #if defined(__APPLE__) && defined(OSX)
 #if defined(__aarch64__)
    /* Wrong architecture, set it back to arm64 */
@@ -3825,7 +3836,7 @@ bool config_load_override(void *data)
    fill_pathname_application_special(config_directory, sizeof(config_directory),
          APPLICATION_SPECIAL_DIRECTORY_CONFIG);
 
-   /* Concatenate strings into full paths for core_path, game_path, 
+   /* Concatenate strings into full paths for core_path, game_path,
     * content_path */
    fill_pathname_join_special_ext(game_path,
          config_directory, core_name,
@@ -3873,7 +3884,7 @@ bool config_load_override(void *data)
       {
          RARCH_LOG("[Overrides]: Content dir-specific overrides stacking on top of previous overrides.\n");
          snprintf(temp_path, sizeof(temp_path),
-               "%s|%s", 
+               "%s|%s",
                path_get(RARCH_PATH_CONFIG_APPEND),
                content_path
                );
@@ -3905,7 +3916,7 @@ bool config_load_override(void *data)
       {
          RARCH_LOG("[Overrides]: Game-specific overrides stacking on top of previous overrides.\n");
          snprintf(temp_path, sizeof(temp_path),
-               "%s|%s", 
+               "%s|%s",
                path_get(RARCH_PATH_CONFIG_APPEND),
                game_path
                );
@@ -4401,7 +4412,7 @@ static void input_config_save_keybinds_user(config_file_t *conf, unsigned user)
  * @user              : Controller number to save
  * Writes a controller autoconf file to disk.
  **/
-bool config_save_autoconf_profile(const 
+bool config_save_autoconf_profile(const
       char *device_name, unsigned user)
 {
    static const char* invalid_filename_chars[] = {
@@ -4798,7 +4809,7 @@ bool config_save_overrides(enum override_type type, void *data)
 
    settings            = (settings_t*)calloc(1, sizeof(settings_t));
 
-   config_directory[0] = override_directory[0] = core_path[0] = 
+   config_directory[0] = override_directory[0] = core_path[0] =
           game_path[0] = '\0';
 
    fill_pathname_application_special(config_directory, sizeof(config_directory),
@@ -5079,14 +5090,14 @@ bool input_remapping_load_file(void *data, const char *path)
       for (j = 0; j < RARCH_FIRST_CUSTOM_BIND + 8; j++)
       {
          const char *key_string = key_strings[j];
-         
+
          if (j < RARCH_FIRST_CUSTOM_BIND)
          {
             int btn_remap = -1;
             int key_remap = -1;
             char btn_ident[128];
             char key_ident[128];
-                           
+
             btn_ident[0] = key_ident[0] = '\0';
 
             fill_pathname_join_delim(btn_ident, s1,
@@ -5115,7 +5126,7 @@ bool input_remapping_load_file(void *data, const char *path)
             char key_ident[128];
             int stk_remap = -1;
             int key_remap = -1;
-            
+
             stk_ident[0]  = '\0';
             key_ident[0]  = '\0';
 
@@ -5193,7 +5204,7 @@ bool input_remapping_save_file(const char *path)
 
    remap_file[0]                     = '\0';
 
-   fill_pathname_join_concat(remap_file, dir_input_remapping, path, 
+   fill_pathname_join_concat(remap_file, dir_input_remapping, path,
          FILE_PATH_REMAP_EXTENSION,
          sizeof(remap_file));
 

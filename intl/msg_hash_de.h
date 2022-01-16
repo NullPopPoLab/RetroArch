@@ -1216,7 +1216,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_FULLSCREEN_MODE_SETTINGS,
-   "Vollbildeinstellungen ändern."
+   "Die Vollbildeinstellungen ändern."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_WINDOWED_MODE_SETTINGS,
@@ -1236,7 +1236,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_HDR_SETTINGS,
-   "Hochkontrastbildeinstellungen ändern."
+   "Die Hochkontrastbildeinstellungen ändern."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_SYNCHRONIZATION_SETTINGS,
@@ -2539,6 +2539,22 @@ MSG_HASH(
    "Schaltet 'Bilder pro Sekunde' Statusanzeige ein/aus."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE,
+   "Technische Statistiken anzeigen (Umschalten)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE,
+   "Blendet die Anzeige der technischen Statistiken auf dem Bildschirm ein/aus."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE,
+   "Netplay-Ping anzeigen (Umschalten)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_PING_TOGGLE,
+   "Blendet den Ping-Zähler für den aktuellen Netplay-Raum ein/aus."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_SEND_DEBUG_INFO,
    "Debug-Infomationen senden"
    )
@@ -2561,6 +2577,22 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_GAME_WATCH,
    "Schaltet die aktuelle Netplay-Sitzung zwischen 'Spielen' und 'Zuschauen' um."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PLAYER_CHAT,
+   "Netplay-Spieler-Chat"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_PLAYER_CHAT,
+   "Sendet eine Chat-Nachricht an die aktuelle Netplay-Sitzung."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_FADE_CHAT_TOGGLE,
+   "Verblassender Netplay-Chat"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_FADE_CHAT_TOGGLE,
+   "Zwischen verblassenden und statischen Netplay-Chat-Nachrichten umschalten."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_ENABLE_HOTKEY,
@@ -2640,7 +2672,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_UI_COMPANION_TOGGLE,
-   "Öffnet die Begleiter WIMP (Windows, Icons, Menüs, Pointer) Desktop-Benutzeroberfläche."
+   "Öffnet die WIMP(Windows, Icons, Menus, Pointer)-Desktop-Benutzeroberfläche."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_MENU_TOGGLE,
@@ -2652,7 +2684,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_RECORDING_TOGGLE,
-   "Aufnahme (Starten/Stoppen)"
+   "Aufnahme (Umschalten)"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_RECORDING_TOGGLE,
@@ -2660,7 +2692,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_STREAMING_TOGGLE,
-   "Streaming (Starten/Stoppen)"
+   "Streaming (Umschalten)"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_STREAMING_TOGGLE,
@@ -3459,6 +3491,15 @@ MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_ENABLE,
    "Overlays für Rahmen und Steuerelemente auf dem Bildschirm verwenden."
    )
+
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_BEHIND_MENU,
+   "Overlay hinter dem Menü anzeigen"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "Overlays hinter statt vor dem Menü anzeigen."
+   )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_HIDE_IN_MENU,
    "Overlay im Menü nicht anzeigen"
@@ -3768,6 +3809,14 @@ MSG_HASH(
    "Die Anzeige der Speichernutzung wird im eingestellten Intervall in Frames aktualisiert."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_PING_SHOW,
+   "Netplay-Ping anzeigen"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_PING_SHOW,
+   "Ping für den aktuellen Netplay-Raum anzeigen."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SHOW_LOAD_CONTENT_ANIMATION,
    "\"Inhalt laden\" Startbenachrichtigung"
    )
@@ -4028,7 +4077,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SAVESTATE_RESUME,
-   "Das Menü automatisch schließen und den Inhalt fortsetzen, nachdem ein Savestate erstellt oder geladen wurde. Durch Deaktivieren dieser Option kann die Savestate-Leistung auf sehr langsamen Geräten verbessert werden."
+   "Das Menü automatisch schließen und den Inhalt fortsetzen, nachdem ein Savestate erstellt oder geladen wurde. Das Deaktivieren dieser Option kann die Savestate-Operationen auf sehr langsamen Geräten beschleunigen."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_INSERT_DISK_RESUME,
@@ -4060,7 +4109,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SCREENSAVER_ANIMATION,
-   "Animationseffekt anzeigen, während der Menü-Bildschirmschoner aktiv ist. Hat mäßige Performance-Kosten."
+   "Animationseffekt anzeigen, während der Menü-Bildschirmschoner aktiv ist. Bringt mäßige Leistungseinbußen."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SCREENSAVER_ANIMATION_SNOW,
@@ -4870,7 +4919,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_THUMBNAIL_UPSCALE_THRESHOLD,
-   "Skaliert Vorschaubilder mit einer Breite/Höhe, die kleiner als der angegebene Wert ist, automatisch. Verbessert die Bildqualität. Hat einen moderaten Einfluss auf die Leistung."
+   "Skaliert automatisch Vorschaubilder mit einer Breite/Höhe, die kleiner als der angegebene Wert ist. Verbessert die Bildqualität. Bringt moderate Leistungseinbußen."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_TICKER_TYPE,
@@ -5068,7 +5117,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_USE_MITM_SERVER,
-   "Verwende Relay-Server"
+   "Relayserver verwenden"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_USE_MITM_SERVER,
@@ -5076,11 +5125,19 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_MITM_SERVER,
-   "Relay-Server Standort"
+   "Relayserver-Standort"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_MITM_SERVER,
-   "Wähle einen bestimmten Relay-Server aus. Geografisch näher gelegene Standorte weisen tendenziell geringere Latenzen auf."
+   "Einen Relayserver auswählen. Geografisch näher gelegene Standorte haben generell geringere Latenzen."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_CUSTOM_MITM_SERVER,
+   "Benutzerdefinierte Relayserver-Adresse"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "Hier die Adresse eines eigenen Relayservers eingeben. Format: Adresse oder Adresse|Port."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_IP_ADDRESS,
@@ -5107,6 +5164,14 @@ MSG_HASH(
    "Die maximale Anzahl aktiver Verbindungen, die der Host akzeptiert, bevor er neue Verbindungen ablehnt."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_MAX_PING,
+   "Pinglimit"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_MAX_PING,
+   "Die maximale Verbindungslatenz (Ping), die der Host akzeptiert. 0 bedeutet kein Limit."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_PASSWORD,
    "Server-Passwort"
    )
@@ -5131,8 +5196,20 @@ MSG_HASH(
    "Startet das Netplay im Zuschauermodus."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_FADE_CHAT,
+   "Verblassender Chat"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_FADE_CHAT,
+   "Chat-Nachrichten langsam ausblenden."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_ALLOW_PAUSING,
    "Pausieren zulassen"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_ALLOW_PAUSING,
+   "Spielern erlauben, während des Netplays zu pausieren."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_ALLOW_SLAVES,
@@ -5373,6 +5450,14 @@ MSG_HASH(
    "Zusätzliche Informationen für jeden Wiedergabelisteneintrag anzeigen, wie die aktuelle Core-Zuordnung und die Laufzeit (falls verfügbar). Hat einen variablen Einfluss auf die Leistung."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Inhaltsspezifische Symbole im Verlauf und in den Favoriten anzeigen"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Spezifische Symbole für jeden Verlaufs- und Favoriten-Wiedergabelisteneintrag anzeigen. Kann zu Leistungseinbußen führen."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_SUBLABEL_RUNTIME,
    "Spielzeit:"
    )
@@ -5520,7 +5605,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_NICKNAME,
-   "Gib deinen Benutzernamen hier ein. Dieser wird unter anderem für Netplay-Sitzungen verwendet."
+   "Gib Deinen Benutzernamen hier ein. Dieser wird unter anderem für Netplay-Sitzungen verwendet."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_USER_LANGUAGE,
@@ -5569,7 +5654,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_CHEEVOS_USERNAME,
-   "Den Benutzernamen deines RetroAchievements-Kontos eingeben."
+   "Den Benutzernamen Deines RetroAchievements-Kontos eingeben."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_ACCOUNTS_CHEEVOS_PASSWORD,
@@ -5577,7 +5662,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_CHEEVOS_PASSWORD,
-   "Gib das Passwort deines RetroAchievements-Kontos ein. Maximale Länge: 255 Zeichen."
+   "Gib das Passwort Deines RetroAchievements-Kontos ein. Maximale Länge: 255 Zeichen."
    )
 
 /* Settings > User > Accounts > YouTube */
@@ -5872,12 +5957,24 @@ MSG_HASH(
    "Aktive Netplay-Verbindung trennen."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "Nur Verbindbare Räume"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_ROOMS,
-   "Die Netplay-Hostliste aktualisieren"
+   "Netplay-Hostliste aktualisieren"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_REFRESH_ROOMS,
    "Nach Netplay-Hosts suchen."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_LAN,
+   "Netplay-LAN-Liste aktualisieren"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_REFRESH_LAN,
+   "Im LAN nach Netplay-Hosts suchen."
    )
 
 /* Netplay > Host */
@@ -7567,6 +7664,10 @@ MSG_HASH(
    "Nächster"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CONTENT,
+   "Inhalt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANUAL_CONTENT_SCAN_SYSTEM_NAME_USE_CONTENT_DIR,
    "<Inhaltsverzeichnis>"
    )
@@ -8212,6 +8313,10 @@ MSG_HASH(
    "Größe der Vorschaubilder reduzieren, indem die maximal zulässige Breite skaliert wird."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MENU_XMB_VERTICAL_FADE_FACTOR,
+   "Vertikaler Verblassungsfaktor"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_XMB_MAIN_MENU_ENABLE_SETTINGS,
    "Einstellungen-Tab aktivieren (Neustart erforderlich)"
    )
@@ -8414,7 +8519,7 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MATERIALUI_ICONS_ENABLE,
-   "Menü-Icons"
+   "Menü-Symbole"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MATERIALUI_ICONS_ENABLE,
@@ -9442,7 +9547,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_LAN_SCAN_SETTINGS,
-   "Suche und verbinde mit Netplay-Hosts in deinem lokalen Netzwerk."
+   "Netplay-Hosts im lokalen Netzwerk suchen und zu ihnen verbinden."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_MODE,
@@ -9711,7 +9816,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_SENT_DEBUG_INFO,
-   "Debug-Informationen erfolgreich an den Server gesendet. Ihre ID-Nummer ist %u."
+   "Debug-Informationen erfolgreich an den Server gesendet. Deine ID-Nummer ist %u."
    )
 MSG_HASH(
    MSG_PRESS_TWO_MORE_TIMES_TO_SEND_DEBUG_INFO,
@@ -9778,6 +9883,10 @@ MSG_HASH(
    "Warte auf Client ..."
    )
 MSG_HASH(
+   MSG_ROOM_NOT_CONNECTABLE,
+   "Auf Deinen Raum kann nicht über das Internet zugegriffen werden."
+   )
+MSG_HASH(
    MSG_NETPLAY_YOU_HAVE_LEFT_THE_GAME,
    "Du hast das Spiel verlassen"
    )
@@ -9832,6 +9941,10 @@ MSG_HASH(
 MSG_HASH(
    MSG_NETPLAY_ENTER_PASSWORD,
    "Gib das Server-Passwort ein:"
+   )
+MSG_HASH(
+   MSG_NETPLAY_ENTER_CHAT,
+   "Netplay-Chat-Nachricht eingeben:"
    )
 MSG_HASH(
    MSG_DISCORD_CONNECTION_REQUEST,
@@ -10087,7 +10200,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_ENABLE,
-   "Errungenschaften-Hardcore-Modus aktiviert. Savestates & Rückspul-Funktion ausgeschaltet."
+   "Errungenschaften-Hardcore-Modus aktiviert. Savestates & Rückspul-Funktion sind nicht nutzbar."
    )
 MSG_HASH(
    MSG_COMPARING_WITH_KNOWN_MAGIC_NUMBERS,
@@ -10108,6 +10221,10 @@ MSG_HASH(
 MSG_HASH(
    MSG_CONTENT_CRC32S_DIFFER,
    "CRC32-Prüfsummen des Inhalts weichen ab. Andere Spiele können nicht verwendet werden."
+   )
+MSG_HASH(
+   MSG_PING_TOO_HIGH,
+   "Dein Ping ist zu hoch für diesen Host."
    )
 MSG_HASH(
    MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT,
@@ -11102,8 +11219,12 @@ MSG_HASH(
    "Host-Header konnte nicht empfangen werden"
    )
 MSG_HASH(
+   MSG_CHEEVOS_LOAD_STATE_PREVENTED_BY_HARDCORE_MODE,
+   "Du musst den Errungenschaften-Hardcore-Modus pausieren oder deaktivieren um Savestates laden zu können."
+   )
+MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED,
-   "Ein Savestate wurde geladen. Errungenschaften-Hardcore-Modus für die aktuelle Sitzung deaktiviert."
+   "Ein Savestate wurde geladen. Errungenschaften-Hardcore-Modus wurde für die aktuelle Sitzung deaktiviert."
    )
 MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED_CHEAT,
@@ -11640,6 +11761,10 @@ MSG_HASH(
    "Passwortgeschützt"
    )
 MSG_HASH(
+   MSG_INTERNET_NOT_CONNECTABLE,
+   "Internet (nicht verbindbar)"
+   )
+MSG_HASH(
    MSG_LOCAL,
    "Lokal"
    )
@@ -11695,7 +11820,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_SERVICES_SETTINGS,
-   "Verwalte Service-Einstellungen deines Betriebssystems."
+   "Betriebssystem-Dienste verwalten."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SAMBA_ENABLE,
@@ -11703,7 +11828,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_SAMBA_ENABLE,
-   "Aktiviere die Netzwerkfreigabe deiner Ordner."
+   "Freigegebene Ordner per SMB-Protokoll teilen."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SSH_ENABLE,

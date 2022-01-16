@@ -2587,6 +2587,14 @@ MSG_HASH(
    "Attiva o disattiva l'indicatore dei fotogrammi al secondo."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE,
+   "Mostra Statistiche Tecniche (Toggle)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE,
+   "Attiva o disattiva la visualizzazione delle statistiche tecniche a schermo."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE,
    "Mostra Ping Di Netplay (Toggle)"
    )
@@ -3538,6 +3546,15 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_ENABLE,
    "Le Coperture sono utilizzate per i bordi e i controlli sullo schermo."
+   )
+
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_BEHIND_MENU,
+   "Mostra Il Menu Overlay posteriore"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "Mostra la sovrapposizione posteriore invece che davanti al menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_HIDE_IN_MENU,
@@ -5167,6 +5184,14 @@ MSG_HASH(
    "Scegli uno specifico relè server da usare. Le posizioni geograficamente più vicine tendono ad avere una latenza inferiore."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_CUSTOM_MITM_SERVER,
+   "Indirizzo Server Relè Personalizzato"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "Inserisci qui l' indirizzo del tuo relè server personalizzato. Formato: indirizzo o indirizzo<unk> porta"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_IP_ADDRESS,
    "Indirizzo Server"
    )
@@ -5479,6 +5504,14 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_SUBLABELS,
    "Mostra informazioni aggiuntive per ogni voce della scaletta, come l'associazione di nuclei corrente e il tempo di gioco (se disponibile). Ha un impatto di prestazioni variabile."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Mostra le icone specifiche del contenuto nella cronologia e nei preferiti"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Mostra icone specifiche per ogni voce di playlist di cronologia e preferiti. Ha un impatto di prestazioni variabili."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_SUBLABEL_RUNTIME,
@@ -6010,6 +6043,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_DISCONNECT,
    "Disconnetti una connessione di rete attiva."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "Solo Camere Connettibili"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_ROOMS,
@@ -7751,6 +7788,14 @@ MSG_HASH(
    "Più Vicino"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MAIN,
+   "Principale"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CONTENT,
+   "Contenuto"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANUAL_CONTENT_SCAN_SYSTEM_NAME_USE_CONTENT_DIR,
    "<Contenuto della cartella>"
    )
@@ -8398,6 +8443,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_XMB_THUMBNAIL_SCALE_FACTOR,
    "Riduce la dimensione del display delle copertine ridimensionando la larghezza massima consentita."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MENU_XMB_VERTICAL_FADE_FACTOR,
+   "Fattore Di Dissolvenza Verticale"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_XMB_MAIN_MENU_ENABLE_SETTINGS,
@@ -10034,6 +10083,10 @@ MSG_HASH(
    "In attesa di un client ..."
    )
 MSG_HASH(
+   MSG_ROOM_NOT_CONNECTABLE,
+   "La tua stanza non è collegabile da internet."
+   )
+MSG_HASH(
    MSG_NETPLAY_YOU_HAVE_LEFT_THE_GAME,
    "Sei uscito dal gioco"
    )
@@ -11366,6 +11419,10 @@ MSG_HASH(
    "Ricezione dell'intestazione dall'host non riuscita"
    )
 MSG_HASH(
+   MSG_CHEEVOS_LOAD_STATE_PREVENTED_BY_HARDCORE_MODE,
+   "È necessario mettere in pausa o disabilitare gli obiettivi Modalità Hardcore per caricare gli stati."
+   )
+MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED,
    "È stato caricato uno stato di salvataggio. La modalità Hardcore dei trofei è stata disattivata per la sessione attuale."
    )
@@ -11898,6 +11955,10 @@ MSG_HASH(
 MSG_HASH(
    MSG_INTERNET_RELAY,
    "Internet (Relè)"
+   )
+MSG_HASH(
+   MSG_INTERNET_NOT_CONNECTABLE,
+   "Internet (Non Connettibile)"
    )
 MSG_HASH(
    MSG_LOCAL,

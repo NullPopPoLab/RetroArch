@@ -2667,6 +2667,14 @@ MSG_HASH(
    "Switches 'frames per second' status indicator on/off."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE,
+   "Show Technical Statistics (Toggle)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE,
+   "Switches the display of on-screen technical statistics on/off."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE,
    "Show Netplay Ping (Toggle)"
    )
@@ -3622,6 +3630,15 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_ENABLE,
    "Overlays are used for borders and on-screen controls."
+   )
+
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_BEHIND_MENU,
+   "Show Overlay Behind Menu"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "Show the overlay behind instead of in front of the menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_HIDE_IN_MENU,
@@ -5267,6 +5284,14 @@ MSG_HASH(
    "Choose a specific relay server to use. Geographically closer locations tend to have lower latency."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_CUSTOM_MITM_SERVER,
+   "Custom Relay Server Address"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "Input the address of your custom relay server here. Format: address or address|port"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_IP_ADDRESS,
    "Server Address"
    )
@@ -5579,6 +5604,14 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_SUBLABELS,
    "Show additional information for each playlist entry, such as current core association and runtime (if available). Has a variable performance impact."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Show Content Specific Icons in History and Favorites"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Show specific icons for each history and favorites playlist entry. Has a variable performance impact."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_SUBLABEL_CORE,
@@ -6142,6 +6175,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_DISCONNECT,
    "Disconnect an active netplay connection."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "Only Connectable Rooms"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_ROOMS,
@@ -8343,6 +8380,14 @@ MSG_HASH(
    "Nearest"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MAIN,
+   "Main"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CONTENT,
+   "Content"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANUAL_CONTENT_SCAN_SYSTEM_NAME_USE_CONTENT_DIR,
    "<Content Directory>"
    )
@@ -9110,6 +9155,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_XMB_THUMBNAIL_SCALE_FACTOR,
    "Reduce thumbnail display size by scaling maximum allowed width."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MENU_XMB_VERTICAL_FADE_FACTOR,
+   "Vertical Fade Factor"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_XMB_MAIN_MENU_ENABLE_SETTINGS,
@@ -10862,6 +10911,10 @@ MSG_HASH(
    "Waiting for client ..."
    )
 MSG_HASH(
+   MSG_ROOM_NOT_CONNECTABLE,
+   "Your room is not connectable from the internet."
+   )
+MSG_HASH(
    MSG_NETPLAY_YOU_HAVE_LEFT_THE_GAME,
    "You have left the game"
    )
@@ -12202,6 +12255,10 @@ MSG_HASH(
    "Failed to receive header from host"
    )
 MSG_HASH(
+   MSG_CHEEVOS_LOAD_STATE_PREVENTED_BY_HARDCORE_MODE,
+   "You must pause or disable Achievements Hardcore Mode to load states."
+   )
+MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED,
    "A save state was loaded. Achievements Hardcore Mode disabled for the current session."
    )
@@ -12762,6 +12819,10 @@ MSG_HASH(
 MSG_HASH(
    MSG_INTERNET_RELAY,
    "Internet (Relay)"
+   )
+MSG_HASH(
+   MSG_INTERNET_NOT_CONNECTABLE,
+   "Internet (Not Connectable)"
    )
 MSG_HASH(
    MSG_LOCAL,

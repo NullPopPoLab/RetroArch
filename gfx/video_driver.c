@@ -2780,6 +2780,7 @@ void video_driver_build_info(video_frame_info_t *video_info)
       settings->floats.menu_wallpaper_opacity;
    video_info->menu_framebuffer_opacity    =
       settings->floats.menu_framebuffer_opacity;
+   video_info->overlay_behind_menu         = settings->bools.input_overlay_behind_menu;
 
    video_info->libretro_running            = runloop_st->current_core.game_loaded;
 #else
@@ -2797,6 +2798,7 @@ void video_driver_build_info(video_frame_info_t *video_info)
    video_info->xmb_alpha_factor            = 0.0f;
    video_info->menu_framebuffer_opacity    = 0.0f;
    video_info->menu_wallpaper_opacity      = 0.0f;
+   video_info->overlay_behind_menu         = false;
 #endif
 
    video_info->runloop_is_paused             = runloop_st->paused;
@@ -3305,8 +3307,8 @@ bool video_driver_init_internal(bool *video_is_threaded, bool verbosity_enabled)
 #ifdef __WINRT__
       if (is_running_on_xbox())
       {
-         width  = settings->uints.video_fullscreen_x != 0 ? settings->uints.video_fullscreen_x : 3840;
-         height = settings->uints.video_fullscreen_y != 0 ? settings->uints.video_fullscreen_y : 2160;
+         width = uwp_get_width();
+         height = uwp_get_height();
       }
       else
 #endif

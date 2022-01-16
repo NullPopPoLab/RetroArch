@@ -10,92 +10,136 @@
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MAIN_MENU,
-   "Menú principal"
+   "Hovedmeny"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SETTINGS_TAB,
-   "Paramètres"
+   "Innstillinger"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_FAVORITES_TAB,
-   "Favorits"
+   "Favoritter"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_HISTORY_TAB,
-   "Istoric"
+   "Historikk"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_IMAGES_TAB,
-   "Imatges"
+   "Bilder"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MUSIC_TAB,
-   "Musica"
+   "Musikk"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_TAB,
-   "Vidèos"
+   "Videoer"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_TAB,
-   "Jòc en ret"
+   "Nettspill"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_EXPLORE_TAB,
-   "Explorar"
+   "Utforsk"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_ADD_TAB,
+   "Importerer innhold"
    )
 
 /* Main Menu */
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CONTENT_SETTINGS,
-   "Menú rapid"
+   "Hurtigmeny"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_CONTENT_SETTINGS,
+   "Få rask adgang til alle relevante innstillinger i spillet."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CORE_LIST,
+   "Last inn kjerne"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_CORE_LIST,
+   "Velg hvilken kjerne du skal bruke."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_LOAD_CONTENT_LIST,
+   "Last inn innhold"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_LOAD_CONTENT_LIST,
+   "Velg hvilket innhold som skal startes."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_LOAD_DISC,
-   "Cargar disc"
+   "Last inn plate"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_LOAD_DISC,
+   "Last inn en fysisk medieplate. Først velg kjernen (Laste-Kjerne) som skal brukes med platen."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_DUMP_DISC,
-   "Clonar disc"
+   "Dump plate"
+   )
+MSG_HASH( /* FIXME Is a specific image format used? Is it determined automatically? User choice? */
+   MENU_ENUM_SUBLABEL_DUMP_DISC,
+   "Dump innholdet på medieplaten til internlagring. Den vil lagres som en avbildningsfil."
    )
 #ifdef HAVE_LAKKA
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_EJECT_DISC,
+   "Løs ut platen"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_EJECT_DISC,
+   "Løser ut disken fra den fysiske CD/DVD-leseren."
+   )
 #endif
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLISTS_TAB,
-   "Listas de lectura"
+   "Spillelister"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_PLAYLISTS_TAB,
+   "Skannet innhold som matcher databasen vises her."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_ADD_CONTENT_LIST,
+   "Importert innhold"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_ADD_CONTENT_LIST,
+   "Lag og oppdater spillelister ved å skanne innhold."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_SHOW_WIMP,
+   "Vis skrivebordsmeny"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_SHOW_WIMP,
+   "Åpne den tradisjonelle skrivebordsmenyen."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MENU_DISABLE_KIOSK_MODE,
+   "Deaktiver Kiosk-modus (Omstart kreves)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_MENU_DISABLE_KIOSK_MODE,
+   "Vis alle konfigurasjonsrelaterte innstillinger."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY,
-   "Jòc en ret"
+   "Nettspill"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SETTINGS,
-   "Paramètres"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CONFIGURATIONS_LIST,
-   "Fichièr de configuracion"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_HELP_LIST,
-   "Ajuda"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RESTART_RETROARCH,
-   "Reaviar RetroArch"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_RESTART_RETROARCH,
-   "Reaviar lo programa."
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_QUIT_RETROARCH,
-   "Quitar RetroArch"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_QUIT_RETROARCH,
-   "Quitar lo programa."
+   "Innstillinger"
    )
 
 /* Main Menu > Load Core */
@@ -108,23 +152,23 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_FAVORITES,
-   "Favorits"
+   "Favoritter"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_MUSIC,
-   "Musica"
+   "Musikk"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_IMAGES,
-   "Imatges"
+   "Bilder"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_VIDEO,
-   "Vidèos"
+   "Videoer"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_EXPLORE,
-   "Explorar"
+   "Utforsk"
    )
 
 /* Main Menu > Online Updater */
@@ -132,29 +176,9 @@ MSG_HASH(
 
 /* Main Menu > Information */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_NETWORK_INFORMATION,
-   "Informacions ret"
-   )
 
 /* Main Menu > Information > Core Information */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CORE_INFO_CATEGORIES,
-   "Categorias"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CORE_INFO_AUTHORS,
-   "Autor"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CORE_INFO_PERMISSIONS,
-   "Autorizacions"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CORE_INFO_LICENSES,
-   "Licéncia"
-   )
 
 /* Main Menu > Information > System Information */
 
@@ -164,26 +188,6 @@ MSG_HASH(
 
 /* Main Menu > Information > Database Manager > Information */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RDB_ENTRY_NAME,
-   "Nom"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RDB_ENTRY_DESCRIPTION,
-   "Descripcion"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RDB_ENTRY_GENRE,
-   "Tipe"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RDB_ENTRY_PUBLISHER,
-   "Editor"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_RDB_ENTRY_DEVELOPER,
-   "Desvolopaire"
-   )
 
 /* Main Menu > Configuration File */
 
@@ -193,36 +197,16 @@ MSG_HASH(
 
 /* Main Menu > Help > Basic Menu Controls */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_BASIC_MENU_CONTROLS_START,
-   "Lançar"
-   )
 
 /* Settings */
 
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_VIDEO_SETTINGS,
-   "Vidèo"
-   )
-MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_SETTINGS,
-   "Listas de lectura"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_USER_SETTINGS,
-   "Utilizaire"
+   "Spillelister"
    )
 
 /* Settings > Drivers */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_VIDEO_DRIVER,
-   "Vidèo"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_MENU_DRIVER,
-   "Menú"
-   )
 
 /* Settings > Video */
 
@@ -290,10 +274,6 @@ MSG_HASH(
 
 /* Settings > Input > Hotkeys */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_META_QUIT_KEY,
-   "Quitar RetroArch"
-   )
 
 /* Settings > Input > Port # Controls */
 
@@ -352,17 +332,17 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QUICK_MENU_VIEWS_SETTINGS,
-   "Menú rapid"
+   "Hurtigmeny"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SETTINGS_VIEWS_SETTINGS,
-   "Paramètres"
+   "Innstillinger"
    )
 #ifdef HAVE_LAKKA
 #endif
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_ADD_CONTENT_ENTRY_DISPLAY_MAIN_TAB,
-   "Menú principal"
+   "Hovedmeny"
    )
 
 /* Settings > User Interface > Menu Item Visibility > Quick Menu */
@@ -395,7 +375,7 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_HISTORY_LIST_ENABLE,
-   "Istoric"
+   "Historikk"
    )
 
 /* Settings > Playlists > Playlist Management */
@@ -426,7 +406,7 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_DIRECTORY,
-   "Listas de lectura"
+   "Spillelister"
    )
 
 /* Music */
@@ -459,10 +439,6 @@ MSG_HASH(
 
 /* Playlist Item > Information */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CONTENT_INFO_LABEL,
-   "Nom"
-   )
 
 /* Quick Menu */
 
@@ -495,10 +471,6 @@ MSG_HASH(
 
 /* Quick Menu > Cheats > Cheat Details */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CHEAT_DESC,
-   "Descripcion"
-   )
 
 /* Quick Menu > Disc Control */
 
@@ -557,53 +529,29 @@ MSG_HASH(
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_MENU_VIEW_OPTIONS_TITLE,
-   "Paramètres"
+   "Innstillinger"
    )
 MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_QT_MENU_HELP,
-   "&Ajuda"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_QT_NAME,
-   "Nom"
+   MENU_ENUM_LABEL_VALUE_QT_LOAD_CORE,
+   "Last inn kjerne"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_TAB_PLAYLISTS,
-   "Listas de lectura"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_QT_PLAYLIST_ENTRY_NAME,
-   "Nom:"
+   "Spillelister"
    )
 
 /* Unsorted */
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_LOAD_CONTENT_HISTORY,
-   "Istoric"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_USER,
-   "Utilizaire"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_BROWSE_START,
-   "Lançar"
+   "Historikk"
    )
 
 /* Unused (Only Exist in Translation Files) */
 
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_ENABLE,
-   "Jòc en ret"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_HELP,
-   "Ajuda"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_CHEEVOS_DESCRIPTION,
-   "Descripcion"
+   "Nettspill"
    )
 
 /* Unused (Needs Confirmation) */
@@ -620,10 +568,6 @@ MSG_HASH(
 
 /* Environment Specific Settings */
 
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_META_RESTART_KEY,
-   "Reaviar RetroArch"
-   )
 
 #ifdef HAVE_LAKKA_SWITCH
 #endif

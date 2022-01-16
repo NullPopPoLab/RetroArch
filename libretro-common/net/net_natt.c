@@ -1,4 +1,4 @@
-/* Copyright  (C) 2016-2021 The RetroArch team
+/* Copyright  (C) 2016-2022 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
  * The following license statement only applies to this file (net_natt.c).
@@ -20,6 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#if !defined(HAVE_SOCKET_LEGACY) && defined(_WIN32) && defined(_MSC_VER)
+#pragma comment(lib, "Iphlpapi")
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +39,11 @@
 
 #include <net/net_natt.h>
 
-static natt_state_t natt_st = {{0}, {{0}}, 0, -1};
+#if !defined(HAVE_SOCKET_LEGACY) && defined(_WIN32)
+#include <iphlpapi.h>
+#endif
+
+static natt_state_t natt_st = {0, {0}, {{0}}, -1};
 
 natt_state_t *natt_state_get_ptr(void)
 {
@@ -49,9 +57,13 @@ bool natt_init(void)
       "M-SEARCH * HTTP/1.1\r\n"
       "HOST: 239.255.255.250:1900\r\n"
       "MAN: \"ssdp:discover\"\r\n"
-      "MX: 2\r\n"
-      "ST: urn:schemas-upnp-org:device:InternetGatewayDevice:1\r\n";
+      "ST: urn:schemas-upnp-org:device:InternetGatewayDevice:1\r\n"
+      "MX: 5\r\n"
+      "\r\n";
    static struct sockaddr_in msearch_addr = {0};
+#ifdef _WIN32
+   MIB_IPFORWARDROW ip_forward;
+#endif
    natt_state_t *st                       = &natt_st;
    struct addrinfo *bind_addr             = NULL;
 
@@ -75,11 +87,60 @@ bool natt_init(void)
    if (!st->interfaces.size)
       goto failure;
 
-   st->fd = socket_init((void**) &bind_addr, 0, NULL, SOCKET_TYPE_DATAGRAM);
+   st->fd = socket_init((void **) &bind_addr, 0, NULL, SOCKET_TYPE_DATAGRAM);
    if (st->fd < 0)
       goto failure;
    if (!bind_addr)
       goto failure;
+
+#ifdef _WIN32
+   if (GetBestRoute(inet_addr("223.255.255.255"),
+      0, &ip_forward) == NO_ERROR)
+   {
+      DWORD            index = ip_forward.dwForwardIfIndex;
+      PMIB_IPADDRTABLE table = malloc(sizeof(*table));
+
+      if (table)
+      {
+         DWORD len    = sizeof(*table);
+         DWORD result = GetIpAddrTable(table, &len, FALSE);
+
+         if (result == ERROR_INSUFFICIENT_BUFFER)
+         {
+            PMIB_IPADDRTABLE new_table = realloc(table, len);
+
+            if (new_table) 
+            {
+               table  = new_table;
+               result = GetIpAddrTable(table, &len, FALSE);
+            }
+         }
+
+         if (result == NO_ERROR)
+         {
+            DWORD i;
+
+            for (i = 0; i < table->dwNumEntries; i++)
+            {
+               PMIB_IPADDRROW ip_addr = &table->table[i];
+
+               if (ip_addr->dwIndex == index)
+               {
+#ifdef IP_MULTICAST_IF
+                  setsockopt(st->fd, IPPROTO_IP, IP_MULTICAST_IF,
+                     (const char *) &ip_addr->dwAddr, sizeof(ip_addr->dwAddr));
+#endif
+                  ((struct sockaddr_in *) bind_addr->ai_addr)->sin_addr.s_addr =
+                     ip_addr->dwAddr;
+                  break;
+               }
+            }
+         }
+
+         free(table);
+      }
+   }
+#endif
 
 #ifdef IP_MULTICAST_TTL
    {
@@ -99,16 +160,16 @@ bool natt_init(void)
       goto failure;
 
    /* Broadcast a discovery request. */
-   if (sendto(st->fd, msearch, sizeof(msearch) - 1, 0,
+   if (sendto(st->fd, msearch, STRLEN_CONST(msearch), 0,
          (struct sockaddr *) &msearch_addr,
-         sizeof(msearch_addr)) != sizeof(msearch) - 1)
+         sizeof(msearch_addr)) != STRLEN_CONST(msearch))
       goto failure;
 
    if (!socket_nonblock(st->fd))
       goto failure;
 
-   /* 2 seconds */
-   st->timeout = cpu_features_get_time_usec() + 2000000;
+   /* 5 seconds */
+   st->timeout = cpu_features_get_time_usec() + 5000000;
 
    freeaddrinfo_retro(bind_addr);
 
@@ -135,6 +196,7 @@ void natt_deinit(void)
    *st->device.desc         = '\0';
    *st->device.control      = '\0';
    *st->device.service_type = '\0';
+   memset(&st->device.addr, 0, sizeof(st->device.addr));
    memset(&st->device.ext_addr, 0, sizeof(st->device.ext_addr));
    st->device.busy          = false;
 #endif
@@ -154,13 +216,13 @@ bool natt_device_next(struct natt_device *device)
 {
 #ifndef HAVE_SOCKET_LEGACY
    fd_set  fds;
-   bool    error;
    char    buf[2048];
    ssize_t recvd;
    char    *data;
    size_t  remaining;
-   struct timeval tv = {0};
-   natt_state_t *st  = &natt_st;
+   struct timeval tv   = {0};
+   socklen_t addr_size = sizeof(device->addr);
+   natt_state_t *st    = &natt_st;
 
    if (!device)
       return false;
@@ -172,6 +234,7 @@ bool natt_device_next(struct natt_device *device)
    *device->desc         = '\0';
    *device->control      = '\0';
    *device->service_type = '\0';
+   memset(&device->addr, 0, sizeof(device->addr));
    memset(&device->ext_addr, 0, sizeof(device->ext_addr));
    device->busy          = false;
 
@@ -184,8 +247,8 @@ bool natt_device_next(struct natt_device *device)
    if (!FD_ISSET(st->fd, &fds))
       return cpu_features_get_time_usec() < st->timeout;
 
-   recvd = socket_receive_all_nonblocking(st->fd, &error,
-      buf, sizeof(buf));
+   recvd = recvfrom(st->fd, buf, sizeof(buf), 0,
+      (struct sockaddr *) &device->addr, &addr_size);
    if (recvd <= 0)
       return false;
 
@@ -201,18 +264,20 @@ bool natt_device_next(struct natt_device *device)
       *lnbreak++ = '\0';
 
       /* This also gets rid of any trailing carriage return. */
-      if (strcasecmp(string_trim_whitespace(data), "Location:"))
+      string_trim_whitespace(data);
+
+      if (string_starts_with_case_insensitive(data, "Location:"))
       {
-         char *location = string_trim_whitespace(
+         char *location = string_trim_whitespace_left(
             data + STRLEN_CONST("Location:"));
 
-         if (!string_is_empty(location) &&
-            string_starts_with_case_insensitive(location, "http://"))
+         if (string_starts_with_case_insensitive(location, "http://"))
          {
-            strlcpy(device->desc, location,
-               sizeof(device->desc));
-
-            return true;
+            /* Make sure the description URL isn't too long. */
+            if (strlcpy(device->desc, location, sizeof(device->desc)) <
+                  sizeof(device->desc))
+               return true;
+            *device->desc = '\0';
          }
       }
 
@@ -250,8 +315,13 @@ static bool build_control_url(rxml_node_t *control_url,
    /* Do we already have the full url? */
    if (string_starts_with_case_insensitive(control_url->data, "http://"))
    {
-      strlcpy(device->control, control_url->data,
-         sizeof(device->control));
+      /* Make sure the control URL isn't too long. */
+      if (strlcpy(device->control, control_url->data,
+         sizeof(device->control)) >= sizeof(device->control))
+      {
+         *device->control = '\0';
+         return false;
+      }
    }
    else
    {
@@ -262,15 +332,20 @@ static bool build_control_url(rxml_node_t *control_url,
       strlcpy(device->control, device->desc,
          sizeof(device->control));
 
-      control_path = (char*) strchr(device->control + STRLEN_CONST("http://"),
-         '/');
+      control_path = (char *) strchr(device->control +
+         STRLEN_CONST("http://"), '/');
 
       if (control_path)
          *control_path = '\0';
       if (control_url->data[0] != '/')
          strlcat(device->control, "/", sizeof(device->control));
-      strlcat(device->control, control_url->data,
-         sizeof(device->control));
+      /* Make sure the control URL isn't too long. */
+      if (strlcat(device->control, control_url->data,
+         sizeof(device->control)) >= sizeof(device->control))
+      {
+         *device->control = '\0';
+         return false;
+      }
    }
 
    return true;
@@ -304,8 +379,8 @@ static bool parse_desc_node(rxml_node_t *node,
          return false;
 
       /* These two are the only IGD service types we can work with. */
-      if (!strstr(service_type->data, "WANIPConnection:1") &&
-            !strstr(service_type->data, "WANPPPConnection:1"))
+      if (!strstr(service_type->data, ":WANIPConnection:") &&
+            !strstr(service_type->data, ":WANPPPConnection:"))
          return false;
       if (!build_control_url(control_url, device))
          return false;
@@ -671,7 +746,7 @@ bool natt_open_port(struct natt_device *device,
             "</u:%s>"
          "</s:Body>"
       "</s:Envelope>";
-   char buf[1024];
+   char buf[1280];
    const char *action;
    char host[256], port[6];
 

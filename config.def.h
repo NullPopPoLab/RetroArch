@@ -497,6 +497,8 @@
 /* Initialise file browser with the last used start directory */
 #define DEFAULT_USE_LAST_START_DIRECTORY false
 
+#define DEFAULT_OVERLAY_BEHIND_MENU false
+
 #define DEFAULT_OVERLAY_HIDE_IN_MENU true
 
 /* Automatically disable overlays when a
@@ -731,6 +733,7 @@ static const bool content_show_playlists    = true;
 
 #ifdef HAVE_XMB
 #define DEFAULT_XMB_ANIMATION 0
+#define DEFAULT_XMB_VERTICAL_FADE_FACTOR 100
 
 static const unsigned xmb_alpha_factor      = 75;
 static const unsigned menu_font_color_red   = 255;
@@ -1157,6 +1160,9 @@ static const bool audio_enable_menu_bgm    = false;
 #define DEFAULT_AUTOSAVE_INTERVAL 0
 #endif
 
+/* Show only connectable rooms */
+#define DEFAULT_NETPLAY_SHOW_ONLY_CONNECTABLE true
+
 /* Publicly announce netplay */
 #define DEFAULT_NETPLAY_PUBLIC_ANNOUNCE true
 
@@ -1327,6 +1333,8 @@ static const int default_content_favorites_size = 200;
 #else
 #define DEFAULT_PLAYLIST_SHOW_SUBLABELS true
 #endif
+
+#define DEFAULT_PLAYLIST_SHOW_HISTORY_ICONS PLAYLIST_SHOW_HISTORY_ICONS_DEFAULT
 
 /* Show the indices of playlist entries in
  * a menu-driver-specific fashion */

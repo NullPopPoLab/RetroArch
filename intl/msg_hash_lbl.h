@@ -1555,6 +1555,10 @@ MSG_HASH(
    "input_overlay_enable"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "overlay_behind_menu"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_INPUT_OVERLAY_HIDE_IN_MENU,
    "overlay_hide_in_menu"
    )
@@ -2845,6 +2849,10 @@ MSG_HASH(
    "scan_file"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "netplay_show_only_connectable"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_NETPLAY_REFRESH_ROOMS,
    "refresh_rooms"
    )
@@ -3037,6 +3045,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_LABEL_MENU_XMB_THUMBNAIL_SCALE_FACTOR,
    "menu_xmb_thumbnail_scale_factor"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_MENU_XMB_VERTICAL_FADE_FACTOR,
+   "menu_xmb_vertical_fade_factor"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_MENU_THUMBNAIL_UPSCALE_THRESHOLD,
@@ -3931,6 +3943,10 @@ MSG_HASH(
    "netplay_mitm_server"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "netplay_custom_mitm_server"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_ADD_TO_MIXER,
    "audio_add_to_mixer"
    )
@@ -4725,6 +4741,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_LABEL_PLAYLIST_SHOW_SUBLABELS,
    "playlist_show_sublabels"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_PLAYLIST_SHOW_HISTORY_ICONS,
+   "playlist_show_history_icons"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_PLAYLIST_SHOW_ENTRY_IDX,

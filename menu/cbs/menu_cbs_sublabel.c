@@ -288,6 +288,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_screenshot,            ME
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_mute,                  MENU_ENUM_SUBLABEL_INPUT_META_MUTE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_osk,                   MENU_ENUM_SUBLABEL_INPUT_META_OSK)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_fps_toggle,            MENU_ENUM_SUBLABEL_INPUT_META_FPS_TOGGLE)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_statistics_toggle,     MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_netplay_ping_toggle,   MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_PING_TOGGLE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_send_debug_info,       MENU_ENUM_SUBLABEL_INPUT_META_SEND_DEBUG_INFO)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_netplay_host_toggle,   MENU_ENUM_SUBLABEL_INPUT_META_NETPLAY_HOST_TOGGLE)
@@ -470,6 +471,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_window_custom_size_enable, MEN
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_message_pos_x,           MENU_ENUM_SUBLABEL_VIDEO_MESSAGE_POS_X)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_message_pos_y,           MENU_ENUM_SUBLABEL_VIDEO_MESSAGE_POS_Y)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_font_size,               MENU_ENUM_SUBLABEL_VIDEO_FONT_SIZE)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_overlay_behind_menu,     MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_overlay_hide_in_menu,    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_HIDE_IN_MENU)
 #if defined(ANDROID)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_overlay_hide_when_gamepad_connected_android, MENU_ENUM_SUBLABEL_INPUT_OVERLAY_HIDE_WHEN_GAMEPAD_CONNECTED_ANDROID)
@@ -925,6 +927,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_viewport_custom_x,            
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_viewport_custom_y,               MENU_ENUM_SUBLABEL_VIDEO_VIEWPORT_CUSTOM_Y)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_netplay_use_mitm_server,               MENU_ENUM_SUBLABEL_NETPLAY_USE_MITM_SERVER)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_netplay_mitm_server,                   MENU_ENUM_SUBLABEL_NETPLAY_MITM_SERVER)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_netplay_custom_mitm_server,            MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_core_lock,                             MENU_ENUM_SUBLABEL_CORE_LOCK)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_core_delete,                           MENU_ENUM_SUBLABEL_CORE_DELETE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_pause_hardcode_mode,                   MENU_ENUM_SUBLABEL_ACHIEVEMENT_PAUSE)
@@ -975,6 +978,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_video_window_offset_y,            ME
 #endif
 
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_playlist_show_sublabels,                       MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_SUBLABELS)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_playlist_show_history_icons,                   MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_HISTORY_ICONS)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_playlist_show_entry_idx,                       MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_ENTRY_IDX)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_menu_rgui_border_filler_enable,                MENU_ENUM_SUBLABEL_MENU_RGUI_BORDER_FILLER_ENABLE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_menu_rgui_border_filler_thickness_enable,      MENU_ENUM_SUBLABEL_MENU_RGUI_BORDER_FILLER_THICKNESS_ENABLE)
@@ -1882,6 +1886,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
                return 0;
             case RARCH_FPS_TOGGLE:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_fps_toggle);
+               return 0;
+            case RARCH_STATISTICS_TOGGLE:
+               BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_statistics_toggle);
                return 0;
             case RARCH_NETPLAY_PING_TOGGLE:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_netplay_ping_toggle);
@@ -3440,6 +3447,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
          case MENU_ENUM_LABEL_PLAYLISTS_TAB:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_content_collection_list);
             break;
+         case MENU_ENUM_LABEL_INPUT_OVERLAY_BEHIND_MENU:
+            BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_overlay_behind_menu);
+            break;
          case MENU_ENUM_LABEL_INPUT_OVERLAY_HIDE_IN_MENU:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_overlay_hide_in_menu);
             break;
@@ -4280,6 +4290,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
          case MENU_ENUM_LABEL_NETPLAY_MITM_SERVER:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_netplay_mitm_server);
             break;
+         case MENU_ENUM_LABEL_NETPLAY_CUSTOM_MITM_SERVER:
+            BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_netplay_custom_mitm_server);
+            break;
          case MENU_ENUM_LABEL_CORE_LOCK:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_core_lock);
             break;
@@ -4373,6 +4386,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
             break;
          case MENU_ENUM_LABEL_PLAYLIST_SHOW_SUBLABELS:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_playlist_show_sublabels);
+            break;
+         case MENU_ENUM_LABEL_PLAYLIST_SHOW_HISTORY_ICONS:
+            BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_playlist_show_history_icons);
             break;
          case MENU_ENUM_LABEL_PLAYLIST_SHOW_ENTRY_IDX:
             BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_playlist_show_entry_idx);

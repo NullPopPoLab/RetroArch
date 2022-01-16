@@ -127,7 +127,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_DISABLE_KIOSK_MODE,
-   "Yapılandırmayla ilgili tüm ayarları göster."
+   "Yapılandırma ile ilgili tüm ayarları göster."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_ONLINE_UPDATER,
@@ -252,7 +252,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_GOTO_MUSIC,
-   "Daha önce çalınan müzik burada görünecektir."
+   "Daha önce oynatılmış olan müzikler burada görünecektir."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_IMAGES,
@@ -260,7 +260,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_GOTO_IMAGES,
-   "Daha önce görüntülenen resimler burada görünecek."
+   "Daha önce görüntülenen resimler burada görünecektir."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GOTO_VIDEO,
@@ -276,7 +276,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_GOTO_EXPLORE,
-   "Kategorize edilmiş bir arama arayüzü aracılığıyla veritabanıyla eşleşen tüm içeriğe göz atın."
+   "Kategorize edilmiş bir arama arayüzü aracılığıyla veritabanı ile eşleşen tüm içeriğe göz atın."
    )
 
 /* Main Menu > Online Updater */
@@ -2607,6 +2607,14 @@ MSG_HASH(
    "'Saniyedeki kare' durum göstergesini açar/kapatır."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE,
+   "Teknik İstatistikleri Göster (Değiştir)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE,
+   "Ekrandaki teknik istatistiklerin görüntülenmesini açar/kapatır."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE,
    "Netplay Pingi Göster (Değiştir)"
    )
@@ -3558,6 +3566,15 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_ENABLE,
    "Kaplamalar, kenarlıklar ve ekran kontrolleri için kullanılır."
+   )
+
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_BEHIND_MENU,
+   "Menünün Arkasındaki Kaplamayı Göster"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "Kaplamayı menünün önünde değil arkasında gösterin."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_HIDE_IN_MENU,
@@ -5199,6 +5216,14 @@ MSG_HASH(
    "Kullanmak için belirli bir aktarma sunucusu seçin. Coğrafi olarak daha yakın yerler daha az gecikme eğilimindedir."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_CUSTOM_MITM_SERVER,
+   "Özel Geçiş Sunucusu Adresi"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "Özel geçiş sunucunuzun adresini buraya girin. Biçim: adres veya adres|port"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_IP_ADDRESS,
    "Sunucu Adresi"
    )
@@ -5511,6 +5536,14 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_SUBLABELS,
    "Her bir oynatma listesi girdisi için mevcut çekirdek ilişkilendirme ve çalışma zamanı (varsa) gibi ek bilgileri gösterir. Değişken performans etkisi vardır."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_PLAYLIST_SHOW_HISTORY_ICONS,
+   "İçeriğe Özgü Simgeleri Geçmiş ve Sık Kullanılanlarda Göster"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_PLAYLIST_SHOW_HISTORY_ICONS,
+   "Her geçmiş ve sık kullanılan oynatma listesi girişi için belirli simgeleri gösterin. Değişken bir performans etkisine sahiptir."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PLAYLIST_SUBLABEL_CORE,
@@ -6058,6 +6091,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_DISCONNECT,
    "Etkin bir Netplay bağlantısını kesin."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "Sadece Bağlanılabilir Odalar"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_ROOMS,
@@ -7835,6 +7872,14 @@ MSG_HASH(
    "En yakın"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MAIN,
+   "Ana"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CONTENT,
+   "İçerik"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANUAL_CONTENT_SCAN_SYSTEM_NAME_USE_CONTENT_DIR,
    "<İçerik Dizini>"
    )
@@ -8526,6 +8571,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_XMB_THUMBNAIL_SCALE_FACTOR,
    "İzin verilen azami genişliği ölçekle küçük resim görüntüleme boyutunu küçült."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MENU_XMB_VERTICAL_FADE_FACTOR,
+   "Dikey Solma Etkeni"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_XMB_MAIN_MENU_ENABLE_SETTINGS,
@@ -10242,6 +10291,10 @@ MSG_HASH(
    "İstemci bekleniyor..."
    )
 MSG_HASH(
+   MSG_ROOM_NOT_CONNECTABLE,
+   "Kurduğunuz oda internete bağlanamıyor."
+   )
+MSG_HASH(
    MSG_NETPLAY_YOU_HAVE_LEFT_THE_GAME,
    "Oyundan ayrıldın"
    )
@@ -11578,6 +11631,10 @@ MSG_HASH(
    "Ana bilgisayardan başlık alınamadı"
    )
 MSG_HASH(
+   MSG_CHEEVOS_LOAD_STATE_PREVENTED_BY_HARDCORE_MODE,
+   "Durumları yüklemek için Zorlu Kipte Başarılar duraklatılmalı veya devre dışı bırakmanız gerekir."
+   )
+MSG_HASH(
    MSG_CHEEVOS_HARDCORE_MODE_DISABLED,
    "Bir durum kaydı yüklendi. Başarılar mevcut oturum için Zorlu Kip devre dışı bırakıldı."
    )
@@ -12110,6 +12167,10 @@ MSG_HASH(
 MSG_HASH(
    MSG_INTERNET_RELAY,
    "İnternet (Röle)"
+   )
+MSG_HASH(
+   MSG_INTERNET_NOT_CONNECTABLE,
+   "İnternet (Bağlanmadı)"
    )
 MSG_HASH(
    MSG_LOCAL,

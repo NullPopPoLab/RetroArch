@@ -2551,6 +2551,14 @@ MSG_HASH(
    "Włącza/wyłącza wskaźnik statusu \"klatki na sekundę\"."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_STATISTICS_TOGGLE,
+   "Pokaż statystyki techniczne (przełącznik)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_STATISTICS_TOGGLE,
+   "Włącza/wyłącza wyświetlanie statystyk technicznych na ekranie."
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_PING_TOGGLE,
    "Pokaż Ping Netplay (Przełącz)"
    )
@@ -3494,6 +3502,15 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_OVERLAY_ENABLE,
    "Nakładki są stosowane do obramowań i ekranowych elementów sterujących."
+   )
+
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_BEHIND_MENU,
+   "Pokaż menu za nakładką"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_OVERLAY_BEHIND_MENU,
+   "Pokaż nakładkę za menu zamiast przed menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_OVERLAY_HIDE_IN_MENU,
@@ -5119,6 +5136,14 @@ MSG_HASH(
    "Wybierz określony serwer przekazujący, aby go użyć. Geograficznie bliższe lokalizacje mają zazwyczaj mniejsze opóźnienie."
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_CUSTOM_MITM_SERVER,
+   "Niestandardowy adres serwera przekaźnika"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_NETPLAY_CUSTOM_MITM_SERVER,
+   "Wprowadź adres własnego serwera przekaźnika. Format: adres lub adres|port"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_IP_ADDRESS,
    "Adres serwera"
    )
@@ -5970,6 +5995,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_NETPLAY_DISCONNECT,
    "Odłącz aktywne połączenie sieciowe."
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_NETPLAY_SHOW_ONLY_CONNECTABLE,
+   "Tylko połączone pokoje"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY_REFRESH_ROOMS,
@@ -7725,6 +7754,14 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NEAREST,
    "Najbliższy"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_MAIN,
+   "Główny"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_CONTENT,
+   "Zawartość"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANUAL_CONTENT_SCAN_SYSTEM_NAME_USE_CONTENT_DIR,
@@ -10058,6 +10095,10 @@ MSG_HASH(
    "Oczekiwanie na klienta..."
    )
 MSG_HASH(
+   MSG_ROOM_NOT_CONNECTABLE,
+   "Twój pokój nie jest podłączony z Internetu."
+   )
+MSG_HASH(
    MSG_NETPLAY_YOU_HAVE_LEFT_THE_GAME,
    "Opuściłeś grę"
    )
@@ -11870,6 +11911,10 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SHOW_SHUTDOWN,
    "Pokaż opcję \"Zamknięcie\"."
+   )
+MSG_HASH(
+   MSG_INTERNET_NOT_CONNECTABLE,
+   "Internet (Nie podłączony)"
    )
 MSG_HASH(
    MSG_LOCAL,

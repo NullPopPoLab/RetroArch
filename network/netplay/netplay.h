@@ -62,6 +62,8 @@ enum rarch_netplay_ctl_state
    RARCH_NETPLAY_CTL_IS_REPLAYING,
    RARCH_NETPLAY_CTL_IS_SERVER,
    RARCH_NETPLAY_CTL_IS_CONNECTED,
+   RARCH_NETPLAY_CTL_IS_PLAYING,
+   RARCH_NETPLAY_CTL_IS_SPECTATING,
    RARCH_NETPLAY_CTL_IS_DATA_INITED,
    RARCH_NETPLAY_CTL_ALLOW_PAUSE,
    RARCH_NETPLAY_CTL_PAUSE,
@@ -137,8 +139,9 @@ typedef struct mitm_server
 static const mitm_server_t netplay_mitm_server_list[] = {
    { "nyc", "New York City, USA" },
    { "madrid", "Madrid, Spain" },
-   { "montreal", "Montreal, Canada" },
    { "saopaulo", "Sao Paulo, Brazil" },
+   { "singapore", "Singapore" },
+   { "custom", "Custom" },
 };
 
 struct netplay_room
@@ -164,6 +167,8 @@ struct netplay_room
    char mitm_session      [33];
    bool has_password;
    bool has_spectate_password;
+   bool connectable;
+   bool is_retroarch;
    bool lan;
 };
 
@@ -195,52 +200,57 @@ struct netplay_host_list
    size_t size;
 };
 
-struct netplay_chat_data
-{
-   char nick[NETPLAY_NICK_LEN];
-   char msg[NETPLAY_CHAT_MAX_SIZE];
-   uint32_t frames;
-};
-
-struct netplay_chat_buffer
-{
-   char nick[NETPLAY_NICK_LEN];
-   char msg[NETPLAY_CHAT_MAX_SIZE];
-   uint8_t alpha;
-};
-
 struct netplay_chat
 {
    struct
    {
-      struct netplay_chat_data data;
-      struct netplay_chat_buffer buffer;
+      uint32_t frames;
+      char nick[NETPLAY_NICK_LEN];
+      char msg[NETPLAY_CHAT_MAX_SIZE];
    } messages[NETPLAY_CHAT_MAX_MESSAGES];
    uint32_t message_slots;
 };
 
+struct netplay_chat_buffer
+{
+   struct
+   {
+      uint8_t alpha;
+      char nick[NETPLAY_NICK_LEN];
+      char msg[NETPLAY_CHAT_MAX_SIZE];
+   } messages[NETPLAY_CHAT_MAX_MESSAGES];
+};
+
 typedef struct
 {
-   netplay_t *data; /* Used while Netplay is running */
-   struct netplay_room host_room; /* ptr alignment */
+   /* NAT traversal info (if NAT traversal is used and serving) */
+   struct nat_traversal_data nat_traversal_request;
+#ifdef HAVE_NETPLAYDISCOVERY
+   /* Packet buffer for advertisement and responses */
+   struct ad_packet ad_packet_buffer;
+   /* List of discovered hosts */
+   struct netplay_host_list discovered_hosts;
+#endif
+   struct netplay_chat_buffer chat_buffer;
+   struct netplay_room host_room;
    struct netplay_room *room_list;
    struct netplay_rooms *rooms_data;
+   /* Used while Netplay is running */
+   netplay_t *data;
+   /* Chat messages */
+   struct netplay_chat *chat;
 #ifdef HAVE_NETPLAYDISCOVERY
+   size_t discovered_hosts_allocated;
    /* LAN discovery sockets */
    int lan_ad_server_fd;
    int lan_ad_client_fd;
-   /* Packet buffer for advertisement and responses */
-   struct ad_packet ad_packet_buffer; /* uint32_t alignment */
-   /* List of discovered hosts */
-   struct netplay_host_list discovered_hosts;
-   size_t discovered_hosts_allocated;
 #endif
    int room_count;
    int reannounce;
    int reping;
    int latest_ping;
-   uint16_t mapping[RETROK_LAST];
    unsigned server_port_deferred;
+   uint16_t mapping[RETROK_LAST];
    char server_address_deferred[256];
    char server_session_deferred[32];
    bool netplay_client_deferred;
@@ -254,10 +264,6 @@ typedef struct
    bool has_set_netplay_ip_port;
    bool has_set_netplay_stateless_mode;
    bool has_set_netplay_check_frames;
-   /* NAT traversal info (if NAT traversal is used and serving) */
-   struct nat_traversal_data nat_traversal_request;
-   /* Chat messages */
-   struct netplay_chat chat;
 } net_driver_state_t;
 
 net_driver_state_t *networking_state_get_ptr(void);

@@ -1,4 +1,4 @@
-/* Copyright  (C) 2010-2021 The RetroArch team
+/* Copyright  (C) 2010-2022 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
  * The following license statement only applies to this file (net_natt.h).
@@ -54,24 +54,25 @@ enum nat_traversal_status
 
 struct natt_device
 {
-   char desc        [512];
-   char control     [512];
-   char service_type[512];
+   struct sockaddr_in addr;
    struct sockaddr_in ext_addr;
+   char desc        [256];
+   char control     [256];
+   char service_type[256];
    bool busy;
 };
 
 struct natt_request
 {
-   struct natt_device *device;
    struct sockaddr_in addr;
+   struct natt_device *device;
    enum socket_protocol proto;
    bool success;
 };
 
+/* Use this struct to implement a higher-level interface. */
 struct nat_traversal_data
 {
-   size_t iface;
    struct natt_request request;
    enum natt_forward_type forward_type;
    enum nat_traversal_status status;
@@ -79,14 +80,14 @@ struct nat_traversal_data
 
 typedef struct
 {
+   /* Timeout for our discovery request. */
+   retro_time_t timeout;
+
    /* List of available network interfaces. */
    struct net_ifinfo interfaces;
 
    /* Device we are operating on. */
    struct natt_device device;
-
-   /* Timeout for our discovery request. */
-   retro_time_t timeout;
 
    /* File descriptor of the socket we are receiving discovery data. */
    int fd;

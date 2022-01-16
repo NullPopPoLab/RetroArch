@@ -2775,9 +2775,6 @@ bool runloop_environment_cb(unsigned cmd, void *data)
             if (!descriptors)
                return false;
 
-            if (log_level != RETRO_LOG_DEBUG)
-               break;
-
             system->mmaps.descriptors     = descriptors;
             system->mmaps.num_descriptors = mmaps->num_descriptors;
 
@@ -2785,6 +2782,9 @@ bool runloop_environment_cb(unsigned cmd, void *data)
                system->mmaps.descriptors[i].core = mmaps->descriptors[i];
 
             mmap_preprocess_descriptors(descriptors, mmaps->num_descriptors);
+
+            if (log_level != RETRO_LOG_DEBUG)
+               break;
 
             if (sizeof(void *) == 8)
                RARCH_LOG("           ndx flags  ptr              offset   start    select   disconn  len      addrspace\n");
@@ -6827,6 +6827,8 @@ static enum runloop_state_enum runloop_check_state(
    /* Check if we have pressed the FPS toggle button */
    HOTKEY_CHECK(RARCH_FPS_TOGGLE, CMD_EVENT_FPS_TOGGLE, true, NULL);
 
+   HOTKEY_CHECK(RARCH_STATISTICS_TOGGLE, CMD_EVENT_STATISTICS_TOGGLE, true, NULL);
+
    /* Check if we have pressed the netplay host toggle button */
    HOTKEY_CHECK(RARCH_NETPLAY_HOST_TOGGLE, CMD_EVENT_NETPLAY_HOST_TOGGLE, true, NULL);
 
@@ -6871,10 +6873,41 @@ static enum runloop_state_enum runloop_check_state(
    /* Check if we have pressed the AI Service toggle button */
    HOTKEY_CHECK(RARCH_AI_SERVICE, CMD_EVENT_AI_SERVICE_TOGGLE, true, NULL);
 
-   if (BIT256_GET(current_bits, RARCH_VOLUME_UP))
-      command_event(CMD_EVENT_VOLUME_UP, NULL);
-   else if (BIT256_GET(current_bits, RARCH_VOLUME_DOWN))
-      command_event(CMD_EVENT_VOLUME_DOWN, NULL);
+   /* Volume stepping + acceleration */
+   {
+      static unsigned volume_hotkey_delay        = 0;
+      static unsigned volume_hotkey_delay_active = 0;
+      unsigned volume_hotkey_delay_default       = 15;
+      if (BIT256_GET(current_bits, RARCH_VOLUME_UP))
+      {
+         if (volume_hotkey_delay > 0)
+            volume_hotkey_delay--;
+         else
+         {
+            command_event(CMD_EVENT_VOLUME_UP, NULL);
+            if (volume_hotkey_delay_active > 0)
+               volume_hotkey_delay_active--;
+            volume_hotkey_delay = volume_hotkey_delay_active;
+         }
+      }
+      else if (BIT256_GET(current_bits, RARCH_VOLUME_DOWN))
+      {
+         if (volume_hotkey_delay > 0)
+            volume_hotkey_delay--;
+         else
+         {
+            command_event(CMD_EVENT_VOLUME_DOWN, NULL);
+            if (volume_hotkey_delay_active > 0)
+               volume_hotkey_delay_active--;
+            volume_hotkey_delay = volume_hotkey_delay_active;
+         }
+      }
+      else
+      {
+         volume_hotkey_delay        = 0;
+         volume_hotkey_delay_active = volume_hotkey_delay_default;
+      }
+   }
 
 #ifdef HAVE_NETWORKING
    /* Check Netplay */
@@ -7312,12 +7345,14 @@ int runloop_iterate(void)
 {
    unsigned i;
    enum analog_dpad_mode dpad_mode[MAX_USERS];
-   uico_driver_state_t                *uico_st  = uico_state_get_ptr();
    input_driver_state_t               *input_st = input_state_get_ptr();
    audio_driver_state_t               *audio_st = audio_state_get_ptr();
    video_driver_state_t               *video_st = video_state_get_ptr();
    recording_state_t              *recording_st = recording_state_get_ptr();
    camera_driver_state_t             *camera_st = camera_state_get_ptr();
+#if defined(HAVE_COCOATOUCH)
+   uico_driver_state_t  *uico_st                = uico_state_get_ptr();
+#endif
    settings_t *settings                         = config_get_ptr();
    runloop_state_t *runloop_st                  = &runloop_state;
    unsigned video_frame_delay                   = settings->uints.video_frame_delay;
