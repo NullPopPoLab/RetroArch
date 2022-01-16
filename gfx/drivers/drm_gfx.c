@@ -607,6 +607,7 @@ static bool init_drm(void)
    int ret;
    drmModeConnector *connector;
    uint i;
+   int drmConn = 0;
 
    drm.fd = open("/dev/dri/card0", O_RDWR);
 
@@ -642,9 +643,25 @@ static bool init_drm(void)
       return false;
    }
 
+   // batocera
+   {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+	 if(drmConnRead>=0 && drmConn<(uint)drm_resources->count_connectors) {
+	   drmConn = drmConnRead;
+	 }
+       }
+     }
+   }
+   //
+
    /* Find a connected connector. */
    for (i = 0; i < (uint)drm.resources->count_connectors; i++)
    {
+     if(i != drmConn) continue;
+
       connector = drmModeGetConnector(drm.fd, drm.resources->connectors[i]);
       /* It's connected, let's use it. */
       if (connector->connection == DRM_MODE_CONNECTED)

@@ -342,6 +342,21 @@ bool drmkms_timing::init()
 	char drm_name[15] = "/dev/dri/card_";
 	drmModeRes *p_res;
 	drmModeConnector *p_connector;
+	int drmConn = 0;
+
+	// batocera
+	{
+	  FILE* fdDrmConn;
+	  int drmConnRead;
+	  if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+	    if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+	      if(drmConnRead>=0 && drmConn<p_res->count_connectors) {
+		drmConn = drmConnRead;
+	      }
+	    }
+	  }
+	}
+	//
 
 	int output_position = 0;
 	for (int num = 0; !m_desktop_output && num < 10; num++)
@@ -366,6 +381,8 @@ bool drmkms_timing::init()
 
 			for (int i = 0; i < p_res->count_connectors; i++)
 			{
+			        if(i != drmConn) continue;
+
 				p_connector = drmModeGetConnector(m_drm_fd, p_res->connectors[i]);
 				if (p_connector)
 				{
@@ -730,10 +747,29 @@ bool drmkms_timing::get_timing(modeline *mode)
 
 	// INFO: not used vrefresh, hskew, vscan
 	drmModeRes *p_res = drmModeGetResources(m_drm_fd);
+	int drmConn = 0;
+
+	// batocera
+	{
+	  FILE* fdDrmConn;
+	  int drmConnRead;
+	  if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+	    if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+	      if(drmConnRead>=0 && drmConn<p_res->count_connectors) {
+		drmConn = drmConnRead;
+	      }
+	    }
+	  }
+	}
+	//
 
 	for (int i = 0; i < p_res->count_connectors; i++)
 	{
-		drmModeConnector *p_connector = drmModeGetConnector(m_drm_fd, p_res->connectors[i]);
+	  drmModeConnector *p_connector;
+
+	  if(i != drmConn) continue;
+
+	  p_connector = drmModeGetConnector(m_drm_fd, p_res->connectors[i]);
 
 		// Cycle through the modelines and report them back to the display manager
 		if (p_connector && m_desktop_output == p_connector->connector_id)
