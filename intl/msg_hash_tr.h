@@ -2858,6 +2858,22 @@ MSG_HASH(
    "R3 Düğmesi (Başparmak)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "C Düğmesi (Tetik)"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Z Düğmesi (Tetik)"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
+   "Menu Düğmesi (Tetik)"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt Düğmesi"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Sol Analog X+ (Sağ)"
    )

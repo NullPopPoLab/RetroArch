@@ -2858,6 +2858,22 @@ MSG_HASH(
    "R3-painike (Peukalo)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "C-painike"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Z-painike"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
+   "Menu-painike"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Opt-painike"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Vasen analogi X+ (Oikealle)"
    )

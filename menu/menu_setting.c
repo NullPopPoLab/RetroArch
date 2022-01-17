@@ -6593,6 +6593,12 @@ static void setting_get_string_representation_turbo_default_button(
       case INPUT_TURBO_DEFAULT_BUTTON_R3:
          strlcpy(s, "R3", len);
          break;
+      case INPUT_TURBO_DEFAULT_BUTTON_C:
+         strlcpy(s, "C", len);
+         break;
+      case INPUT_TURBO_DEFAULT_BUTTON_Z:
+         strlcpy(s, "Z", len);
+         break;
    }
 }
 

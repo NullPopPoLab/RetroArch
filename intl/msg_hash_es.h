@@ -2862,6 +2862,22 @@ MSG_HASH(
    "Botón R3 (pulsar analógico der.)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "Botón C"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Botón Z"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
+   "Botón Menu"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Botón Opt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Analógico izdo. X+ (derecha)"
    )

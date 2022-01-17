@@ -201,13 +201,13 @@ static int32_t dos_joypad_button(unsigned port_num, uint16_t joykey)
 
 static int16_t dos_joypad_axis(unsigned port_num, uint32_t joyaxis) { return 0; }
 
-static int16_t dos_joypad_state(
+static int32_t dos_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
    uint16_t *buf                        = dos_keyboard_state_get(port_idx);
 

@@ -72,7 +72,7 @@ static void *linuxraw_input_init(const char *joypad_driver)
    return linuxraw;
 }
 
-static int16_t linuxraw_input_state(
+static int32_t linuxraw_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -92,7 +92,7 @@ static int16_t linuxraw_input_state(
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
 
             for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
             {

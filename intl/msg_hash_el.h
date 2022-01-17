@@ -2098,6 +2098,22 @@ MSG_HASH(
    "Κουμπί R3 (αντίχειρας)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C,
+   "Κουμπί C"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z,
+   "Κουμπί Z"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU,
+   "Κουμπί Menu"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT,
+   "Κουμπί Opt"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS,
    "Αριστερό Αναλογικό X+ (δεξιά)"
    )

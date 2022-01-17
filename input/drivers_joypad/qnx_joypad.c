@@ -109,13 +109,13 @@ static int16_t qnx_joypad_axis(unsigned port, uint32_t joyaxis)
    return qnx_joypad_axis_state(qnx, controller, port, joyaxis);
 }
 
-static int16_t qnx_joypad_state(
+static int32_t qnx_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                    = 0;
+   int32_t ret                    = 0;
    qnx_input_t *qnx               =
       (qnx_input_t*)input_state_get_ptr()->current_data;
    qnx_input_device_t* controller = NULL;

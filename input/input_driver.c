@@ -94,7 +94,7 @@ uint64_t lifecycle_state                                        = 0;
 
 static void *input_null_init(const char *joypad_driver) { return (void*)-1; }
 static void input_null_poll(void *data) { }
-static int16_t input_null_input_state(
+static int32_t input_null_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -666,7 +666,7 @@ bool input_driver_button_combo(
    return false;
 }
 
-int16_t input_state_wrap(
+int32_t input_state_wrap(
       input_driver_t *current_input,
       void *data,
       const input_device_driver_t *joypad,
@@ -679,7 +679,7 @@ int16_t input_state_wrap(
       unsigned idx,
       unsigned id)
 {
-   int16_t ret                   = 0;
+   int32_t ret                   = 0;
 
    if(!binds || !binds[_port]) {
       return 0;
@@ -796,7 +796,7 @@ int16_t input_joypad_axis(
    return val;
 }
 
-int16_t input_joypad_analog_button(
+int32_t input_joypad_analog_button(
       float input_analog_deadzone,
       float input_analog_sensitivity,
       const input_device_driver_t *drv,
@@ -3576,7 +3576,7 @@ void input_keys_pressed(
    }
 
    {
-      int16_t ret = 0;
+      int32_t ret = 0;
 
       /* Check the libretro input first */
       if (!input_st->block_libretro_input)
@@ -3641,17 +3641,17 @@ void input_keys_pressed(
    }
 }
 
-int16_t input_state_device(
+int32_t input_state_device(
       input_driver_state_t *input_st,
       settings_t *settings,
       input_mapper_t *handle,
       unsigned input_analog_dpad_mode,
-      int16_t ret,
+      int32_t ret,
       unsigned port, unsigned device,
       unsigned idx, unsigned id,
       bool button_mask)
 {
-   int16_t res  = 0;
+   int32_t res  = 0;
 
    switch (device)
    {
@@ -3724,7 +3724,7 @@ int16_t input_state_device(
             /* Don't allow turbo for D-pad. */
             if (     (id  < RETRO_DEVICE_ID_JOYPAD_UP)    ||
                   (    (id  > RETRO_DEVICE_ID_JOYPAD_RIGHT) &&
-                       (id <= RETRO_DEVICE_ID_JOYPAD_R3)))
+                       (id <= RETRO_DEVICE_ID_JOYPAD_MENU)))
             {
                /*
                 * Apply turbo button if activated.
@@ -3759,7 +3759,10 @@ int16_t input_state_device(
                            RETRO_DEVICE_ID_JOYPAD_L2,
                            RETRO_DEVICE_ID_JOYPAD_R2,
                            RETRO_DEVICE_ID_JOYPAD_L3,
-                           RETRO_DEVICE_ID_JOYPAD_R3};
+                           RETRO_DEVICE_ID_JOYPAD_R3,
+                           RETRO_DEVICE_ID_JOYPAD_C,
+                           RETRO_DEVICE_ID_JOYPAD_Z,
+                           RETRO_DEVICE_ID_JOYPAD_MENU};
                         input_st->turbo_btns.enable[port] = 1 << button_map[
                            MIN(
                                  ARRAY_SIZE(button_map) - 1,
@@ -4133,7 +4136,7 @@ void input_driver_poll(void)
                if (joypad)
                {
                   unsigned k, j;
-                  int16_t ret = input_state_wrap(
+                  int32_t ret = input_state_wrap(
                         input_st->current_driver,
                         input_st->current_data,
                         input_st->primary_joypad,
@@ -4836,7 +4839,7 @@ bool bsv_movie_check(input_driver_state_t *input_st,
 }
 #endif
 
-int16_t input_state_internal(unsigned port, unsigned device,
+int32_t input_state_internal(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    rarch_joypad_info_t joypad_info;
@@ -4862,7 +4865,7 @@ int16_t input_state_internal(unsigned port, unsigned device,
 #endif
    bool bitmask_enabled                    = false;
    unsigned max_users                      = settings->uints.input_max_users;
-   int16_t result                          = 0;
+   int32_t result                          = 0;
 
    device                                 &= RETRO_DEVICE_MASK;
    bitmask_enabled                         = (device == RETRO_DEVICE_JOYPAD) &&
@@ -4873,8 +4876,8 @@ int16_t input_state_internal(unsigned port, unsigned device,
     * 'virtual' port index */
    while ((mapped_port = *(input_remap_port_map++)) < MAX_USERS)
    {
-      int16_t ret                     = 0;
-      int16_t port_result             = 0;
+      int32_t ret                     = 0;
+      int32_t port_result             = 0;
       unsigned input_analog_dpad_mode = settings->uints.input_analog_dpad_mode[mapped_port];
 
       joypad_info.joy_idx             = settings->uints.input_joypad_index[mapped_port];
@@ -5009,9 +5012,9 @@ int16_t input_state_internal(unsigned port, unsigned device,
             result = port_result;
          else
          {
-            int16_t port_result_abs = (port_result >= 0) ?
+            int32_t port_result_abs = (port_result >= 0) ?
                port_result : -port_result;
-            int16_t result_abs      = (result >= 0) ?
+            int32_t result_abs      = (result >= 0) ?
                result : -result;
 
             if (port_result_abs > result_abs)
@@ -5026,34 +5029,34 @@ int16_t input_state_internal(unsigned port, unsigned device,
    /* Save input to BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_OFF())
    {
-      result = swap_if_big16(result);
+      result = swap_if_big32(result);
       intfstream_write(
-            input_st->bsv_movie_state_handle->file, &result, 2);
+            input_st->bsv_movie_state_handle->file, &result, 4);
    }
 #endif
 
    return result;
 }
 
-int16_t input_driver_state_wrapper(unsigned port, unsigned device,
+int32_t input_driver_state_wrapper(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    input_driver_state_t 
       *input_st                = &input_driver_st;
-   int16_t result              = 0;
+   int32_t result              = 0;
 #ifdef HAVE_BSV_MOVIE
    /* Load input from BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_ON())
    {
-      int16_t bsv_result = 0;
+      int32_t bsv_result = 0;
       if (intfstream_read(
                input_st->bsv_movie_state_handle->file,
-               &bsv_result, 2) == 2)
+               &bsv_result, 4) == 4)
       {
 #ifdef HAVE_CHEEVOS
          rcheevos_pause_hardcore();
 #endif
-         return swap_if_big16(bsv_result);
+         return swap_if_big32(bsv_result);
       }
 
       input_st->bsv_movie_state.movie_end = true;
@@ -5074,8 +5077,8 @@ int16_t input_driver_state_wrapper(unsigned port, unsigned device,
    /* Save input to BSV record, if enabled */
    if (BSV_MOVIE_IS_PLAYBACK_OFF())
    {
-      result = swap_if_big16(result);
-      intfstream_write(input_st->bsv_movie_state_handle->file, &result, 2);
+      result = swap_if_big32(result);
+      intfstream_write(input_st->bsv_movie_state_handle->file, &result, 4);
    }
 #endif
 
@@ -5480,7 +5483,7 @@ void input_driver_collect_system_input(input_driver_state_t *input_st,
 
          input_st->gamepad_input_override = 0;
 
-         for (i = 0; i < MAX_USERS; i++)
+         for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
          {
             /* Set gamepad input override */
             if (input_st->ai_gamepad_state[i] == 2)

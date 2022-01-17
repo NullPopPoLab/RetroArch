@@ -190,7 +190,7 @@ typedef struct input_remote_state
 
 typedef struct input_list_element_t
 {
-   int16_t *state;
+   int32_t *state;
    unsigned port;
    unsigned device;
    unsigned index;
@@ -253,9 +253,10 @@ struct input_driver
     *                         (eg RETRO_DEVICE_ID_JOYPAD_START)
     *
     * @return 1 for pressed digital control, 0 for non-pressed digital control.
-    *          Values in the range of a signed 16-bit integer,[-0x8000, 0x7fff]
+    *          Values in the range of a signed 32-bit integer,[-0x80000000, 0x7fffffff]
+    *          or analog control value [-0x7fff, 0x7fff]
     */
-   int16_t (*input_state)(void *data,
+   int32_t (*input_state)(void *data,
          const input_device_driver_t *joypad_data,
          const input_device_driver_t *sec_joypad_data,
          rarch_joypad_info_t *joypad_info,
@@ -341,7 +342,7 @@ struct rarch_joypad_driver
    bool (*query_pad)(unsigned);
    void (*destroy)(void);
    int32_t (*button)(unsigned, uint16_t);
-   int16_t (*state)(rarch_joypad_info_t *joypad_info,
+   int32_t (*state)(rarch_joypad_info_t *joypad_info,
          const struct retro_keybind *binds, unsigned port);
    void (*get_buttons)(unsigned, input_bits_t *);
    int16_t (*axis)(unsigned, uint32_t);
@@ -406,7 +407,7 @@ typedef struct
    char    *osk_grid[45];                                /* ptr alignment */ 
 #if defined(HAVE_TRANSLATE)
 #if defined(HAVE_ACCESSIBILITY)
-   int ai_gamepad_state[MAX_USERS];
+   int ai_gamepad_state[RARCH_FIRST_CUSTOM_BIND];
 #endif
 #endif
    int osk_ptr;
@@ -801,7 +802,7 @@ bool input_driver_find_driver(
       const char *prefix,
       bool verbosity_enabled);
 
-int16_t input_state_wrap(
+int32_t input_state_wrap(
       input_driver_t *current_input,
       void *data,
       const input_device_driver_t *joypad,
@@ -839,7 +840,7 @@ int16_t input_joypad_axis(
  *
  * Returns: analog value on success, otherwise 0.
  **/
-int16_t input_joypad_analog_button(
+int32_t input_joypad_analog_button(
       float input_analog_deadzone,
       float input_analog_sensitivity,
       const input_device_driver_t *drv,
@@ -903,7 +904,7 @@ void input_config_get_bind_string_joykey(
       char *buf, const char *prefix,
       const struct retro_keybind *bind, size_t size);
 
-int16_t input_state_internal(unsigned port, unsigned device,
+int32_t input_state_internal(unsigned port, unsigned device,
       unsigned idx, unsigned id);
 
 bool input_key_pressed(int key, bool keyboard_pressed);
@@ -979,12 +980,12 @@ bool input_keys_pressed_other_sources(
       unsigned i,
       input_bits_t* p_new_state);
 
-int16_t input_state_device(
+int32_t input_state_device(
       input_driver_state_t *input_st,
       settings_t *settings,
       input_mapper_t *handle,
       unsigned input_analog_dpad_mode,
-      int16_t ret,
+      int32_t ret,
       unsigned port, unsigned device,
       unsigned idx, unsigned id,
       bool button_mask);
@@ -1019,7 +1020,7 @@ void input_driver_poll(void);
  * Returns: Non-zero if the given key (identified by @id)
  * was pressed by the user (assigned to @port).
  **/
-int16_t input_driver_state_wrapper(unsigned port, unsigned device,
+int32_t input_driver_state_wrapper(unsigned port, unsigned device,
       unsigned idx, unsigned id);
 
 /**
