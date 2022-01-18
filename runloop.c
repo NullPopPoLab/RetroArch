@@ -2202,6 +2202,19 @@ bool runloop_environment_cb(unsigned cmd, void *data)
          }
          break;
 
+      case RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE:
+         {
+            const struct retro_disk_control_ext2_callback *control_cb =
+                  (const struct retro_disk_control_ext2_callback*)data;
+
+            if (system)
+            {
+               RARCH_LOG("[Environ]: SET_DISK_CONTROL_EXT2_INTERFACE.\n");
+               disk_control_set_ext2_callback(&system->disk_control, control_cb);
+            }
+         }
+         break;
+
       case RETRO_ENVIRONMENT_GET_PREFERRED_HW_RENDER:
       {
          unsigned *cb = (unsigned*)data;

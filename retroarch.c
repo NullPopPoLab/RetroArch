@@ -2362,7 +2362,7 @@ bool command_event(enum event_command cmd, void *data)
 
             /* Ensure that disk control interface is reset */
             if (sys_info)
-               disk_control_set_ext_callback(&sys_info->disk_control, NULL);
+               disk_control_set_ext2_callback(&sys_info->disk_control, NULL);
 
             if (!type || !runloop_event_init_core(settings, input_st, *type))
                return false;

@@ -47,7 +47,7 @@ static void disk_control_reset_callback(
       return;
 
    memset(&disk_control->cb, 0,
-         sizeof(struct retro_disk_control_ext_callback));
+         sizeof(struct retro_disk_control_ext2_callback));
 }
 
 /* Set v0 disk interface callback functions */
@@ -72,7 +72,7 @@ void disk_control_set_callback(
    disk_control->cb.add_image_index     = cb->add_image_index;
 }
 
-/* Set v1+ disk interface callback functions */
+/* Set v1 disk interface callback functions */
 void disk_control_set_ext_callback(
       disk_control_interface_t *disk_control,
       const struct retro_disk_control_ext_callback *cb)
@@ -96,6 +96,36 @@ void disk_control_set_ext_callback(
    disk_control->cb.set_initial_image   = cb->set_initial_image;
    disk_control->cb.get_image_path      = cb->get_image_path;
    disk_control->cb.get_image_label     = cb->get_image_label;
+}
+
+/* Set v2+ disk interface callback functions */
+void disk_control_set_ext2_callback(
+      disk_control_interface_t *disk_control,
+      const struct retro_disk_control_ext2_callback *cb)
+{
+   if (!disk_control)
+      return;
+
+   disk_control_reset_callback(disk_control);
+
+   if (!cb)
+      return;
+
+   disk_control->cb.set_eject_state     = cb->set_eject_state;
+   disk_control->cb.get_eject_state     = cb->get_eject_state;
+   disk_control->cb.get_image_index     = cb->get_image_index;
+   disk_control->cb.set_image_index     = cb->set_image_index;
+   disk_control->cb.get_num_images      = cb->get_num_images;
+   disk_control->cb.replace_image_index = cb->replace_image_index;
+   disk_control->cb.add_image_index     = cb->add_image_index;
+
+   disk_control->cb.set_initial_image   = cb->set_initial_image;
+   disk_control->cb.get_image_path      = cb->get_image_path;
+   disk_control->cb.get_image_label     = cb->get_image_label;
+
+   disk_control->cb.get_num_drives     = cb->get_num_drives;
+   disk_control->cb.set_drive_eject_state = cb->set_drive_eject_state;
+   disk_control->cb.get_drive_eject_state = cb->get_drive_eject_state;
 }
 
 /**********/
@@ -181,6 +211,23 @@ bool disk_control_get_eject_state(
    if (!disk_control || !disk_control->cb.get_eject_state)
       return false;
    return disk_control->cb.get_eject_state();
+}
+
+/* Returns true if disk is currently ejected */
+bool disk_control_get_drive_eject_state(
+      disk_control_interface_t *disk_control)
+{
+return disk_control_get_eject_state(disk_control);
+}
+
+/* Returns number of disk drives registered
+ * by the core */
+unsigned disk_control_get_num_drives(
+      disk_control_interface_t *disk_control)
+{
+   if (!disk_control || !disk_control->cb.get_num_images)
+      return 0;
+   return 1;
 }
 
 /* Returns number of disk images registered
@@ -335,6 +382,14 @@ bool disk_control_set_eject_state(
 #endif
 
    return !error;
+}
+
+/* Sets the eject state of the virtual disk tray */
+bool disk_control_set_drive_eject_state(
+      disk_control_interface_t *disk_control,
+      unsigned drive,bool eject, bool verbosity)
+{
+return disk_control_set_eject_state(disk_control,eject,verbosity);
 }
 
 /* Sets currently selected disk index
