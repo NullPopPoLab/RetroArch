@@ -208,16 +208,18 @@ bool disk_control_initial_image_enabled(
 bool disk_control_get_eject_state(
       disk_control_interface_t *disk_control)
 {
-   if (!disk_control || !disk_control->cb.get_eject_state)
-      return false;
-   return disk_control->cb.get_eject_state();
+   return disk_control_get_drive_eject_state(disk_control,0);
 }
 
 /* Returns true if disk is currently ejected */
 bool disk_control_get_drive_eject_state(
       disk_control_interface_t *disk_control, unsigned drive)
 {
-return disk_control_get_eject_state(disk_control);
+   if (!disk_control) return false;
+   if (disk_control->cb.get_drive_eject_state) return disk_control->cb.get_drive_eject_state(drive);
+   if (drive!=0)return false;
+   if (disk_control->cb.get_eject_state) return disk_control->cb.get_eject_state();
+   return false;
 }
 
 /* Returns number of disk drives registered
@@ -225,9 +227,9 @@ return disk_control_get_eject_state(disk_control);
 unsigned disk_control_get_num_drives(
       disk_control_interface_t *disk_control)
 {
-   if (!disk_control || !disk_control->cb.get_num_images)
-      return 0;
-   return 1;
+   if (!disk_control) return 0;
+   if (disk_control->cb.get_num_drives)return disk_control->cb.get_num_drives();
+   return 0;
 }
 
 /* Returns number of disk images registered
@@ -338,25 +340,37 @@ bool disk_control_set_eject_state(
       disk_control_interface_t *disk_control,
       bool eject, bool verbosity)
 {
+   return disk_control_set_drive_eject_state(disk_control,0,eject,verbosity);
+}
+
+/* Sets the eject state of the virtual disk tray */
+bool disk_control_set_drive_eject_state(
+      disk_control_interface_t *disk_control,
+      unsigned drive,bool eject, bool verbosity)
+{
    bool error = false;
+   bool done = false;
    char msg[128];
 
    msg[0] = '\0';
 
-   if (!disk_control || !disk_control->cb.set_eject_state)
-      return false;
+   if (!disk_control) return false;
+
+   if (disk_control->cb.set_drive_eject_state)done=disk_control->cb.set_drive_eject_state(drive,eject);
+   else if (drive!=0);
+   else if (disk_control->cb.set_eject_state)done=disk_control->cb.set_eject_state(eject);
 
    /* Set eject state */
-   if (disk_control->cb.set_eject_state(eject))
+   if (done)
       snprintf(
-            msg, sizeof(msg), "%s",
+            msg, sizeof(msg), "drive %u: %s",drive,
             eject ? msg_hash_to_str(MSG_DISK_EJECTED) :
                   msg_hash_to_str(MSG_DISK_CLOSED));
    else
    {
       error = true;
       snprintf(
-            msg, sizeof(msg), "%s",
+            msg, sizeof(msg), "drive %u: %s",drive,
             eject ? msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_EJECT) :
                   msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_CLOSE));
    }
@@ -382,14 +396,6 @@ bool disk_control_set_eject_state(
 #endif
 
    return !error;
-}
-
-/* Sets the eject state of the virtual disk tray */
-bool disk_control_set_drive_eject_state(
-      disk_control_interface_t *disk_control,
-      unsigned drive,bool eject, bool verbosity)
-{
-return disk_control_set_eject_state(disk_control,eject,verbosity);
 }
 
 /* Sets currently selected disk index
