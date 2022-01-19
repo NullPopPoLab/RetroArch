@@ -215,7 +215,7 @@ bool disk_control_get_eject_state(
 
 /* Returns true if disk is currently ejected */
 bool disk_control_get_drive_eject_state(
-      disk_control_interface_t *disk_control)
+      unsigned drive, disk_control_interface_t *disk_control)
 {
 return disk_control_get_eject_state(disk_control);
 }
@@ -336,7 +336,7 @@ static void disk_control_get_index_set_msg(
 /* Sets the eject state of the virtual disk tray */
 bool disk_control_set_eject_state(
       disk_control_interface_t *disk_control,
-      bool eject, bool verbosity)
+      unsigned drive, bool eject, bool verbosity)
 {
    bool error = false;
    char msg[128];
