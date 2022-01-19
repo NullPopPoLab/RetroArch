@@ -215,7 +215,7 @@ bool disk_control_get_eject_state(
 
 /* Returns true if disk is currently ejected */
 bool disk_control_get_drive_eject_state(
-      unsigned drive, disk_control_interface_t *disk_control)
+      disk_control_interface_t *disk_control, unsigned drive)
 {
 return disk_control_get_eject_state(disk_control);
 }
