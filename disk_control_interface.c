@@ -411,7 +411,7 @@ bool disk_control_set_index(
 
    msg[0] = '\0';
 
-   if (!disk_control_enabled())
+   if (!disk_control_enabled(disk_control))
       return false;
 
 #if 0
