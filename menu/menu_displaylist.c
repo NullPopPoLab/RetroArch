@@ -4423,7 +4423,7 @@ static unsigned menu_displaylist_parse_disk_options(
 	               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_INSERT),
 	               msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_INSERT),
 	               MENU_ENUM_LABEL_DISK_TRAY_INSERT,
-	               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS, 0, 0))
+	               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
 	         count++;
 	   }
 	   else{
@@ -4431,7 +4431,7 @@ static unsigned menu_displaylist_parse_disk_options(
 	               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_EJECT),
 	               msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_EJECT),
 	               MENU_ENUM_LABEL_DISK_TRAY_EJECT,
-	               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS, 0, 0))
+	               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
 	         count++;
 	   }
 	   if (disk_ejected){
