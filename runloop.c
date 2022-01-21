@@ -6202,6 +6202,30 @@ static bool display_menu_libretro(
       old_pressed3                              = pressed3; \
    }
 
+#define HOTKEY_CHECK4(cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7, cmd8) \
+   { \
+      static bool old_pressed                   = false; \
+      static bool old_pressed2                  = false; \
+      static bool old_pressed3                  = false; \
+      static bool old_pressed4                  = false; \
+      bool pressed                              = BIT256_GET(current_bits, cmd1); \
+      bool pressed2                             = BIT256_GET(current_bits, cmd3); \
+      bool pressed3                             = BIT256_GET(current_bits, cmd5); \
+      bool pressed4                             = BIT256_GET(current_bits, cmd7); \
+      if (pressed && !old_pressed) \
+         command_event(cmd2, (void*)(intptr_t)0); \
+      else if (pressed2 && !old_pressed2) \
+         command_event(cmd4, (void*)(intptr_t)0); \
+      else if (pressed3 && !old_pressed3) \
+         command_event(cmd6, (void*)(intptr_t)0); \
+      else if (pressed4 && !old_pressed4) \
+         command_event(cmd8, (void*)(intptr_t)0); \
+      old_pressed                               = pressed; \
+      old_pressed2                              = pressed2; \
+      old_pressed3                              = pressed3; \
+      old_pressed4                              = pressed4; \
+   }
+
 static enum runloop_state_enum runloop_check_state(
       bool error_on_init,
       settings_t *settings,
@@ -7185,8 +7209,9 @@ static enum runloop_state_enum runloop_check_state(
    HOTKEY_CHECK(RARCH_SHADER_PREV, CMD_EVENT_SHADER_PREV, true, NULL);
 
    /* Check if we have pressed any of the disk buttons */
-   HOTKEY_CHECK3(
+   HOTKEY_CHECK4(
          RARCH_DISK_EJECT_TOGGLE, CMD_EVENT_DISK_EJECT_TOGGLE,
+         RARCH_DISK2_EJECT_TOGGLE, CMD_EVENT_DISK2_EJECT_TOGGLE,
          RARCH_DISK_NEXT,         CMD_EVENT_DISK_NEXT,
          RARCH_DISK_PREV,         CMD_EVENT_DISK_PREV);
 

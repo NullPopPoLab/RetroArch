@@ -1995,6 +1995,10 @@ MSG_HASH(
    "Εξαγωγή δίσκου"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "Εξαγωγή δίσκου"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT,
    "Επόμενος Δίσκος"
    )

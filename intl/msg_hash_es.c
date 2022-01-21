@@ -171,6 +171,7 @@ int msg_hash_get_help_es_enum(enum msg_hash_enums msg, char *s, size_t len)
                      "Se expandirá sobre la pantalla.");
              break;
           case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
              snprintf(s, len,
                      "Alterna el botón de expulsión\n"
                      "de discos.\n"

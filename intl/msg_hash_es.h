@@ -2671,7 +2671,15 @@ MSG_HASH(
    "Expulsar disco (alternar)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "Expulsar disco (alternar)"
+   )
+MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
+   "Si la bandeja de disco virtual está cerrada, la abrirá para extraer el disco cargado. En caso contrario, introducirá el disco seleccionado y cierra la bandeja."
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
    "Si la bandeja de disco virtual está cerrada, la abrirá para extraer el disco cargado. En caso contrario, introducirá el disco seleccionado y cierra la bandeja."
    )
 MSG_HASH(

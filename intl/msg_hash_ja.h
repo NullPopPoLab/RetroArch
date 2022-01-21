@@ -2564,11 +2564,19 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_EJECT_TOGGLE,
-   "ディスクの取り出し"
+   "1番目のディスクの取り出し"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "2番目のディスクの取り出し"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
-   "仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
+   "1番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
+   "2番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT,

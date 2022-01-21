@@ -6992,6 +6992,59 @@ static int action_ok_disk_cycle_tray_status(const char *path,
    return 0;
 }
 
+static int action_ok_disk2_cycle_tray_status(const char *path,
+      const char *label, unsigned type, size_t idx, size_t entry_idx)
+{
+   bool disk_ejected              = false;
+   bool print_log                 = false;
+   rarch_system_info_t *sys_info  = &runloop_state_get_ptr()->system;
+   settings_t *settings           = config_get_ptr();
+#ifdef HAVE_AUDIOMIXER
+   bool audio_enable_menu         = settings->bools.audio_enable_menu;
+   bool audio_enable_menu_ok      = settings->bools.audio_enable_menu_ok;
+#endif
+   bool menu_insert_disk_resume   = settings->bools.menu_insert_disk_resume;
+
+   if (!settings)
+      return menu_cbs_exit();
+
+#ifdef HAVE_AUDIOMIXER
+   if (audio_enable_menu && audio_enable_menu_ok)
+      audio_driver_mixer_play_menu_sound(AUDIO_MIXER_SYSTEM_SLOT_OK);
+#endif
+
+   /* Get disk eject state *before* toggling drive status */
+   if (sys_info)
+      disk_ejected = disk_control_get_eject_state(&sys_info->disk_control);
+
+   /* Only want to display a notification if we are
+    * going to resume content immediately after
+    * inserting a disk (i.e. if quick menu remains
+    * open, there is sufficient visual feedback
+    * without a notification) */
+   print_log = menu_insert_disk_resume && disk_ejected;
+
+   if (!command_event(CMD_EVENT_DISK2_EJECT_TOGGLE, &print_log))
+      return menu_cbs_exit();
+
+   /* If we reach this point, then tray toggle
+    * was successful */
+   disk_ejected = !disk_ejected;
+
+   /* If disk is now ejected, menu selection should
+    * automatically increment to the 'current disk
+    * index' option */
+   if (disk_ejected)
+      menu_navigation_set_selection(1);
+
+   /* If disk is now inserted and user has enabled
+    * 'menu_insert_disk_resume', resume running content */
+   if (!disk_ejected && menu_insert_disk_resume)
+      generic_action_ok_command(CMD_EVENT_RESUME);
+
+   return 0;
+}
+
 static int action_ok_disk_image_append(const char *path,
       const char *label, unsigned type, size_t idx, size_t entry_idx)
 {
@@ -8601,6 +8654,9 @@ static int menu_cbs_init_bind_ok_compare_type(menu_file_list_cbs_t *cbs,
             break;
          case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS:
             BIND_ACTION_OK(cbs, action_ok_disk_cycle_tray_status);
+            break;
+         case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS:
+            BIND_ACTION_OK(cbs, action_ok_disk2_cycle_tray_status);
             break;
          case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX:
             BIND_ACTION_OK(cbs, action_ok_disk_index_dropdown_box_list);

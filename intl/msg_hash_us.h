@@ -2724,11 +2724,19 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_EJECT_TOGGLE,
-   "Disc Eject Toggle"
+   "1st Disc Eject Toggle"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "2nd Disc Eject Toggle"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
-   "If virtual disc tray is closed, opens it and removes the loaded disc. Otherwise, inserts currently selected disc and closes the tray."
+   "If 1st virtual disc tray is closed, opens it and removes the loaded disc. Otherwise, inserts currently selected disc and closes the tray."
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
+   "If 2nd virtual disc tray is closed, opens it and removes the loaded disc. Otherwise, inserts currently selected disc and closes the tray."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT,

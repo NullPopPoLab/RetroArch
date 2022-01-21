@@ -295,6 +295,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_volume_up,             ME
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_volume_down,           MENU_ENUM_SUBLABEL_INPUT_META_VOLUME_DOWN)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_overlay_next,          MENU_ENUM_SUBLABEL_INPUT_META_OVERLAY_NEXT)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_eject_toggle,     MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk2_eject_toggle,    MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_next,             MENU_ENUM_SUBLABEL_INPUT_META_DISK_NEXT)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_prev,             MENU_ENUM_SUBLABEL_INPUT_META_DISK_PREV)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_grab_mouse_toggle,     MENU_ENUM_SUBLABEL_INPUT_META_GRAB_MOUSE_TOGGLE)
@@ -1892,6 +1893,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
                return 0;
             case RARCH_DISK_EJECT_TOGGLE:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk_eject_toggle);
+               return 0;
+            case RARCH_DISK2_EJECT_TOGGLE:
+               BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk2_eject_toggle);
                return 0;
             case RARCH_DISK_NEXT:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk_next);

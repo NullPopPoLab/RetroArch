@@ -153,6 +153,7 @@ int msg_hash_get_help_tr_enum(enum msg_hash_enums msg, char *s, size_t len)
                    "Switches to next overlay. Wraps around.");
              break;
           case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
              snprintf(s, len,
                    "Diskler için çıkarmayı değiştirir. \n"
                    " \n"

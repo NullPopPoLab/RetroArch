@@ -2647,7 +2647,15 @@ MSG_HASH(
    "Espulsione Disco (Attiva / Disattiva)"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "Espulsione Disco (Attiva / Disattiva)"
+   )
+MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
+   "Se il portadischi virtuale è chiuso, aprila e rimuovi il disco caricato. Altrimenti, inserisci il disco selezionato e chiudi il portadischi."
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
    "Se il portadischi virtuale è chiuso, aprila e rimuovi il disco caricato. Altrimenti, inserisci il disco selezionato e chiudi il portadischi."
    )
 MSG_HASH(

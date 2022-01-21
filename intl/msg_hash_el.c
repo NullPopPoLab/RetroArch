@@ -147,6 +147,7 @@ int msg_hash_get_help_el_enum(enum msg_hash_enums msg, char *s, size_t len)
                    "Αλλάζει στο επόμενο επικάλλυμα. Επαναφέρεται.");
              break;
           case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
              snprintf(s, len,
                    "Ενεργοποιεί την αφαίρεση δίσκων. \n"
                    " \n"

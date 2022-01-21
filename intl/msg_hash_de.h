@@ -2599,7 +2599,15 @@ MSG_HASH(
    "Disc einlegen/auswerfen"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "Disc einlegen/auswerfen"
+   )
+MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
+   "Wenn das virtuelle Disc-Fach geschlossen ist, wird es geöffnet und die geladene Disc entfernt. Andernfalls wird die aktuell ausgewählte Disc eingelegt und das Fach geschlossen."
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
    "Wenn das virtuelle Disc-Fach geschlossen ist, wird es geöffnet und die geladene Disc entfernt. Andernfalls wird die aktuell ausgewählte Disc eingelegt und das Fach geschlossen."
    )
 MSG_HASH(

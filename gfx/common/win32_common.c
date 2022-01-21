@@ -829,6 +829,9 @@ static LRESULT win32_menu_loop(HWND owner, WPARAM wparam)
       case ID_M_DISK_CYCLE:
          command_event(CMD_EVENT_DISK_EJECT_TOGGLE, NULL);
          break;
+      case ID_M_DISK2_CYCLE:
+         command_event(CMD_EVENT_DISK2_EJECT_TOGGLE, NULL);
+         break;
       case ID_M_DISK_NEXT:
          command_event(CMD_EVENT_DISK_NEXT, NULL);
          break;
@@ -2028,6 +2031,8 @@ static enum msg_hash_enums menu_id_to_label_enum(unsigned int menuId)
          return MENU_ENUM_LABEL_VALUE_SAVE_STATE;
       case ID_M_DISK_CYCLE:
          return MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_EJECT_TOGGLE;
+      case ID_M_DISK2_CYCLE:
+         return MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE;
       case ID_M_DISK_NEXT:
          return MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT;
       case ID_M_DISK_PREV:
@@ -2066,6 +2071,8 @@ static unsigned int menu_id_to_meta_key(unsigned int menu_id)
          return RARCH_SAVE_STATE_KEY;
       case ID_M_DISK_CYCLE:
          return RARCH_DISK_EJECT_TOGGLE;
+      case ID_M_DISK2_CYCLE:
+         return RARCH_DISK2_EJECT_TOGGLE;
       case ID_M_DISK_NEXT:
          return RARCH_DISK_NEXT;
       case ID_M_DISK_PREV:

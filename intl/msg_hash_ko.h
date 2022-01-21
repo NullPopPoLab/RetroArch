@@ -2699,7 +2699,15 @@ MSG_HASH(
    "디스크 꺼내기"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "디스크 꺼내기"
+   )
+MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
+   "가상 디스크 트레이가 닫혀있으면 트레이를 열고 디스크를 제거하고, 반대의 경우 현재 선택된 디스크를 넣고 트레이를 닫습니다."
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
    "가상 디스크 트레이가 닫혀있으면 트레이를 열고 디스크를 제거하고, 반대의 경우 현재 선택된 디스크를 넣고 트레이를 닫습니다."
    )
 MSG_HASH(
