@@ -212,6 +212,7 @@ enum event_command
    CMD_EVENT_RESIZE_WINDOWED_SCALE,
    /* Toggles disk eject. */
    CMD_EVENT_DISK_EJECT_TOGGLE,
+   CMD_EVENT_DISK2_EJECT_TOGGLE,
    /* Cycle to next disk. */
    CMD_EVENT_DISK_NEXT,
    /* Cycle to previous disk. */
@@ -460,6 +461,7 @@ static const struct cmd_map map[] = {
    { "VOLUME_DOWN",            RARCH_VOLUME_DOWN },
    { "OVERLAY_NEXT",           RARCH_OVERLAY_NEXT },
    { "DISK_EJECT_TOGGLE",      RARCH_DISK_EJECT_TOGGLE },
+   { "DISK2_EJECT_TOGGLE",     RARCH_DISK2_EJECT_TOGGLE },
    { "DISK_NEXT",              RARCH_DISK_NEXT },
    { "DISK_PREV",              RARCH_DISK_PREV },
    { "GRAB_MOUSE_TOGGLE",      RARCH_GRAB_MOUSE_TOGGLE },

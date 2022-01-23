@@ -29,4 +29,6 @@
 #define ID_M_TAKE_SCREENSHOT                    40025
 #define ID_M_MUTE_TOGGLE                        40026
 #define ID_M_TOGGLE_DESKTOP                     40027
+
+#define ID_M_DISK2_CYCLE                        40099
 #define IDR_ACCELERATOR1                104

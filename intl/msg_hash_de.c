@@ -128,6 +128,7 @@ int msg_hash_get_help_de_enum(enum msg_hash_enums msg, char *s, size_t len)
                   "Wechselt zum nächsten Overlay.");
             break;
          case RARCH_DISK_EJECT_TOGGLE:
+         case RARCH_DISK2_EJECT_TOGGLE:
             snprintf(s, len,
                   "Datenträger einbinden/auswerfen. \n"
                   " \n"

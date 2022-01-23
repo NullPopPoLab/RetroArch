@@ -127,6 +127,7 @@ int msg_hash_get_help_chs_enum(enum msg_hash_enums msg, char *s, size_t len)
                   "切换到下一个屏幕图层。将会循环选择。");
             break;
          case RARCH_DISK_EJECT_TOGGLE:
+         case RARCH_DISK2_EJECT_TOGGLE:
             snprintf(s, len,
                   "切换光盘弹出状态。 \n"
                   " \n"

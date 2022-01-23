@@ -147,6 +147,7 @@ int msg_hash_get_help_ko_enum(enum msg_hash_enums msg, char *s, size_t len)
                   "덮어 씌웁니다.");
              break;
           case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
              snprintf(s, len,
                   "디스크 꺼내기를 전환합니다. \n"
                   " \n"

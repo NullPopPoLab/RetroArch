@@ -4372,7 +4372,8 @@ static unsigned menu_displaylist_parse_disk_options(
 {
    unsigned count                = 0;
    rarch_system_info_t *sys_info = &runloop_state_get_ptr()->system;
-   bool disk_ejected             = false;
+   bool disk_ejected1             = false;
+   bool disk_ejected2             = false;
 
    /* Sanity Check */
    if (!sys_info)
@@ -4382,12 +4383,25 @@ static unsigned menu_displaylist_parse_disk_options(
       return count;
 
    /* Check whether disk is currently ejected */
-   disk_ejected = disk_control_get_eject_state(&sys_info->disk_control);
+	disk_ejected1=disk_control_get_eject_state(&sys_info->disk_control);
+	disk_ejected2=
+		disk_control_get_num_drives(&sys_info->disk_control)>1 &&
+		disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+
+   /* Only show disk index if disk is currently ejected */
+   if (disk_ejected1||disk_ejected2){
+      if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_INDEX),
+               msg_hash_to_str(MENU_ENUM_LABEL_DISK_INDEX),
+               MENU_ENUM_LABEL_DISK_INDEX,
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX, 0, 0))
+         count++;
+   }
 
    /* Always show a 'DISK_CYCLE_TRAY_STATUS' entry
     * > These perform the same function, but just have
     *   different labels/sublabels */
-   if (disk_ejected)
+   if (disk_ejected1)
    {
       if (menu_entries_append_enum(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_INSERT),
@@ -4396,22 +4410,32 @@ static unsigned menu_displaylist_parse_disk_options(
                MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS, 0, 0))
          count++;
    }
-   else
+   else{
       if (menu_entries_append_enum(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_EJECT),
                msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_EJECT),
                MENU_ENUM_LABEL_DISK_TRAY_EJECT,
                MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS, 0, 0))
          count++;
+   }
 
-   /* Only show disk index if disk is currently ejected */
-   if (disk_ejected)
+   if (disk_ejected2)
+   {
       if (menu_entries_append_enum(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_INDEX),
-               msg_hash_to_str(MENU_ENUM_LABEL_DISK_INDEX),
-               MENU_ENUM_LABEL_DISK_INDEX,
-               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX, 0, 0))
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_INSERT),
+               msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_INSERT),
+               MENU_ENUM_LABEL_DISK_TRAY_INSERT,
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
          count++;
+   }
+   else{
+      if (menu_entries_append_enum(list,
+               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_EJECT),
+               msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_EJECT),
+               MENU_ENUM_LABEL_DISK_TRAY_EJECT,
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
+         count++;
+   }
 
    /* If core does not support appending images,
     * can stop here */

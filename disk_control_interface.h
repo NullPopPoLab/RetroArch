@@ -36,7 +36,7 @@ RETRO_BEGIN_DECLS
  * control interface */
 typedef struct
 {
-   struct retro_disk_control_ext_callback cb; /* ptr alignment */
+   struct retro_disk_control_ext2_callback cb; /* ptr alignment */
    disk_index_file_t index_record;            /* unsigned alignment */
    unsigned initial_num_images;
    bool record_enabled;
@@ -51,10 +51,15 @@ void disk_control_set_callback(
       disk_control_interface_t *disk_control,
       const struct retro_disk_control_callback *cb);
 
-/* Set v1+ disk interface callback functions */
+/* Set v1 disk interface callback functions */
 void disk_control_set_ext_callback(
       disk_control_interface_t *disk_control,
       const struct retro_disk_control_ext_callback *cb);
+
+/* Set v2+ disk interface callback functions */
+void disk_control_set_ext2_callback(
+      disk_control_interface_t *disk_control,
+      const struct retro_disk_control_ext2_callback *cb);
 
 /**********/
 /* Status */
@@ -98,6 +103,15 @@ bool disk_control_initial_image_enabled(
 bool disk_control_get_eject_state(
       disk_control_interface_t *disk_control);
 
+/* Returns true if disk is currently ejected */
+bool disk_control_get_drive_eject_state(
+      disk_control_interface_t *disk_control, unsigned drive);
+
+/* Returns number of disk drives registered
+ * by the core */
+unsigned disk_control_get_num_drives(
+      disk_control_interface_t *disk_control);
+
 /* Returns number of disk images registered
  * by the core */
 unsigned disk_control_get_num_images(
@@ -122,6 +136,11 @@ void disk_control_get_image_label(
 bool disk_control_set_eject_state(
       disk_control_interface_t *disk_control,
       bool eject, bool verbosity);
+
+/* Sets the eject state of the virtual disk tray */
+bool disk_control_set_drive_eject_state(
+      disk_control_interface_t *disk_control,
+      unsigned drive, bool eject, bool verbosity);
 
 /* Sets currently selected disk index
  * NOTE: Will fail if disk is not currently ejected */
