@@ -6978,13 +6978,13 @@ static int action_ok_disk_cycle_tray_status(const char *path,
     * was successful */
    disk_ejected = !disk_ejected;
 
-#if 0
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
    if (disk_ejected)
-      menu_navigation_set_selection(1);
+      menu_navigation_set_selection(0);
 
+#if 0
    /* If disk is now inserted and user has enabled
     * 'menu_insert_disk_resume', resume running content */
    if (!disk_ejected && menu_insert_disk_resume)
@@ -7033,13 +7033,13 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
     * was successful */
    disk_ejected = !disk_ejected;
 
-#if 0
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
    if (disk_ejected)
-      menu_navigation_set_selection(1);
+      menu_navigation_set_selection(0);
 
+#if 0
    /* If disk is now inserted and user has enabled
     * 'menu_insert_disk_resume', resume running content */
    if (!disk_ejected && menu_insert_disk_resume)
@@ -7092,13 +7092,13 @@ static int action_ok_disk_image_append(const char *path,
    /* In all cases, return to the disk options menu */
    menu_entries_flush_stack(msg_hash_to_str(MENU_ENUM_LABEL_DISK_OPTIONS), 0);
 
-#if 0
    /* > If disk tray is open, reset menu selection to
     *   the 'insert disk' option
     * > If disk try is closed and user has enabled
     *   'menu_insert_disk_resume', resume running content */
    if (sys_info && disk_control_get_eject_state(&sys_info->disk_control))
       menu_navigation_set_selection(0);
+#if 0
    else if (menu_insert_disk_resume)
       generic_action_ok_command(CMD_EVENT_RESUME);
 #endif
