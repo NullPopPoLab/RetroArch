@@ -6942,7 +6942,8 @@ static int action_ok_input_description_kbd_dropdown_box_list(
 static int action_ok_disk_cycle_tray_status(const char *path,
       const char *label, unsigned type, size_t idx, size_t entry_idx)
 {
-   bool disk_ejected              = false;
+   bool disk_ejected1             = false;
+   bool disk_ejected2             = false;
    bool print_log                 = false;
    rarch_system_info_t *sys_info  = &runloop_state_get_ptr()->system;
    settings_t *settings           = config_get_ptr();
@@ -6961,33 +6962,36 @@ static int action_ok_disk_cycle_tray_status(const char *path,
 #endif
 
    /* Get disk eject state *before* toggling drive status */
-   if (sys_info)
-      disk_ejected = disk_control_get_eject_state(&sys_info->disk_control);
+	if (sys_info){
+		disk_ejected1 = disk_control_get_drive_eject_state(&sys_info->disk_control,0);
+		disk_ejected2 = disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+	}
 
    /* Only want to display a notification if we are
     * going to resume content immediately after
     * inserting a disk (i.e. if quick menu remains
     * open, there is sufficient visual feedback
     * without a notification) */
-   print_log = menu_insert_disk_resume && disk_ejected;
+   print_log = menu_insert_disk_resume && disk_ejected1;
 
    if (!command_event(CMD_EVENT_DISK_EJECT_TOGGLE, &print_log))
       return menu_cbs_exit();
 
    /* If we reach this point, then tray toggle
     * was successful */
-   disk_ejected = !disk_ejected;
+   disk_ejected1 = !disk_ejected1;
 
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
-   if (disk_ejected)
+   if (disk_ejected1)
       menu_navigation_set_selection(0);
+   else menu_navigation_set_selection(disk_ejected2?1:0);
 
 #if 0
    /* If disk is now inserted and user has enabled
     * 'menu_insert_disk_resume', resume running content */
-   if (!disk_ejected && menu_insert_disk_resume)
+   if (!disk_ejected1 && menu_insert_disk_resume)
       generic_action_ok_command(CMD_EVENT_RESUME);
 #endif
 
@@ -6997,7 +7001,8 @@ static int action_ok_disk_cycle_tray_status(const char *path,
 static int action_ok_disk2_cycle_tray_status(const char *path,
       const char *label, unsigned type, size_t idx, size_t entry_idx)
 {
-   bool disk_ejected              = false;
+   bool disk_ejected1             = false;
+   bool disk_ejected2             = false;
    bool print_log                 = false;
    rarch_system_info_t *sys_info  = &runloop_state_get_ptr()->system;
    settings_t *settings           = config_get_ptr();
@@ -7016,33 +7021,36 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
 #endif
 
    /* Get disk eject state *before* toggling drive status */
-   if (sys_info)
-      disk_ejected = disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+	if (sys_info){
+		disk_ejected1 = disk_control_get_drive_eject_state(&sys_info->disk_control,0);
+		disk_ejected2 = disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+	}
 
    /* Only want to display a notification if we are
     * going to resume content immediately after
     * inserting a disk (i.e. if quick menu remains
     * open, there is sufficient visual feedback
     * without a notification) */
-   print_log = menu_insert_disk_resume && disk_ejected;
+   print_log = menu_insert_disk_resume && disk_ejected2;
 
    if (!command_event(CMD_EVENT_DISK2_EJECT_TOGGLE, &print_log))
       return menu_cbs_exit();
 
    /* If we reach this point, then tray toggle
     * was successful */
-   disk_ejected = !disk_ejected;
+   disk_ejected2 = !disk_ejected2;
 
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
-   if (disk_ejected)
+   if (disk_ejected2)
       menu_navigation_set_selection(0);
+   else menu_navigation_set_selection(disk_ejected1?2:1);
 
 #if 0
    /* If disk is now inserted and user has enabled
     * 'menu_insert_disk_resume', resume running content */
-   if (!disk_ejected && menu_insert_disk_resume)
+   if (!disk_ejected2 && menu_insert_disk_resume)
       generic_action_ok_command(CMD_EVENT_RESUME);
 #endif
 
