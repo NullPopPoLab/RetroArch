@@ -2944,6 +2944,18 @@ static int menu_displaylist_parse_load_content_settings(
             count++;
       }
 
+      if (settings->bools.quick_menu_show_options && !settings->bools.kiosk_mode_enable)
+      {
+         /* Empty 'path' string signifies top level
+          * core options menu */
+         if (menu_entries_append_enum(list,
+               "",
+               msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTIONS),
+               MENU_ENUM_LABEL_CORE_OPTIONS,
+               MENU_SETTING_ACTION_CORE_OPTIONS, 0, 0))
+            count++;
+      }
+
       if (settings->bools.quick_menu_show_controls && !settings->bools.kiosk_mode_enable)
       {
          if (menu_entries_append_enum(list,
@@ -3040,18 +3052,6 @@ static int menu_displaylist_parse_load_content_settings(
                   count++;
             }
          }
-      }
-
-      if (settings->bools.quick_menu_show_options && !settings->bools.kiosk_mode_enable)
-      {
-         /* Empty 'path' string signifies top level
-          * core options menu */
-         if (menu_entries_append_enum(list,
-               "",
-               msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTIONS),
-               MENU_ENUM_LABEL_CORE_OPTIONS,
-               MENU_SETTING_ACTION_CORE_OPTIONS, 0, 0))
-            count++;
       }
 
       if (settings->bools.menu_show_overlays && !settings->bools.kiosk_mode_enable)
