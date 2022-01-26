@@ -2895,6 +2895,18 @@ static int menu_displaylist_parse_load_content_settings(
       }
 #endif
 
+      if (settings->bools.quick_menu_show_options && !settings->bools.kiosk_mode_enable)
+      {
+         /* Empty 'path' string signifies top level
+          * core options menu */
+         if (menu_entries_append_enum(list,
+               "",
+               msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTIONS),
+               MENU_ENUM_LABEL_CORE_OPTIONS,
+               MENU_SETTING_ACTION_CORE_OPTIONS, 0, 0))
+            count++;
+      }
+
       if (settings->bools.quick_menu_show_save_load_state)
       {
          if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(list,
@@ -3040,18 +3052,6 @@ static int menu_displaylist_parse_load_content_settings(
                   count++;
             }
          }
-      }
-
-      if (settings->bools.quick_menu_show_options && !settings->bools.kiosk_mode_enable)
-      {
-         /* Empty 'path' string signifies top level
-          * core options menu */
-         if (menu_entries_append_enum(list,
-               "",
-               msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTIONS),
-               MENU_ENUM_LABEL_CORE_OPTIONS,
-               MENU_SETTING_ACTION_CORE_OPTIONS, 0, 0))
-            count++;
       }
 
       if (settings->bools.menu_show_overlays && !settings->bools.kiosk_mode_enable)
@@ -11590,14 +11590,6 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
                bool is_category                = !string_is_empty(category);
                core_option_manager_t *coreopts = NULL;
 
-               if (game_specific_options && !is_category)
-                  if (menu_entries_append_enum(info->list,
-                        msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_OPTION_OVERRIDE_LIST),
-                        msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTION_OVERRIDE_LIST),
-                        MENU_ENUM_LABEL_CORE_OPTION_OVERRIDE_LIST,
-                        MENU_SETTING_ACTION_CORE_OPTION_OVERRIDE_LIST, 0, 0))
-                     count++;
-
                if (retroarch_ctl(RARCH_CTL_CORE_OPTIONS_LIST_GET, &coreopts))
                {
                   nested_list_item_t *category_item = NULL;
@@ -11668,6 +11660,15 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
                      }
                   }
                }
+
+               if (game_specific_options && !is_category)
+                  if (menu_entries_append_enum(info->list,
+                        msg_hash_to_str(MENU_ENUM_LABEL_VALUE_CORE_OPTION_OVERRIDE_LIST),
+                        msg_hash_to_str(MENU_ENUM_LABEL_CORE_OPTION_OVERRIDE_LIST),
+                        MENU_ENUM_LABEL_CORE_OPTION_OVERRIDE_LIST,
+                        MENU_SETTING_ACTION_CORE_OPTION_OVERRIDE_LIST, 0, 0))
+                     count++;
+
             }
 
             if (count == 0)
