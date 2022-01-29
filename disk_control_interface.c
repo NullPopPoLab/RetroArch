@@ -500,7 +500,7 @@ bool disk_control_set_index_next(
    /* Would seem more sensible to check (num_images > 1)
     * here, but seems we need to be able to cycle the
     * same image for legacy reasons... */
-   disk_next_enable = (num_images > 0) && (num_images != UINT_MAX);
+   disk_next_enable = (num_images > 1) && (num_images != UINT_MAX);
 
    if (!disk_next_enable)
    {
@@ -508,8 +508,7 @@ bool disk_control_set_index_next(
       return false;
    }
 
-   if (image_index < (num_images - 1))
-      image_index++;
+   image_index=(image_index+1)%num_images;
 
    return disk_control_set_index(disk_control, image_index, verbosity);
 }
@@ -535,7 +534,7 @@ bool disk_control_set_index_prev(
    /* Would seem more sensible to check (num_images > 1)
     * here, but seems we need to be able to cycle the
     * same image for legacy reasons... */
-   disk_prev_enable = (num_images > 0);
+   disk_prev_enable = (num_images > 1);
 
    if (!disk_prev_enable)
    {
@@ -543,8 +542,7 @@ bool disk_control_set_index_prev(
       return false;
    }
 
-   if (image_index > 0)
-      image_index--;
+   image_index=(image_index+num_images-1)%num_images;
 
    return disk_control_set_index(disk_control, image_index, verbosity);
 }
