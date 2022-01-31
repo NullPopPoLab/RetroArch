@@ -1006,11 +1006,11 @@ static const bool audio_enable_menu_bgm    = false;
 #define DEFAULT_NOTIFICATION_SHOW_SCREENSHOT true
 
 /*Desired duration of the screenshot notification*/
-#define DEFAULT_NOTIFICATION_SHOW_SCREENSHOT_DURATION 0
+#define DEFAULT_NOTIFICATION_SHOW_SCREENSHOT_DURATION 2
 
 /* Display a white flashing effect with the desired 
  * duration when taking a screenshot*/
-#define DEFAULT_NOTIFICATION_SHOW_SCREENSHOT_FLASH 0
+#define DEFAULT_NOTIFICATION_SHOW_SCREENSHOT_FLASH 1
 #endif
 
 /* Display a notification when setting the refresh rate*/
