@@ -226,7 +226,36 @@ struct key_desc key_descriptors[RARCH_MAX_KEYS] =
    {RETROK_POWER,         "Power"},
    {RETROK_EURO,          {-30, -126, -84, 0}}, /* "�" */
    {RETROK_UNDO,          "Undo"},
-   {RETROK_OEM_102,       "OEM-102"}
+   {RETROK_OEM_102,       "OEM-102"},
+
+   {RETROK_CANCEL      ,  "Cancel"},
+   {RETROK_EXEC        ,  "Exec"},
+   {RETROK_CODE        ,  "Code"},
+   {RETROK_CONVERT     ,  "Convert"},
+   {RETROK_PC          ,  "PC"},
+   {RETROK_KANA        ,  "Kana"},
+   {RETROK_KP_COMMA    ,  "Numpad Comma"},
+   {RETROK_ROMAN       ,  "Roman"},
+   {RETROK_COPY        ,  "Copy"},
+   {RETROK_HIRAGANA    ,  "Hiragana"},
+   {RETROK_ZENKAKU     ,  "Zenkaku"},
+   {RETROK_JOYPAD_UP   ,  "Joypad Up"},
+   {RETROK_JOYPAD_DOWN ,  "Joypad Down"},
+   {RETROK_JOYPAD_LEFT ,  "Joypad Left"},
+   {RETROK_JOYPAD_RIGHT,  "Joypad Right"},
+   {RETROK_JOYPAD_1    ,  "Joypad Button 1"},
+   {RETROK_JOYPAD_2    ,  "Joypad Button 2"},
+   {RETROK_JOYPAD_3    ,  "Joypad Button 3"},
+   {RETROK_JOYPAD_4    ,  "Joypad Button 4"},
+   {RETROK_JOYPAD_5    ,  "Joypad Button 5"},
+   {RETROK_JOYPAD_6    ,  "Joypad Button 6"},
+   {RETROK_JOYPAD_7    ,  "Joypad Button 7"},
+   {RETROK_JOYPAD_8    ,  "Joypad Button 8"},
+   {RETROK_MOUSE_1     ,  "Mouse Button 1"},
+   {RETROK_MOUSE_2     ,  "Mouse Button 2"},
+   {RETROK_MOUSE_3     ,  "Mouse Button 3"},
+   {RETROK_MOUSE_4     ,  "Mouse Button 4"},
+   {RETROK_MOUSE_5     ,  "Mouse Button 5"},
 };
 
 static void *null_menu_init(void **userdata, bool video_is_threaded)
