@@ -271,6 +271,7 @@ void disk_control_get_image_label(
    if (!disk_control->cb.get_image_label(index, label, len))
       goto error;
 
+	label[len-1]=0;
    return;
 
 error:

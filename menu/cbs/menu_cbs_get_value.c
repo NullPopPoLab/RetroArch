@@ -1030,8 +1030,12 @@ static void menu_action_setting_disp_set_label_menu_disk_index(
 
    if (current >= images)
       strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
-   else
-      snprintf(s, len, "%u", current + 1);
+   else{
+		char buf[256];
+		disk_control_get_image_label(&system->disk_control,current,buf,sizeof(buf));
+		if(buf[0])snprintf(s, len, "%s (%u/%u)",buf, current + 1, images);
+		else snprintf(s, len, "(%u/%u)", current + 1, images);
+	}
 }
 
 static void menu_action_setting_disp_set_label_menu_video_resolution(
