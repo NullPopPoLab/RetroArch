@@ -1057,7 +1057,7 @@ static void menu_action_setting_disp_set_label_menu_inserted_disk_index(
    *w = 19;
    strlcpy(s2, path, len2);
 
-	if(disk_control_get_drive_eject_state(&sys_info->disk_control,0)){
+	if(disk_control_get_drive_eject_state(&system->disk_control,0)){
 		strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
 	}
 	else{
@@ -1097,7 +1097,7 @@ static void menu_action_setting_disp_set_label_menu_inserted_disk2_index(
    *w = 19;
    strlcpy(s2, path, len2);
 
-	if(disk_control_get_drive_eject_state(&sys_info->disk_control,1)){
+	if(disk_control_get_drive_eject_state(&system->disk_control,1)){
 		strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
 	}
 	else{
