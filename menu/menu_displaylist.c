@@ -4374,6 +4374,7 @@ static unsigned menu_displaylist_parse_disk_options(
    rarch_system_info_t *sys_info = &runloop_state_get_ptr()->system;
    bool disk_ejected1             = false;
    bool disk_ejected2             = false;
+   int drives;
 
    /* Sanity Check */
    if (!sys_info)
@@ -4382,11 +4383,11 @@ static unsigned menu_displaylist_parse_disk_options(
    if (!disk_control_enabled(&sys_info->disk_control))
       return count;
 
+	drives=disk_control_get_num_drives(&sys_info->disk_control);
+
    /* Check whether disk is currently ejected */
 	disk_ejected1=disk_control_get_eject_state(&sys_info->disk_control);
-	disk_ejected2=
-		disk_control_get_num_drives(&sys_info->disk_control)>1 &&
-		disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+	disk_ejected2=drives>1 && disk_control_get_drive_eject_state(&sys_info->disk_control,1);
 
    /* Only show disk index if disk is currently ejected */
    if (disk_ejected1||disk_ejected2){
@@ -4419,7 +4420,8 @@ static unsigned menu_displaylist_parse_disk_options(
          count++;
    }
 
-   if (disk_ejected2)
+	if(drives<2);
+   else if (disk_ejected2)
    {
       if (menu_entries_append_enum(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_INSERT),
