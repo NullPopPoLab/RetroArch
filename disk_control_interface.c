@@ -126,6 +126,7 @@ void disk_control_set_ext2_callback(
    disk_control->cb.get_num_drives     = cb->get_num_drives;
    disk_control->cb.set_drive_eject_state = cb->set_drive_eject_state;
    disk_control->cb.get_drive_eject_state = cb->get_drive_eject_state;
+   disk_control->cb.get_drive_image_index = cb->get_drive_image_index;
 }
 
 /**********/
@@ -270,10 +271,24 @@ void disk_control_get_image_label(
    if (!disk_control->cb.get_image_label(index, label, len))
       goto error;
 
+	label[len-1]=0;
    return;
 
 error:
    label[0] = '\0';
+}
+
+/* Returns drive inserted disk index.
+	-1: not inserted
+	-2: unknown(not impremented)
+*/
+int disk_control_get_drive_image_index(
+      disk_control_interface_t *disk_control, unsigned drive)
+{
+   if (!disk_control) return -1;
+   if (!disk_control->cb.get_drive_image_index) return -2;
+
+   return disk_control->cb.get_drive_image_index(drive);
 }
 
 /***********/

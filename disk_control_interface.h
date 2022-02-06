@@ -128,6 +128,13 @@ void disk_control_get_image_label(
       disk_control_interface_t *disk_control,
       unsigned index, char *label, size_t len);
 
+/* Returns drive inserted disk index.
+	-1: not inserted
+	-2: unknown(not impremented)
+*/
+int disk_control_get_drive_image_index(
+      disk_control_interface_t *disk_control, unsigned drive);
+
 /***********/
 /* Setters */
 /***********/
