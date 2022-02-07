@@ -1062,12 +1062,13 @@ static void menu_action_setting_disp_set_label_menu_inserted_disk_index(
 	}
 	else{
 		unsigned images = disk_control_get_num_images(&system->disk_control);
-		unsigned current = disk_control_get_drive_image_index(&system->disk_control,0);
+		int current = disk_control_get_drive_image_index(&system->disk_control,0);
 
-		if (current >= images)
-	      strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
-		else if (current<0){
-			snprintf(s, len, "(%u/%u)", current + 1, images);
+		if (current==-2){
+			s[0]=0;
+		}
+		else if(current<0 || current >= images){
+			strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
 		}
 		else{
 			char buf[256];
@@ -1102,12 +1103,13 @@ static void menu_action_setting_disp_set_label_menu_inserted_disk2_index(
 	}
 	else{
 		unsigned images = disk_control_get_num_images(&system->disk_control);
-		unsigned current = disk_control_get_drive_image_index(&system->disk_control,1);
+		int current = disk_control_get_drive_image_index(&system->disk_control,1);
 
-		if (current >= images)
-	      strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
-		else if (current<0){
-			snprintf(s, len, "(%u/%u)", current + 1, images);
+		if (current==-2){
+			s[0]=0;
+		}
+		else if(current<0 || current >= images){
+			strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
 		}
 		else{
 			char buf[256];
