@@ -245,6 +245,8 @@ size_t fill_dated_filename(char *out_filename,
  **/
 void fill_str_dated_filename(char *out_filename,
       const char *in_str, const char *ext, size_t size);
+void fill_str_filenamed_date(char *out_filename,
+      const char *in_str, const char *ext, size_t size);
 
 /**
  * fill_pathname_noext:

@@ -307,7 +307,7 @@ static bool screenshot_dump(
             else
                screenshot_name = path_basename(name_base);
 
-            fill_str_dated_filename(state->shotname, screenshot_name,
+            fill_str_filenamed_date(state->shotname, screenshot_name,
                   IMG_EXT, sizeof(state->shotname));
          }
          else

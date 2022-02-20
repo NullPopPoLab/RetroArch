@@ -503,6 +503,27 @@ void fill_str_dated_filename(char *out_filename,
    }
 }
 
+void fill_str_filenamed_date(char *out_filename,
+      const char *in_str, const char *ext, size_t size)
+{
+   char format[256];
+   struct tm tm_;
+   time_t cur_time = time(NULL);
+
+   format[0]       = '\0';
+
+   rtime_localtime(&cur_time, &tm_);
+
+   strftime(format, sizeof(format), "%y%m%d-%H%M%S-", &tm_);
+   fill_pathname_noext(out_filename, format, in_str, size);
+
+   if (!string_is_empty(ext))
+   {
+		strncat(out_filename,".",size);
+		strncat(out_filename,ext,size);
+   }
+}
+
 /**
  * path_basedir:
  * @path               : path
