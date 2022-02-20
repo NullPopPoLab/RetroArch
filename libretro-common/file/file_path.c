@@ -515,12 +515,14 @@ void fill_str_filenamed_date(char *out_filename,
    rtime_localtime(&cur_time, &tm_);
 
    strftime(format, sizeof(format), "%y%m%d-%H%M%S-", &tm_);
-   fill_pathname_noext(out_filename, format, in_str, size);
 
-   if (!string_is_empty(ext))
+   if (string_is_empty(ext))
    {
-		strncat(out_filename,".",size);
-		strncat(out_filename,ext,size);
+		snprintf(out_filename,size,"%s-%s",format,in_str);
+   }
+   else
+   {
+		snprintf(out_filename,size,"%s-%s.%s",format,in_str,ext);
    }
 }
 
