@@ -514,7 +514,7 @@ void fill_str_filenamed_date(char *out_filename,
 
    rtime_localtime(&cur_time, &tm_);
 
-   strftime(format, sizeof(format), "%y%m%d-%H%M%S-", &tm_);
+   strftime(format, sizeof(format), "%y%m%d-%H%M%S", &tm_);
 
    if (string_is_empty(ext))
    {
