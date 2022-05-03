@@ -3393,6 +3393,8 @@ static int generic_action_ok_remap_file_operation(const char *path,
             core_name,
             sizeof(directory));
 
+   if (!path_is_directory(directory)) path_mkdir(directory);
+
    switch (action_type)
    {
       case ACTION_OK_REMAP_FILE_SAVE_CORE:
@@ -3409,6 +3411,9 @@ static int generic_action_ok_remap_file_operation(const char *path,
 				char game_specific_name[PATH_MAX_LENGTH];
 				fill_pathname_join(game_specific_name, content_dir, path_get(RARCH_PATH_BASENAME),sizeof(game_specific_name));
 	            fill_pathname_join(file, core_name, game_specific_name, sizeof(file));
+
+				fill_pathname_join(directory,directory,path_get(RARCH_PATH_BASENAME),sizeof(directory));
+				if (!path_is_directory(directory)) path_mkdir(directory);
 			}
 			else{
 	            fill_pathname_join(file, core_name,
@@ -3426,9 +3431,6 @@ static int generic_action_ok_remap_file_operation(const char *path,
          }
          break;
    }
-
-   if (!path_is_directory(directory))
-       path_mkdir(directory);
 
    if (action_type < ACTION_OK_REMAP_FILE_REMOVE_CORE)
    {
