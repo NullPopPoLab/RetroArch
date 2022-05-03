@@ -886,6 +886,8 @@ size_t fill_pathname_join(char *out_path,
    if (out_path != dir)
       strlcpy(out_path, dir, size);
 
+   if(!path)return;
+
    if (*out_path)
       fill_pathname_slash(out_path, size);
 

@@ -3386,26 +3386,20 @@ static int generic_action_ok_remap_file_operation(const char *path,
 
    directory[0] = file[0]          = '\0';
 
-   if (!string_is_empty(core_name))
-      fill_pathname_join(
-            directory,
-            path_dir_input_remapping,
-            core_name,
-            sizeof(directory));
-
-   if (!path_is_directory(directory)) path_mkdir(directory);
-
    switch (action_type)
    {
       case ACTION_OK_REMAP_FILE_SAVE_CORE:
       case ACTION_OK_REMAP_FILE_REMOVE_CORE:
          if (!string_is_empty(core_name))
-            fill_pathname_join(file, core_name, core_name, sizeof(file));
+            fill_pathname_join(file, core_name, null, sizeof(file));
          break;
       case ACTION_OK_REMAP_FILE_SAVE_GAME:
       case ACTION_OK_REMAP_FILE_REMOVE_GAME:
          if (!string_is_empty(core_name))
 		{
+			fill_pathname_join(directory,path_dir_input_remapping,core_name,sizeof(directory));
+			if (!path_is_directory(directory)) path_mkdir(directory);
+
             fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
 			if(content_dir[0]){
 				char game_specific_name[PATH_MAX_LENGTH];
@@ -3425,6 +3419,9 @@ static int generic_action_ok_remap_file_operation(const char *path,
       case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
          if (!string_is_empty(core_name))
          {
+			fill_pathname_join(directory,path_dir_input_remapping,core_name,sizeof(directory));
+			if (!path_is_directory(directory)) path_mkdir(directory);
+
             fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
             fill_pathname_join(file, core_name,
                   content_dir, sizeof(file));
