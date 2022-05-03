@@ -4031,7 +4031,7 @@ bool config_load_remap(const char *directory_input_remapping,
          sizeof(content_path));
 
 	if(content_dir_name[0]){
-		fill_pathname_join(game_specific_name, content_dir_name, game_name);
+		fill_pathname_join(game_specific_name, content_dir_name, game_name, sizeof(game_specific_name));
 		fill_pathname_join_special_ext(game_path,
 		     remap_directory, core_name,
 		     game_specific_name,
