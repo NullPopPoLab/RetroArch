@@ -3987,6 +3987,7 @@ bool config_load_remap(const char *directory_input_remapping,
    char core_path[PATH_MAX_LENGTH];
    /* final path for game-specific configuration (prefix+suffix) */
    char game_path[PATH_MAX_LENGTH];
+   char game_specific_name[PATH_MAX_LENGTH];
    /* final path for content-dir-specific configuration (prefix+suffix) */
    char content_path[PATH_MAX_LENGTH];
    config_file_t *new_conf                = NULL;
@@ -4010,7 +4011,7 @@ bool config_load_remap(const char *directory_input_remapping,
       fill_pathname_parent_dir_name(content_dir_name,
             rarch_path_basename, sizeof(content_dir_name));
 
-   remap_directory[0] = core_path[0] = game_path[0] = '\0';
+   remap_directory[0] = core_path[0] = game_path[0] = game_specific_name[0] = '\0';
 
    strlcpy(remap_directory,
          directory_input_remapping, sizeof(remap_directory));
@@ -4029,11 +4030,21 @@ bool config_load_remap(const char *directory_input_remapping,
          FILE_PATH_REMAP_EXTENSION,
          sizeof(content_path));
 
-   fill_pathname_join_special_ext(game_path,
-         remap_directory, core_name,
-         game_name,
-         FILE_PATH_REMAP_EXTENSION,
-         sizeof(game_path));
+	if(content_dir_name[0]){
+		fill_pathname_join(game_specific_name, content_dir_name, game_name);
+		fill_pathname_join_special_ext(game_path,
+		     remap_directory, core_name,
+		     game_specific_name,
+		     FILE_PATH_REMAP_EXTENSION,
+		     sizeof(game_path));
+	}
+	else{
+	   fill_pathname_join_special_ext(game_path,
+	         remap_directory, core_name,
+	         game_name,
+	         FILE_PATH_REMAP_EXTENSION,
+	         sizeof(game_path));
+	}
 
    input_remapping_set_defaults(false);
 
