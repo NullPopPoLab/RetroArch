@@ -4019,7 +4019,7 @@ bool config_load_remap(const char *directory_input_remapping,
 
    /* Concatenate strings into full paths for core_path, game_path */
    fill_pathname_join_special_ext(core_path,
-         remap_directory, core_name,
+         remap_directory, null,
          core_name,
          FILE_PATH_REMAP_EXTENSION,
          sizeof(core_path));
