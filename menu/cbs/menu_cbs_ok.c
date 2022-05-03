@@ -3408,8 +3408,7 @@ static int generic_action_ok_remap_file_operation(const char *path,
 			if(content_dir[0]){
 				char game_specific_name[PATH_MAX_LENGTH];
 				fill_pathname_join(game_specific_name, content_dir, path_get(RARCH_PATH_BASENAME)));
-	            fill_pathname_join(file, core_name,
-	                  path_basename(game_specific_name, sizeof(file));
+	            fill_pathname_join(file, core_name, game_specific_name, sizeof(file));
 			}
 			else{
 	            fill_pathname_join(file, core_name,
