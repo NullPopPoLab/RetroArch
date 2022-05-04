@@ -1077,7 +1077,7 @@ static bool validate_per_core_options(char *s,
 
    fill_pathname_join_special_ext(s,
          config_directory, core_name, game_name,
-         ".opt", len);
+         FILE_PATH_OPT_EXTENSION, len);
 
    /* No need to make a directory if file already exists... */
    if (mkdir && !path_is_valid(s))
@@ -1101,8 +1101,34 @@ static bool validate_game_options(
       char *s, size_t len, bool mkdir)
 {
    const char *game_name = path_basename(path_get(RARCH_PATH_BASENAME));
+	char config_directory[PATH_MAX_LENGTH];
+	char content_dir[PATH_MAX_LENGTH];
+	fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
+
+	if(mkdir){
+		fill_pathname_application_special(config_directory,
+			sizeof(config_directory), APPLICATION_SPECIAL_DIRECTORY_CONFIG);
+		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
+		fill_pathname_join(config_directory,config_directory,core_name,sizeof(config_directory));
+		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
+	}
+	if(content_dir[0]){
+		char subdir[PATH_MAX_LENGTH];
+		fill_pathname_join(subdir,path_basename(content_dir),NULL,sizeof(subdir));
+
+		if(mkdir){
+			fill_pathname_join(config_directory,config_directory,subdir,sizeof(config_directory));
+			if (!path_is_directory(config_directory)) path_mkdir(config_directory);
+		}
+
+		fill_pathname_join(subdir,subdir,game_name,sizeof(subdir));
+	   return validate_per_core_options(s, len, mkdir,
+	         core_name, subdir);
+	}
+	else{
    return validate_per_core_options(s, len, mkdir,
          core_name, game_name);
+	}
 }
 
 /**
