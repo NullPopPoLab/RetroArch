@@ -3384,28 +3384,20 @@ static int generic_action_ok_remap_file_operation(const char *path,
 
    file[0]          = '\0';
 
+	if (!string_is_empty(core_name)){
+       fill_pathname_join(file, core_name, NULL, sizeof(file));
    switch (action_type)
    {
       case ACTION_OK_REMAP_FILE_SAVE_CORE:
       case ACTION_OK_REMAP_FILE_REMOVE_CORE:
-         if (!string_is_empty(core_name))
-            fill_pathname_join(file, core_name, NULL, sizeof(file));
          break;
       case ACTION_OK_REMAP_FILE_SAVE_GAME:
       case ACTION_OK_REMAP_FILE_REMOVE_GAME:
-         if (!string_is_empty(core_name))
-		{
-			fill_pathname_join(file,path_dir_input_remapping,core_name,sizeof(file));
 			fill_pathname_specific_game_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
-		}
          break;
       case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
       case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
-         if (!string_is_empty(core_name))
-         {
-			fill_pathname_join(file,path_dir_input_remapping,core_name,sizeof(file));
 			fill_pathname_specific_folder_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
-         }
          break;
    }
 
