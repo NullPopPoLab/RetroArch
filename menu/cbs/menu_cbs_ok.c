@@ -3376,15 +3376,13 @@ static int generic_action_ok_remap_file_operation(const char *path,
       unsigned action_type)
 {
 #ifdef HAVE_CONFIGFILE
-   char directory[PATH_MAX_LENGTH];
    char file[PATH_MAX_LENGTH];
-   char content_dir[PATH_MAX_LENGTH];
    struct retro_system_info *system     = &runloop_state_get_ptr()->system.info;
    const char *core_name                = system ? system->library_name : NULL;
    settings_t *settings                 = config_get_ptr();
    const char *path_dir_input_remapping = settings->paths.directory_input_remapping;
 
-   directory[0] = file[0]          = '\0';
+   file[0]          = '\0';
 
    switch (action_type)
    {
@@ -3397,32 +3395,16 @@ static int generic_action_ok_remap_file_operation(const char *path,
       case ACTION_OK_REMAP_FILE_REMOVE_GAME:
          if (!string_is_empty(core_name))
 		{
-			fill_pathname_join(directory,path_dir_input_remapping,core_name,sizeof(directory));
-			if (!path_is_directory(directory)) path_mkdir(directory);
-
-            fill_pathname_join(file, core_name, NULL, sizeof(file));
-
-            fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
-			if(content_dir[0]){
-				fill_pathname_join(directory,directory,path_basename(content_dir),sizeof(directory));
-				if (!path_is_directory(directory)) path_mkdir(directory);
-
-	            fill_pathname_join(file, file, path_basename(content_dir), sizeof(file));
-			}
-            fill_pathname_join(file, file,
-                  path_basename(path_get(RARCH_PATH_BASENAME)), sizeof(file));
+			fill_pathname_join(file,path_dir_input_remapping,core_name,sizeof(file));
+			fill_pathname_specific_game_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
 		}
          break;
       case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
       case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
          if (!string_is_empty(core_name))
          {
-			fill_pathname_join(directory,path_dir_input_remapping,core_name,sizeof(directory));
-			if (!path_is_directory(directory)) path_mkdir(directory);
-
-            fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
-            fill_pathname_join(file, core_name,
-                  content_dir, sizeof(file));
+			fill_pathname_join(file,path_dir_input_remapping,core_name,sizeof(file));
+			fill_pathname_specific_folder_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
          }
          break;
    }
