@@ -421,6 +421,34 @@ bool fill_pathname_parent_dir_name(char *out_dir,
    return success;
 }
 
+bool fill_pathname_specific_folder_name(char *out_dir,
+      const char *in_dir, const char *gamepath, size_t size, bool mkdir)
+{
+	char content_dir[PATH_MAX_LENGTH];
+	fill_pathname_parent_dir_name(content_dir, gamepath, sizeof(content_dir));
+
+	if(!out_dir || size<1)return false;
+
+	if(!in_dir)out_dir[0]=0;
+	else if(out_dir!=in_dir)fill_pathname_join(out_dir, in_dir, NULL, size);
+	if(mkdir && out_dir[0])if(!path_mkdir(out_dir))return false;
+
+	if(content_dir[0]){
+		fill_pathname_join(out_dir, out_dir, content_dir, size);
+		if(mkdir)if(!path_mkdir(out_dir))return false;
+	}
+	return true;
+}
+
+bool fill_pathname_specific_game_name(char *out_dir,
+      const char *in_dir, const char *gamepath, size_t size, bool mkdir)
+{
+	if(!fill_pathname_specific_folder_name(out_dir,in_dir,gamepath,size,mkdir))return false;
+
+	fill_pathname_join(out_dir, out_dir, gamepath, size);
+	return true;
+}
+
 /**
  * fill_pathname_parent_dir:
  * @out_dir            : output directory
@@ -863,7 +891,7 @@ size_t fill_pathname_join(char *out_path,
    if (out_path != dir)
       strlcpy(out_path, dir, size);
 
-   if(!path)return;
+   if(!path)return 0;
 
    if (*out_path)
       fill_pathname_slash(out_path, size);

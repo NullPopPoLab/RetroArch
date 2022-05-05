@@ -1102,8 +1102,7 @@ static bool validate_game_options(
 {
    const char *game_name = path_basename(path_get(RARCH_PATH_BASENAME));
 	char config_directory[PATH_MAX_LENGTH];
-	char content_dir[PATH_MAX_LENGTH];
-	fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
+	char subdir[PATH_MAX_LENGTH];
 
 	if(mkdir){
 		fill_pathname_application_special(config_directory,
@@ -1111,24 +1110,12 @@ static bool validate_game_options(
 		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
 		fill_pathname_join(config_directory,config_directory,core_name,sizeof(config_directory));
 		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
+		fill_pathname_specific_folder_name(config_directory,config_directory,s,sizeof(config_directory),true);
 	}
-	if(content_dir[0]){
-		char subdir[PATH_MAX_LENGTH];
-		fill_pathname_join(subdir,path_basename(content_dir),NULL,sizeof(subdir));
 
-		if(mkdir){
-			fill_pathname_join(config_directory,config_directory,subdir,sizeof(config_directory));
-			if (!path_is_directory(config_directory)) path_mkdir(config_directory);
-		}
-
-		fill_pathname_join(subdir,subdir,game_name,sizeof(subdir));
+	fill_pathname_specific_game_name(subdir,null,s,len,false);
 	   return validate_per_core_options(s, len, mkdir,
 	         core_name, subdir);
-	}
-	else{
-   return validate_per_core_options(s, len, mkdir,
-         core_name, game_name);
-	}
 }
 
 /**

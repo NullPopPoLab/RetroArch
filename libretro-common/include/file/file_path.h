@@ -338,6 +338,11 @@ void fill_pathname_basedir_noext(char *out_dir,
 bool fill_pathname_parent_dir_name(char *out_dir,
       const char *in_dir, size_t size);
 
+bool fill_pathname_specific_folder_name(char *out_dir,
+      const char *in_dir, const char *gamepath, size_t size, bool mkdir);
+bool fill_pathname_specific_game_name(char *out_dir,
+      const char *in_dir, const char *gamepath, size_t size, bool mkdir);
+
 /**
  * fill_pathname_parent_dir:
  * @out_dir            : output directory
