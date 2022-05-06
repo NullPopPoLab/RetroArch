@@ -1102,17 +1102,16 @@ static bool validate_game_options(
 {
 	char config_directory[PATH_MAX_LENGTH];
 	char subdir[PATH_MAX_LENGTH];
+	settings_t            *settings         = config_get_ptr();
 
 	if(mkdir){
 		fill_pathname_application_special(config_directory,
 			sizeof(config_directory), APPLICATION_SPECIAL_DIRECTORY_CONFIG);
-		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
 		fill_pathname_join(config_directory,config_directory,core_name,sizeof(config_directory));
-		if (!path_is_directory(config_directory)) path_mkdir(config_directory);
-		fill_pathname_specific_folder_name(config_directory,config_directory,path_get(RARCH_PATH_BASENAME),sizeof(config_directory),true);
+		fill_pathname_specific_folder_name(config_directory,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(config_directory),true);
 	}
 
-	fill_pathname_specific_game_name(subdir,NULL,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 	   return validate_per_core_options(s, len, mkdir,
 	         core_name, subdir);
 }
@@ -5587,11 +5586,14 @@ bool runloop_path_init_subsystem(void)
    rarch_system_info_t             *system = &runloop_st->system;
    bool subsystem_path_empty               = path_is_empty(RARCH_PATH_SUBSYSTEM);
    const char                *savefile_dir = runloop_st->savefile_dir;
-
+   settings_t            *settings         = config_get_ptr();
+	char subdir[PATH_MAX_LENGTH];
 
    if (!system || subsystem_path_empty)
       return false;
    /* For subsystems, we know exactly which RAM types are supported. */
+
+	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 
    info = libretro_find_subsystem_info(
          system->subsystem.data,
@@ -5652,14 +5654,14 @@ bool runloop_path_init_subsystem(void)
    if (!retroarch_override_setting_is_set(
             RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
       fill_pathname_noext(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
+            subdir,
             ".srm",
             sizeof(runloop_st->name.savefile));
 
    if (path_is_directory(runloop_st->name.savefile))
    {
-      fill_pathname_dir(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
+      fill_pathname_subdir(runloop_st->name.savefile,
+            subdir,
             ".srm",
             sizeof(runloop_st->name.savefile));
       RARCH_LOG("%s \"%s\".\n",
@@ -8291,22 +8293,28 @@ void runloop_path_set_basename(const char *path)
 void runloop_path_set_names(void)
 {
    runloop_state_t *runloop_st = &runloop_state;
+   settings_t            *settings         = config_get_ptr();
+
+	char subdir[PATH_MAX_LENGTH];
+
+	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+
    if (!retroarch_override_setting_is_set(
             RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
       fill_pathname_noext(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
+            subdir,
             ".srm", sizeof(runloop_st->name.savefile));
 
    if (!retroarch_override_setting_is_set(
             RARCH_OVERRIDE_SETTING_STATE_PATH, NULL))
       fill_pathname_noext(runloop_st->name.savestate,
-            runloop_st->runtime_content_path_basename,
+            subdir,
             ".state", sizeof(runloop_st->name.savestate));
 
 #ifdef HAVE_CHEATS
    if (!string_is_empty(runloop_st->runtime_content_path_basename))
       fill_pathname_noext(runloop_st->name.cheatfile,
-            runloop_st->runtime_content_path_basename,
+            subdir,
             ".cht", sizeof(runloop_st->name.cheatfile));
 #endif
 }

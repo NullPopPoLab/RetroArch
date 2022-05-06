@@ -1325,6 +1325,7 @@ static void task_push_save_state(const char *path, void *data, size_t size, bool
    if (!task || !state)
       goto error;
 
+   path_parent_mkdir(path);
    strlcpy(state->path, path, sizeof(state->path));
    state->data                   = data;
    state->size                   = size;

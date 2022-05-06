@@ -294,6 +294,8 @@ char *find_last_slash(const char *str);
  **/
 size_t fill_pathname_dir(char *in_dir, const char *in_basename,
       const char *replace, size_t size);
+size_t fill_pathname_subdir(char *in_dir, const char *in_basename,
+      const char *replace, size_t size);
 
 /**
  * fill_pathname_base:
@@ -341,9 +343,9 @@ bool fill_pathname_parent_dir_name(char *out_dir,
       const char *in_dir, size_t size);
 
 bool fill_pathname_specific_folder_name(char *out_dir,
-      const char *in_dir, const char *gamepath, size_t size, bool mkdir);
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 bool fill_pathname_specific_game_name(char *out_dir,
-      const char *in_dir, const char *gamepath, size_t size, bool mkdir);
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 
 /**
  * fill_pathname_parent_dir:
@@ -519,6 +521,7 @@ void fill_pathname_home_dir(char *buf, size_t size);
  * Returns: true (1) if directory could be created, otherwise false (0).
  **/
 bool path_mkdir(const char *dir);
+bool path_parent_mkdir(const char *path);
 
 /**
  * path_is_directory:
