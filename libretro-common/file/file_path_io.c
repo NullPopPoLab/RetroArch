@@ -149,3 +149,33 @@ bool path_mkdir(const char *dir)
    }
    return false;
 }
+
+bool path_parent_mkdir(const char *dir)
+{
+   char     *basedir  = NULL;
+	bool ret=false;
+
+   if (!(dir && *dir))
+      return false;
+
+   /* Use heap. Real chance of stack 
+    * overflow if we recurse too hard. */
+   basedir            = strdup(dir);
+
+   if (!basedir)
+	   return false;
+
+   path_parent_dir(basedir);
+
+   if (!*basedir || !strcmp(basedir, dir))
+   {
+      free(basedir);
+      return false;
+   }
+
+   if (path_is_directory(basedir))ret=true;
+   else ret=path_mkdir(basedir);
+
+   free(basedir);
+	return ret;
+}

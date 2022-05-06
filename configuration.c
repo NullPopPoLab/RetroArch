@@ -3237,6 +3237,7 @@ static bool config_load_file(global_t *global,
    struct config_array_setting *array_settings     = NULL;
    struct config_path_setting *path_settings       = NULL;
    config_file_t *conf                             = path ? config_file_new_from_path_to_string(path) : open_default_config_file();
+	char subdir[PATH_MAX_LENGTH];
 
    tmp_str[0]                                      = '\0';
 
@@ -3666,6 +3667,8 @@ static bool config_load_file(global_t *global,
          settings->bools.bluetooth_enable, filestream_exists(LAKKA_BLUETOOTH_PATH));
 #endif
 
+	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+
    if (!retroarch_override_setting_is_set(RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL) &&
          config_get_path(conf, "savefile_directory", tmp_str, sizeof(tmp_str)))
    {
@@ -3679,7 +3682,7 @@ static bool config_load_file(global_t *global,
          strlcpy(runloop_st->name.savefile, tmp_str,
                sizeof(runloop_st->name.savefile));
          fill_pathname_dir(runloop_st->name.savefile,
-               path_get(RARCH_PATH_BASENAME),
+               subdir,
                FILE_PATH_SRM_EXTENSION,
                sizeof(runloop_st->name.savefile));
       }
@@ -3699,7 +3702,7 @@ static bool config_load_file(global_t *global,
          strlcpy(runloop_st->name.savestate, tmp_str,
                sizeof(runloop_st->name.savestate));
          fill_pathname_dir(runloop_st->name.savestate,
-               path_get(RARCH_PATH_BASENAME),
+               subdir,
                ".state",
                sizeof(runloop_st->name.savestate));
       }
@@ -3823,7 +3826,7 @@ bool config_load_override(void *data)
       sizeof(content_path));
 
    fill_pathname_join_special_ext(core_path,
-         config_directory, core_name,
+         config_directory, NULL,
          core_name,
          ".cfg",
          sizeof(core_path));
@@ -5309,7 +5312,8 @@ bool input_remapping_save_file(const char *path)
       config_set_int(conf, s1, settings->uints.input_remap_ports[i]);
    }
 
-   ret = config_file_write(conf, remap_file, true);
+   ret = path_parent_mkdir(remap_file);
+   if(ret)ret = config_file_write(conf, remap_file, true);
    config_file_free(conf);
 
    return ret;

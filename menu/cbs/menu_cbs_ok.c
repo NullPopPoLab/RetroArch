@@ -3376,30 +3376,32 @@ static int generic_action_ok_remap_file_operation(const char *path,
       unsigned action_type)
 {
 #ifdef HAVE_CONFIGFILE
+   char directory[PATH_MAX_LENGTH];
    char file[PATH_MAX_LENGTH];
    struct retro_system_info *system     = &runloop_state_get_ptr()->system.info;
    const char *core_name                = system ? system->library_name : NULL;
    settings_t *settings                 = config_get_ptr();
    const char *path_dir_input_remapping = settings->paths.directory_input_remapping;
 
-   file[0]          = '\0';
+   directory[0] = file[0]          = '\0';
 
 	if (!string_is_empty(core_name)){
        fill_pathname_join(file, core_name, NULL, sizeof(file));
-   switch (action_type)
-   {
-      case ACTION_OK_REMAP_FILE_SAVE_CORE:
-      case ACTION_OK_REMAP_FILE_REMOVE_CORE:
-         break;
-      case ACTION_OK_REMAP_FILE_SAVE_GAME:
-      case ACTION_OK_REMAP_FILE_REMOVE_GAME:
-			fill_pathname_specific_game_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
-         break;
-      case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
-      case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
-			fill_pathname_specific_folder_name(file,file,path_get(RARCH_PATH_BASENAME),sizeof(file),true);
-         break;
-   }
+	   switch (action_type)
+	   {
+	      case ACTION_OK_REMAP_FILE_SAVE_CORE:
+	      case ACTION_OK_REMAP_FILE_REMOVE_CORE:
+	         break;
+	      case ACTION_OK_REMAP_FILE_SAVE_GAME:
+	      case ACTION_OK_REMAP_FILE_REMOVE_GAME:
+					fill_pathname_specific_game_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
+	         break;
+	      case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
+	      case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
+					fill_pathname_specific_folder_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
+	         break;
+	   }
+	}
 
    if (action_type < ACTION_OK_REMAP_FILE_REMOVE_CORE)
    {

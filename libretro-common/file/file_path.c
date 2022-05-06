@@ -326,6 +326,17 @@ size_t fill_pathname_dir(char *in_dir, const char *in_basename,
    return strlcat(in_dir, replace, size);
 }
 
+size_t fill_pathname_subdir(char *in_dir, const char *in_basename,
+      const char *replace, size_t size)
+{
+   const char *base = NULL;
+
+   fill_pathname_slash(in_dir, size);
+   base = in_basename;
+   strlcat(in_dir, base, size);
+   return strlcat(in_dir, replace, size);
+}
+
 /**
  * fill_pathname_base:
  * @out                : output path
@@ -422,30 +433,56 @@ bool fill_pathname_parent_dir_name(char *out_dir,
 }
 
 bool fill_pathname_specific_folder_name(char *out_dir,
-      const char *in_dir, const char *gamepath, size_t size, bool mkdir)
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir)
 {
-	char content_dir[PATH_MAX_LENGTH];
-	if(!out_dir || size<1)return false;
+	char* p;
 
-	fill_pathname_parent_dir_name(content_dir, gamepath, sizeof(content_dir));
+	if(!out_dir || size<1)return false;
 
 	if(!in_dir)out_dir[0]=0;
 	else if(out_dir!=in_dir)fill_pathname_join(out_dir, in_dir, NULL, size);
 	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
 
-	if(content_dir[0]){
-		fill_pathname_join(out_dir, out_dir, content_dir, size);
-		if(mkdir && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+	size_t rl=strlen(rootpath);
+	size_t gl=strlen(gamepath);
+	if(rl==gl){
 	}
+	else if(rl<gl && !memcmp(rootpath,gamepath,rl)){
+		if(out_dir[0])fill_pathname_slash(out_dir,size);
+		strlcat(out_dir,&gamepath[rl],size);
+	}
+	else{
+		strlcpy(out_dir,gamepath,size);
+	}
+
+	p=find_last_slash(out_dir);
+	if(p)*p=0;
+	else return false;
+
 	return true;
 }
 
 bool fill_pathname_specific_game_name(char *out_dir,
-      const char *in_dir, const char *gamepath, size_t size, bool mkdir)
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir)
 {
-	if(!fill_pathname_specific_folder_name(out_dir,in_dir,gamepath,size,mkdir))return false;
+	if(!out_dir || size<1)return false;
 
-	fill_pathname_join(out_dir, out_dir, path_basename(gamepath), size);
+	if(!in_dir)out_dir[0]=0;
+	else if(out_dir!=in_dir)fill_pathname_join(out_dir, in_dir, NULL, size);
+	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+
+	size_t rl=strlen(rootpath);
+	size_t gl=strlen(gamepath);
+	if(rl==gl){
+	}
+	else if(rl<gl && !memcmp(rootpath,gamepath,rl)){
+		if(out_dir[0])fill_pathname_slash(out_dir,size);
+		strlcat(out_dir,&gamepath[rl],size);
+	}
+	else{
+		strlcpy(out_dir,gamepath,size);
+	}
+
 	return true;
 }
 
@@ -888,7 +925,8 @@ void fill_pathname_resolve_relative(char *out_path,
 size_t fill_pathname_join(char *out_path,
       const char *dir, const char *path, size_t size)
 {
-   if (out_path != dir)
+   if(!dir)out_path[0]=0;
+   else if (out_path != dir)
       strlcpy(out_path, dir, size);
 
    if(!path)return strlen(out_path);
@@ -908,7 +946,8 @@ size_t fill_pathname_join_special_ext(char *out_path,
    if (*out_path)
       fill_pathname_slash(out_path, size);
 
-   strlcat(out_path, last, size);
+   if(last)strlcat(out_path, last, size);
+   if(!ext)return strlen(out_path);
    return strlcat(out_path, ext, size);
 }
 
