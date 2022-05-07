@@ -1080,17 +1080,7 @@ static bool validate_per_core_options(char *s,
          FILE_PATH_OPT_EXTENSION, len);
 
    /* No need to make a directory if file already exists... */
-   if (mkdir && !path_is_valid(s))
-   {
-      char new_path[PATH_MAX_LENGTH];
-      new_path[0]             = '\0';
-
-      fill_pathname_join(new_path,
-            config_directory, core_name, sizeof(new_path));
-
-      if (!path_is_directory(new_path))
-         path_mkdir(new_path);
-   }
+   if (mkdir) path_parent_mkdir(s);
 
    return true;
 }
