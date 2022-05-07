@@ -259,7 +259,7 @@ static void disk_control_get_index_set_msg(
     * > If a label is shown, then increase duration by 50%
     * > For errors, duration is always 180 */
    *msg_duration = success ?
-         (has_label ? 90 : 60) :
+         15 :
          180;
 
    /* Check whether image was inserted or removed */

@@ -7074,7 +7074,7 @@ static enum runloop_state_enum runloop_check_state(
          snprintf(msg, sizeof(msg), "%s: %d",
                msg_hash_to_str(MSG_STATE_SLOT),
                settings->ints.state_slot);
-         runloop_msg_queue_push(msg, 2, 180, true, NULL,
+         runloop_msg_queue_push(msg, 2, 15, true, NULL,
                MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
          RARCH_LOG("%s\n", msg);
       }
