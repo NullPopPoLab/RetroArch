@@ -6519,7 +6519,13 @@ static enum runloop_state_enum runloop_check_state(
             bool fullpath               = false;
 
             if (string_is_empty(runloop_st->max_frames_screenshot_path))
-               screenshot_path          = path_get(RARCH_PATH_BASENAME);
+			{
+				char basename[PATH_MAX_LENGTH];
+	            char *p;
+				fill_pathname_specific_game_name(basename,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(basename),false);
+				for(p=basename;*p;++p)if(*p=='/'||*p=='\\')*p='-';
+               screenshot_path          = basename;
+			}
             else
             {
                fullpath                 = true;
