@@ -296,7 +296,7 @@
 #define SUPPORTS_STBFONT false
 #endif
 
-#ifdef HAVE_NETWORKING
+#if 0//def HAVE_NETWORKING
 #define SUPPORTS_NETPLAY true
 #else
 #define SUPPORTS_NETPLAY false

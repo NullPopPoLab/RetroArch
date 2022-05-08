@@ -627,7 +627,7 @@ static const enum msg_hash_enums ozone_system_tabs_value[OZONE_SYSTEM_TAB_LAST] 
 #ifdef HAVE_IMAGEVIEWER
    MENU_ENUM_LABEL_VALUE_IMAGES_TAB,
 #endif
-#ifdef HAVE_NETWORKING
+#ifdef SUPPORTS_NETPLAY
    MENU_ENUM_LABEL_VALUE_NETPLAY_TAB,
 #endif
 #ifdef HAVE_LIBRETRODB
