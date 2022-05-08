@@ -1875,9 +1875,13 @@ bool command_event(enum event_command cmd, void *data)
       case CMD_EVENT_TAKE_SCREENSHOT:
 #ifdef HAVE_SCREENSHOTS
          {
+			char basename[PATH_MAX_LENGTH];
             const char *dir_screenshot = settings->paths.directory_screenshot;
+            char *p;
+			fill_pathname_specific_game_name(basename,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(basename),false);
+			for(p=basename;*p;++p)if(*p=='/'||*p=='\\')*p='-';
             if (!take_screenshot(dir_screenshot,
-                     path_get(RARCH_PATH_BASENAME), false,
+                     basename, false,
                      video_driver_cached_frame_has_valid_framebuffer(), false, true))
                return false;
          }
