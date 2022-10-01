@@ -2,6 +2,7 @@
  *  Copyright (C) 2010-2014 - Hans-Kristian Arntzen
  *  Copyright (C) 2011-2017 - Daniel De Matteis
  *  Copyright (C) 2019-2020 - James Leaver
+ *  Copyright (C) 2022-2022 - Jahed Ahmed
  *
  *  RetroArch is free software: you can redistribute it and/or modify it under the terms
  *  of the GNU General Public License as published by the Free Software Found-
@@ -48,6 +49,12 @@
 #define DINGUX_SCALING_MODE_ENVAR         "SDL_VIDEO_KMSDRM_SCALING_MODE"
 #define DINGUX_SCALING_SHARPNESS_ENVAR    "SDL_VIDEO_KMSDRM_SCALING_SHARPNESS"
 #define DINGUX_VIDEO_REFRESHRATE_ENVAR    "SDL_VIDEO_REFRESHRATE"
+
+/* Miyoo defines */
+#define MIYOO_BATTERY_VOLTAGE_NOW_FILE    "/sys/class/power_supply/miyoo-battery/voltage_now"
+
+/* RetroFW */
+#define RETROFW_BATTERY_VOLTAGE_NOW_FILE "/proc/jz/battery"
 
 /* Enables/disables downscaling when using
  * the IPU hardware scaler */
@@ -245,6 +252,64 @@ bool dingux_ipu_reset(void)
 #endif
 }
 
+#if defined(RETROFW)
+static uint64_t read_battery_ignore_size(const char *path)
+{
+   int64_t file_len   = 0;
+   char file_buf[20];
+   int sys_file_value = 0;
+   RFILE *file;
+
+   /* Check whether file exists */
+   if (!path_is_valid(path))
+      return -1;
+
+   memset(file_buf, 0, sizeof(file_buf));
+
+   file              = filestream_open(path,
+         RETRO_VFS_FILE_ACCESS_READ,
+         RETRO_VFS_FILE_ACCESS_HINT_NONE);
+
+   if (!file)
+   {
+      return -1;
+   }
+
+   file_len = filestream_read(file, file_buf, sizeof(file_buf) - 1);
+   if (filestream_close(file) != 0)
+      if (file)
+         free(file);
+
+   if (file_len <= 0)
+      return -1;
+
+   return strtoul(file_buf, NULL, 10);
+}
+
+int retrofw_get_battery_level(enum frontend_powerstate *state)
+{
+   /* retrofw battery only provides "voltage_now". Values are based on gmenu2x with some interpolation */
+   uint32_t rawval = read_battery_ignore_size(RETROFW_BATTERY_VOLTAGE_NOW_FILE);
+   int voltage_now = rawval & 0x7fffffff;
+   if (voltage_now > 10000) {
+      *state = FRONTEND_POWERSTATE_NONE;
+      return -1;
+   }
+   if (rawval & 0x80000000) {
+      *state = FRONTEND_POWERSTATE_CHARGING;
+      if (voltage_now > 4000)
+	 *state = FRONTEND_POWERSTATE_CHARGED;
+   } else
+      *state = FRONTEND_POWERSTATE_ON_POWER_SOURCE;
+   if (voltage_now < 0) return -1;     // voltage_now not available
+   if (voltage_now > 4000) return 100;
+   if (voltage_now > 3700) return 40 + (voltage_now - 3700) / 5;
+   if (voltage_now > 3520) return 20 + (voltage_now - 3520) / 9;
+   if (voltage_now > 3330) return 1 + (voltage_now - 3330) * 10;
+   return 0;
+}
+#else
+
 static int dingux_read_battery_sys_file(const char *path)
 {
    int64_t file_len   = 0;
@@ -307,10 +372,29 @@ int dingux_get_battery_level(void)
       return -1;
 
    return (int)(((voltage_now - voltage_min) * 100) / (voltage_max - voltage_min));
+#elif defined(MIYOO)
+   /* miyoo-battery only provides "voltage_now". Results are based on
+    * value distribution while running a game at max load. */
+   int voltage_now = dingux_read_battery_sys_file(MIYOO_BATTERY_VOLTAGE_NOW_FILE);
+   if (voltage_now < 0) return -1;     // voltage_now not available
+   if (voltage_now > 4300) return 100; // 4320
+   if (voltage_now > 4200) return 90;  // 4230
+   if (voltage_now > 4100) return 80;  // 4140
+   if (voltage_now > 4000) return 70;  // 4050
+   if (voltage_now > 3900) return 60;  // 3960
+   if (voltage_now > 3800) return 50;  // 3870
+   if (voltage_now > 3700) return 40;  // 3780
+   if (voltage_now > 3600) return 30;  // 3690
+   if (voltage_now > 3550) return 20;  // 3600
+   if (voltage_now > 3500) return 10;  // 3510
+   if (voltage_now > 3400) return 5;   // 3420
+   if (voltage_now > 3300) return 1;   // 3330
+   return 0;                           // 3240
 #else
    return dingux_read_battery_sys_file(DINGUX_BATTERY_CAPACITY_FILE);
 #endif
 }
+#endif
 
 /* Fetches the path of the base 'retroarch'
  * directory */

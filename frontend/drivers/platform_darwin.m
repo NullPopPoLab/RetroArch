@@ -114,7 +114,7 @@ typedef enum
    CFAllDomainsMask     = 0x0ffff  /* All domains: all of the above and future items */
 } CFDomainMask;
 
-#if (defined(OSX) && !(defined(__ppc__) || defined(__ppc64__)))
+#if (defined(OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 101200))
 static int speak_pid                            = 0;
 #endif
 
@@ -128,14 +128,19 @@ static void CFSearchPathForDirectoriesInDomains(
 #else
    NSSearchPathDirectory dir = NSDocumentDirectory;
 #endif
+   CFStringRef array_val;
 #if __has_feature(objc_arc)
-   CFStringRef       array_val = (__bridge CFStringRef)[
+   array_val = (__bridge CFStringRef)[
          NSSearchPathForDirectoriesInDomains(dir,
             NSUserDomainMask, YES) firstObject];
 #else
-   CFStringRef       array_val = (CFStringRef)[
-         NSSearchPathForDirectoriesInDomains(dir,
-            NSUserDomainMask, YES) firstObject];
+   NSArray *arr = NSSearchPathForDirectoriesInDomains(dir,
+						     NSUserDomainMask, YES);
+   if ([arr count] == 0) {
+     array_val = nil;
+   } else{
+     array_val = (CFStringRef)[arr objectAtIndex:0];
+   }
 #endif
    if (array_val)
       CFStringGetCString(array_val, s, len, kCFStringEncodingUTF8);
@@ -281,7 +286,10 @@ static void frontend_darwin_get_os(char *s, size_t len, int *major, int *minor)
 {
 #if defined(IOS)
    get_ios_version(major, minor);
-   strcpy_literal(s, "iOS");
+   s[0] = 'i';
+   s[1] = 'O';
+   s[2] = 'S';
+   s[3] = '\0';
 #elif defined(OSX)
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= 101300 // MAC_OS_X_VERSION_10_13
@@ -314,13 +322,17 @@ static void frontend_darwin_get_os(char *s, size_t len, int *major, int *minor)
       Gestalt(gestaltSystemVersionMajor, (SInt32*)major);
    }
 #endif
-   strcpy_literal(s, "OSX");
+   s[0] = 'O';
+   s[1] = 'S';
+   s[2] = 'X';
+   s[3] = '\0';
 #endif
 }
 
 static void frontend_darwin_get_env(int *argc, char *argv[],
       void *args, void *params_data)
 {
+   char assets_zip_path[PATH_MAX_LENGTH];
    CFURLRef bundle_url;
    CFStringRef bundle_path;
    CFURLRef resource_url;
@@ -334,7 +346,7 @@ static void frontend_darwin_get_env(int *argc, char *argv[],
    char temp_dir[PATH_MAX_LENGTH]        = {0};
    char bundle_path_buf[PATH_MAX_LENGTH] = {0};
    char resource_path_buf[PATH_MAX_LENGTH] = {0};
-   char full_resource_path_buf[PATH_MAX_LENGTH] = {0};
+   char full_resource_path_buf[PATH_MAX_LENGTH];
    char home_dir_buf[PATH_MAX_LENGTH]    = {0};
    CFBundleRef bundle                    = CFBundleGetMainBundle();
 
@@ -354,7 +366,7 @@ static void frontend_darwin_get_env(int *argc, char *argv[],
    CFStringGetCString(resource_path,
          resource_path_buf, sizeof(resource_path_buf), kCFStringEncodingUTF8);
    CFRelease(resource_path);
-   fill_pathname_join(full_resource_path_buf, bundle_path_buf, resource_path_buf, sizeof(full_resource_path_buf));
+   fill_pathname_join_special(full_resource_path_buf, bundle_path_buf, resource_path_buf, sizeof(full_resource_path_buf));
    CFSearchPathForDirectoriesInDomains(
          home_dir_buf, sizeof(home_dir_buf));
 
@@ -449,30 +461,29 @@ static void frontend_darwin_get_env(int *argc, char *argv[],
 
 #endif
 
-    char assets_zip_path[PATH_MAX_LENGTH];
 #if TARGET_OS_IOS
     {
        int major, minor;
        get_ios_version(&major, &minor);
        if (major > 8)
-          strcpy_literal(g_defaults.path_buildbot_server_url, "http://buildbot.libretro.com/nightly/apple/ios9/latest/");
+          strlcpy(g_defaults.path_buildbot_server_url, "http://buildbot.libretro.com/nightly/apple/ios9/latest/", sizeof(g_defaults.path_buildbot_server_url));
     }
 #endif
 
 #if TARGET_OS_IOS
-    fill_pathname_join(assets_zip_path, bundle_path_buf, "assets.zip", sizeof(assets_zip_path));
+    fill_pathname_join_special(assets_zip_path, bundle_path_buf, "assets.zip", sizeof(assets_zip_path));
 #else
-    fill_pathname_join(assets_zip_path, full_resource_path_buf, "assets.zip", sizeof(assets_zip_path));
+    fill_pathname_join_special(assets_zip_path, full_resource_path_buf, "assets.zip", sizeof(assets_zip_path));
 #endif
 
     if (path_is_valid(assets_zip_path))
     {
        settings_t *settings = config_get_ptr();
        configuration_set_string(settings,
-             settings->arrays.bundle_assets_src,
+             settings->paths.bundle_assets_src,
              assets_zip_path);
        configuration_set_string(settings,
-             settings->arrays.bundle_assets_dst,
+             settings->paths.bundle_assets_dst,
 #if TARGET_OS_IOS || TARGET_OS_TV
              home_dir_buf
 #else
@@ -767,15 +778,15 @@ static int frontend_darwin_parse_drive_list(void *data, bool load_content)
    CFSearchPathForDirectoriesInDomains(
          home_dir_buf, sizeof(home_dir_buf));
 
-   menu_entries_append_enum(list,
+   menu_entries_append(list,
          home_dir_buf,
          msg_hash_to_str(MENU_ENUM_LABEL_FILE_DETECT_CORE_LIST_PUSH_DIR),
          enum_idx,
-         FILE_TYPE_DIRECTORY, 0, 0);
-   menu_entries_append_enum(list, "/",
+         FILE_TYPE_DIRECTORY, 0, 0, NULL);
+   menu_entries_append(list, "/",
          msg_hash_to_str(MENU_ENUM_LABEL_FILE_DETECT_CORE_LIST_PUSH_DIR),
          enum_idx,
-        FILE_TYPE_DIRECTORY, 0, 0);
+        FILE_TYPE_DIRECTORY, 0, 0, NULL);
 
    ret = 0;
 
@@ -805,7 +816,7 @@ static uint64_t frontend_darwin_get_total_mem(void)
 
 static uint64_t frontend_darwin_get_free_mem(void)
 {
-#if (defined(OSX) && !(defined(__ppc__) || defined(__ppc64__)))
+#if (defined(OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 101200))
     vm_size_t page_size;
     vm_statistics64_data_t vm_stats;
     mach_port_t mach_port        = mach_host_self();
@@ -831,7 +842,7 @@ static const char* frontend_darwin_get_cpu_model_name(void)
    return darwin_cpu_model_name;
 }
 
-#if (defined(OSX) && !(defined(__ppc__) || defined(__ppc64__)))
+#if (defined(OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 101200))
 static char* accessibility_mac_language_code(const char* language)
 {
    if (string_is_equal(language,"en"))
@@ -945,13 +956,13 @@ static bool accessibility_speak_macos(int speed,
    else
    { 
       /* child process: replace process with the say command */ 
-      if (strlen(language_speaker)> 0)
+      if (language_speaker && language_speaker[0] != '\0')
       {
          char* cmd[] = {"say", "-v", NULL, 
                         NULL, "-r", NULL, NULL};
-         cmd[2] = language_speaker;
-         cmd[3] = (char *) speak_text;
-         cmd[5] = speeds[speed-1];
+         cmd[2]      = language_speaker;
+         cmd[3]      = (char *) speak_text;
+         cmd[5]      = speeds[speed-1];
          execvp("say", cmd);
       }
       else
@@ -995,13 +1006,9 @@ frontend_ctx_driver_t frontend_ctx_darwin = {
    NULL,                            /* watch_path_for_changes */
    NULL,                            /* check_for_path_changes */
    NULL,                            /* set_sustained_performance_mode */
-#if (defined(OSX) && !(defined(__ppc__) || defined(__ppc64__)))
-    frontend_darwin_get_cpu_model_name, /* get_cpu_model_name */
-#else
-   NULL,                            /* get_cpu_model_name */
-#endif
+   frontend_darwin_get_cpu_model_name, /* get_cpu_model_name */
    NULL,                            /* get_user_language   */
-#if (defined(OSX) && !(defined(__ppc__) || defined(__ppc64__)))
+#if (defined(OSX) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 101200))
    is_narrator_running_macos,       /* is_narrator_running */
    accessibility_speak_macos,       /* accessibility_speak */
 #else

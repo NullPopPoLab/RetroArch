@@ -38,6 +38,8 @@
 #include "../../verbosity.h"
 #include "../../configuration.h"
 
+#include <streams/file_stream.h>
+
 typedef struct
 {
 #ifdef HAVE_EGL
@@ -53,14 +55,17 @@ typedef struct
    float refresh_rate;
 } mali_ctx_data_t;
 
-mali_ctx_data_t *mali=NULL;
+mali_ctx_data_t *gfx_ctx_mali_fbdev_global=NULL;
+bool gfx_ctx_mali_fbdev_was_threaded=false;
+bool gfx_ctx_mali_fbdev_hw_ctx_trigger=false;
+bool gfx_ctx_mali_fbdev_restart_pending=false;
 
 static int gfx_ctx_mali_fbdev_get_vinfo(void *data)
 {
    struct fb_var_screeninfo vinfo;
    int fd                = open("/dev/fb0", O_RDWR);
 
-   mali = (mali_ctx_data_t*)data;
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 
    if (!mali || ioctl(fd, FBIOGET_VSCREENINFO, &vinfo) < 0)
       goto error;
@@ -90,7 +95,25 @@ static int gfx_ctx_mali_fbdev_get_vinfo(void *data)
            (vinfo.yres + vinfo.upper_margin + vinfo.lower_margin + vinfo.vsync_len) /
            (vinfo.xres + vinfo.left_margin  + vinfo.right_margin + vinfo.hsync_len);
    }else{
-      mali->refresh_rate = 60;
+      /* Workaround to retrieve current refresh rate if no info is available from IOCTL.
+         If this fails as well, 60Hz is assumed... */
+      int j=0;
+      float k=60.0;
+      char temp[32];
+      RFILE *fr = filestream_open("/sys/class/display/mode", RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+      if (fr){
+         if (filestream_gets(fr, temp, sizeof(temp))){
+            for (int i=0;i<sizeof(temp);i++){
+               if (*(temp+i)=='p' || *(temp+i)=='i')
+                  j=i;
+               else if (*(temp+i)=='h')
+                  *(temp+i)='\0';
+            }
+            k = j ? atof(temp+j+1) : k;
+         }
+         filestream_close(fr);
+      }
+      mali->refresh_rate = k;
    }
 
    return 0;
@@ -106,32 +129,12 @@ static void gfx_ctx_mali_fbdev_clear_screen(void)
    struct fb_var_screeninfo vinfo;
    void *buffer = NULL;
    int fd                = open("/dev/fb0", O_RDWR);
-
    ioctl (fd, FBIOGET_VSCREENINFO, &vinfo);
    long buffer_size = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
    buffer = calloc(1, buffer_size);
    write(fd,buffer,buffer_size);
    free(buffer);
    close(fd);
-}
-
-static void gfx_ctx_mali_fbdev_destroy(void *data)
-{
-   mali = (mali_ctx_data_t*)data;
-
-   if (mali)
-       mali->resize       = false;
-
-   runloop_state_t *runloop_st   = runloop_state_get_ptr();
-
-   if (runloop_st->shutdown_initiated) {
-
-#ifdef HAVE_EGL
-      if (mali)
-         egl_destroy(&mali->egl);
-#endif
-
-   gfx_ctx_mali_fbdev_clear_screen();
 
    /* Clear framebuffer and set cursor on again */
    if (!system(NULL) && !system("which setterm > /dev/null 2>&1"))
@@ -142,13 +145,65 @@ static void gfx_ctx_mali_fbdev_destroy(void *data)
         close(fd);
         system("setterm -cursor on");
       }
+}
+
+static void gfx_ctx_mali_fbdev_destroy_really(void)
+{
+   if (gfx_ctx_mali_fbdev_global)
+   {
+#ifdef HAVE_EGL
+      egl_destroy(&gfx_ctx_mali_fbdev_global->egl);
+#endif
+      gfx_ctx_mali_fbdev_global->resize=false;
+      free(gfx_ctx_mali_fbdev_global);
+      gfx_ctx_mali_fbdev_global=NULL;
+   }
+}
+
+static void gfx_ctx_mali_fbdev_maybe_restart(void)
+{
+   runloop_state_t *runloop_st   = runloop_state_get_ptr();
+
+   if (!runloop_st->shutdown_initiated)
+      frontend_driver_set_fork(FRONTEND_FORK_RESTART);
+}
+
+/*TODO FIXME
+As egl_destroy does not work properly with libmali (big fps drop after destroy and initialization/creation of new context/surface), it is not used.
+A global pointers is initialized at startup in gfx_ctx_mali_fbdev_init, and returned each time gfx_ctx_mali_fbdev_init is called.
+Originally gfx_ctx_mali_fbdev_init initialized a new pointer each time (destroyed each time with egl_destroy), and context/surface creation occurred in gfx_ctx_mali_fbdev_set_video_mode.
+With this workaround it's all created once in gfx_ctx_mali_fbdev_init and never destroyed.
+Additional workarounds (RA restart) are applied in gfx_ctx_mali_fbdev_destroy in order to avoid segmentation fault when video threaded switch is activated or on exit from cores requesting gfx_ctx_mali_fbdev_hw_ctx_trigger.
+All these workarounds should be reverted when and if egl_destroy issues in libmali blobs are fixed.
+*/
+static void gfx_ctx_mali_fbdev_destroy(void *data)
+{
+   runloop_state_t *runloop_st   = runloop_state_get_ptr();
+
+   if (runloop_st->shutdown_initiated)
+   {
+      if (!gfx_ctx_mali_fbdev_restart_pending)
+      {
+         gfx_ctx_mali_fbdev_destroy_really();
+         gfx_ctx_mali_fbdev_clear_screen();
+      }
+   }
+   else
+   {
+      if (gfx_ctx_mali_fbdev_hw_ctx_trigger || gfx_ctx_mali_fbdev_was_threaded!=*video_driver_get_threaded())
+      {
+         gfx_ctx_mali_fbdev_destroy_really();
+         gfx_ctx_mali_fbdev_restart_pending=true;
+         if (!gfx_ctx_mali_fbdev_hw_ctx_trigger)
+            gfx_ctx_mali_fbdev_maybe_restart();
+      }
    }
 }
 
 static void gfx_ctx_mali_fbdev_get_video_size(void *data,
       unsigned *width, unsigned *height)
 {
-   mali = (mali_ctx_data_t*)data;
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 
    *width  = mali->width;
    *height = mali->height;
@@ -156,8 +211,8 @@ static void gfx_ctx_mali_fbdev_get_video_size(void *data,
 
 static void *gfx_ctx_mali_fbdev_init(void *video_driver)
 {
-   if (mali)
-      return mali;
+   if (gfx_ctx_mali_fbdev_global)
+      return gfx_ctx_mali_fbdev_global;
 
 #ifdef HAVE_EGL
    EGLint n;
@@ -174,13 +229,13 @@ static void *gfx_ctx_mali_fbdev_init(void *video_driver)
    };
 
    static const EGLint attribs_create[] = {
-      EGL_CONTEXT_CLIENT_VERSION, 3,
+      EGL_CONTEXT_CLIENT_VERSION, 2,
       EGL_NONE
    };
 
 #endif
 
-   mali = (mali_ctx_data_t*)calloc(1, sizeof(*mali));
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)calloc(1, sizeof(*mali));
 
    if (!mali)
        return NULL;
@@ -189,7 +244,7 @@ static void *gfx_ctx_mali_fbdev_init(void *video_driver)
 
 #ifdef HAVE_EGL
    frontend_driver_install_signal_handler();
-
+   mali->egl.use_hw_ctx=true;
    if (!egl_init_context(&mali->egl, EGL_NONE, EGL_DEFAULT_DISPLAY,
             &major, &minor, &n, attribs_init, NULL) ||
    !egl_create_context(&mali->egl, attribs_create) ||
@@ -197,11 +252,13 @@ static void *gfx_ctx_mali_fbdev_init(void *video_driver)
       goto error;
 #endif
 
+   gfx_ctx_mali_fbdev_global=mali;
+   gfx_ctx_mali_fbdev_was_threaded=*video_driver_get_threaded();
    return mali;
 
 error:
    egl_report_error();
-   gfx_ctx_mali_fbdev_destroy(video_driver);
+   gfx_ctx_mali_fbdev_destroy(mali);
    return NULL;
 }
 
@@ -220,16 +277,22 @@ static void gfx_ctx_mali_fbdev_check_window(void *data, bool *quit,
    }
 
    *quit   = (bool)frontend_driver_get_signal_handler_state();
+
+   if (gfx_ctx_mali_fbdev_restart_pending)
+      gfx_ctx_mali_fbdev_maybe_restart();
 }
 
 static bool gfx_ctx_mali_fbdev_set_video_mode(void *data,
       unsigned width, unsigned height,
       bool fullscreen)
 {
-   mali = (mali_ctx_data_t*)data;
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
+
+   if (video_driver_is_hw_context())
+      gfx_ctx_mali_fbdev_hw_ctx_trigger=true;
 
    if (gfx_ctx_mali_fbdev_get_vinfo(mali))
-       goto error;
+      goto error;
 
    width                      = mali->width;
    height                     = mali->height;
@@ -269,26 +332,21 @@ static bool gfx_ctx_mali_fbdev_suppress_screensaver(void *data, bool enable) { r
 static void gfx_ctx_mali_fbdev_set_swap_interval(void *data,
       int swap_interval)
 {
-   mali = (mali_ctx_data_t*)data;
-
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 #ifdef HAVE_EGL
    egl_set_swap_interval(&mali->egl, swap_interval);
 #endif
 }
-
 static void gfx_ctx_mali_fbdev_swap_buffers(void *data)
 {
-   mali = (mali_ctx_data_t*)data;
-
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 #ifdef HAVE_EGL
    egl_swap_buffers(&mali->egl);
 #endif
 }
-
 static void gfx_ctx_mali_fbdev_bind_hw_render(void *data, bool enable)
 {
-   mali = (mali_ctx_data_t*)data;
-
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 #ifdef HAVE_EGL
    egl_bind_hw_render(&mali->egl, enable);
 #endif
@@ -297,7 +355,6 @@ static void gfx_ctx_mali_fbdev_bind_hw_render(void *data, bool enable)
 static uint32_t gfx_ctx_mali_fbdev_get_flags(void *data)
 {
    uint32_t flags = 0;
-
    BIT32_SET(flags, GFX_CTX_FLAGS_SHADERS_GLSL);
 
    return flags;
@@ -307,7 +364,7 @@ static void gfx_ctx_mali_fbdev_set_flags(void *data, uint32_t flags) { }
 
 static float gfx_ctx_mali_fbdev_get_refresh_rate(void *data)
 {
-   mali = (mali_ctx_data_t*)data;
+   mali_ctx_data_t *mali = (mali_ctx_data_t*)data;
 
    return mali->refresh_rate;
 }

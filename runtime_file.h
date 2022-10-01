@@ -59,6 +59,7 @@ enum playlist_sublabel_last_played_style_type
    PLAYLIST_LAST_PLAYED_STYLE_DDMMYYYY_HMS_AMPM,
    PLAYLIST_LAST_PLAYED_STYLE_DDMMYYYY_HM_AMPM,
    PLAYLIST_LAST_PLAYED_STYLE_DDMM_HM_AMPM,
+   PLAYLIST_LAST_PLAYED_STYLE_AGO,
    PLAYLIST_LAST_PLAYED_STYLE_LAST
 };
 
@@ -110,7 +111,9 @@ typedef struct
 
 /* Initialise runtime log, loading current parameters
  * if log file exists. Returned object must be free()'d.
- * Returns NULL if content_path and/or core_path are invalid */
+ * Returns NULL if core_path is invalid, or content_path
+ * is invalid and core does not support contentless
+ * operation */
 runtime_log_t *runtime_log_init(
       const char *content_path,
       const char *core_path,
@@ -204,6 +207,20 @@ void runtime_update_playlist(
       bool log_per_core,
       enum playlist_sublabel_last_played_style_type timedate_style,
       enum playlist_sublabel_last_played_date_separator_type date_separator);
+
+#if defined(HAVE_MENU)
+/* Contentless cores manipulation */
+
+/* Updates specified contentless core runtime values with
+ * contents of associated log file */
+void runtime_update_contentless_core(
+      const char *core_path,
+      const char *dir_runtime_log,
+      const char *dir_playlist,
+      bool log_per_core,
+      enum playlist_sublabel_last_played_style_type timedate_style,
+      enum playlist_sublabel_last_played_date_separator_type date_separator);
+#endif
 
 RETRO_END_DECLS
 

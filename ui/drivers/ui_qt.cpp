@@ -44,20 +44,11 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QtConcurrentRun>
-#include <QtNetwork>
 
 #include "ui_qt.h"
 #include "qt/gridview.h"
 #include "qt/ui_qt_load_core_window.h"
-#include "qt/coreinfodialog.h"
-#include "qt/playlistentrydialog.h"
-#if defined(HAVE_MENU)
-#if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
-#include "qt/shaderparamsdialog.h"
-#endif
-#endif
-#include "qt/coreoptionsdialog.h"
-#include "qt/viewoptionsdialog.h"
+#include "qt/qt_dialogs.h"
 
 #ifndef CXX_BUILD
 extern "C" {
@@ -1038,7 +1029,8 @@ static void scan_finished_handler(retro_task_t *task,
 static double expScale(double inputValue, double midValue, double maxValue)
 {
    double           M = maxValue / midValue;
-   double           C = log(pow(M - 1, 2));
+   double        base = M - 1;
+   double           C = log(base * base);
    double           B = maxValue / (exp(C) - 1);
    double           A = -1 * B;
    double returnValue = A + B * exp(C * inputValue);
@@ -2772,6 +2764,7 @@ void MainWindow::loadContent(const QHash<QString, QString> &contentHash)
    QByteArray contentDbNameArray;
    QByteArray contentCrc32Array;
    char contentDbNameFull[PATH_MAX_LENGTH];
+   char corePathCached[PATH_MAX_LENGTH];
    const char *corePath        = NULL;
    const char *contentPath     = NULL;
    const char *contentLabel    = NULL;
@@ -2782,6 +2775,7 @@ void MainWindow::loadContent(const QHash<QString, QString> &contentHash)
    core_info_t *coreInfo       = NULL;
 
    contentDbNameFull[0] = '\0';
+   corePathCached[0]    = '\0';
 
    if (m_pendingRun)
       coreSelection = CORE_SELECTION_CURRENT;
@@ -2882,6 +2876,15 @@ void MainWindow::loadContent(const QHash<QString, QString> &contentHash)
        !string_is_empty(coreInfo->path))
       corePath = coreInfo->path;
 
+   /* If a core is currently running, the following
+    * call of 'command_event(CMD_EVENT_UNLOAD_CORE, NULL)'
+    * will free the global core_info struct, which will
+    * in turn free the pointer referenced by coreInfo->path.
+    * This will invalidate corePath, so we have to cache
+    * its current value here. */
+   if (!string_is_empty(corePath))
+      strlcpy(corePathCached, corePath, sizeof(corePathCached));
+
    /* Add lpl extension to db_name, if required */
    if (!string_is_empty(contentDbName))
    {
@@ -2910,7 +2913,7 @@ void MainWindow::loadContent(const QHash<QString, QString> &contentHash)
    command_event(CMD_EVENT_UNLOAD_CORE, NULL);
 
    if (!task_push_load_content_with_new_core_from_companion_ui(
-         corePath, contentPath, contentLabel, contentDbNameFull, contentCrc32,
+         corePathCached, contentPath, contentLabel, contentDbNameFull, contentCrc32,
          &content_info, NULL, NULL))
    {
       QMessageBox::critical(this, msg_hash_to_str(MSG_ERROR),

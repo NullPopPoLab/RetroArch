@@ -25,11 +25,11 @@
 #include <retro_endianness.h>
 #include "../input_driver.h"
 
-/* Wii have PID/VID already swapped by USB_GetDescriptors from libogc */
-#ifdef GEKKO
-#define SWAP_IF_BIG(val) (val)
+/* Gekko (NGC/Wii) has PID/VID already swapped by USB_GetDescriptors from libogc, so skip bigendian byteswap */
+#if defined(MSB_FIRST) && !defined(GEKKO)
+#define SWAP_IF_BIG(val) ((((val) & 0x00ff) << 8) | (((val) & 0xff00) >> 8))
 #else
-#define SWAP_IF_BIG(val) swap_if_big16(val)
+#define SWAP_IF_BIG(val) (val)
 #endif
 
 #define VID_NONE          0x0000
@@ -46,6 +46,7 @@
 #define PID_NINTENDO_PRO  SWAP_IF_BIG(0x0330)
 #define PID_SONY_DS3      SWAP_IF_BIG(0x0268)
 #define PID_SONY_DS4      SWAP_IF_BIG(0x05c4)
+#define PID_SONY_DS4_R2   SWAP_IF_BIG(0x09cc)
 #define PID_DS3_CLONE     SWAP_IF_BIG(0x20d6)
 #define PID_SNES_CLONE    SWAP_IF_BIG(0xe401)
 #define PID_MICRONTEK_NES SWAP_IF_BIG(0x0011)
@@ -145,7 +146,7 @@ bool pad_connection_rumble(joypad_connection_t *s,
 const char* pad_connection_get_name(joypad_connection_t *joyconn,
    unsigned idx);
 
-joypad_connection_entry_t *find_connection_entry(int16_t vid, int16_t pid, const char *name);
+joypad_connection_entry_t *find_connection_entry(uint16_t vid, uint16_t pid, const char *name);
 int32_t pad_connection_pad_init_entry(joypad_connection_t *joyconn, joypad_connection_entry_t *entry, void *data, hid_driver_t *driver);
 void pad_connection_pad_register(joypad_connection_t *joyconn, pad_connection_interface_t *iface, void *pad_data, void *handle, input_device_driver_t *input_driver, int slot);
 void pad_connection_pad_deregister(joypad_connection_t *joyconn, pad_connection_interface_t *iface, void *pad_data);

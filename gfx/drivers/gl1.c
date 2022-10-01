@@ -278,6 +278,15 @@ static void *gl1_gfx_init(const video_info_t *video,
       gl1->ctx_driver->get_video_size(gl1->ctx_data,
                &mode_width, &mode_height);
 
+#if defined(__APPLE__) && !defined(IOS)
+   /* This is a hack for now to work around a very annoying
+    * issue that currently eludes us. */
+   if (     !gl1->ctx_driver->set_video_mode
+         || !gl1->ctx_driver->set_video_mode(gl1->ctx_data,
+            win_width, win_height, video->fullscreen))
+      goto error;
+#endif
+
    full_x      = mode_width;
    full_y      = mode_height;
    mode_width  = 0;
@@ -369,8 +378,9 @@ static void *gl1_gfx_init(const video_info_t *video,
 
       if (!string_is_empty(vendor))
       {
-         strlcpy(device_str, vendor, sizeof(device_str));
-         strlcat(device_str, " ", sizeof(device_str));
+         size_t len        = strlcpy(device_str, vendor, sizeof(device_str));
+         device_str[len  ] = ' ';
+         device_str[len+1] = '\0';
       }
 
       if (!string_is_empty(renderer))
@@ -442,7 +452,13 @@ error:
 static void gl1_set_projection(gl1_t *gl1,
       struct video_ortho *ortho, bool allow_rotate)
 {
-   math_matrix_4x4 rot;
+   static math_matrix_4x4 rot     = {
+      { 0.0f,     0.0f,    0.0f,    0.0f ,
+        0.0f,     0.0f,    0.0f,    0.0f ,
+        0.0f,     0.0f,    0.0f,    0.0f ,
+        0.0f,     0.0f,    0.0f,    1.0f }
+   };
+   float radians, cosine, sine;
 
    /* Calculate projection. */
    matrix_4x4_ortho(gl1->mvp_no_rot, ortho->left, ortho->right,
@@ -454,7 +470,13 @@ static void gl1_set_projection(gl1_t *gl1,
       return;
    }
 
-   matrix_4x4_rotate_z(rot, M_PI * gl1->rotation / 180.0f);
+   radians                 = M_PI * gl1->rotation / 180.0f;
+   cosine                  = cosf(radians);
+   sine                    = sinf(radians);
+   MAT_ELEM_4X4(rot, 0, 0) = cosine;
+   MAT_ELEM_4X4(rot, 0, 1) = -sine;
+   MAT_ELEM_4X4(rot, 1, 0) = sine;
+   MAT_ELEM_4X4(rot, 1, 1) = cosine;
    matrix_4x4_multiply(gl1->mvp, rot, gl1->mvp_no_rot);
 }
 
@@ -560,8 +582,17 @@ static void draw_tex(gl1_t *gl1, int pot_width, int pot_height, int width, int h
    uint8_t *frame_rgba  = NULL;
    /* FIXME: For now, everything is uploaded as BGRA8888, I could not get 444 or 555 to work, and there is no 565 support in GL 1.1 either. */
    GLint internalFormat = GL_RGB8;
-   GLenum format        = gl1->supports_bgra ? GL_BGRA_EXT : GL_RGBA;
+#ifdef MSB_FIRST
+   bool   supports_native = gl1->supports_bgra;
+   GLenum format        = supports_native ? GL_BGRA_EXT : GL_RGBA;
+   GLenum type          = supports_native ? GL_UNSIGNED_INT_8_8_8_8_REV : GL_UNSIGNED_BYTE;
+#elif defined(LSB_FIRST)
+   bool   supports_native = gl1->supports_bgra;
+   GLenum format        = supports_native ? GL_BGRA_EXT : GL_RGBA;
    GLenum type          = GL_UNSIGNED_BYTE;
+#else
+#error Broken endianness definition
+#endif
 
    float vertices[] = {
 	   -1.0f, -1.0f, 0.0f,
@@ -606,7 +637,8 @@ static void draw_tex(gl1_t *gl1, int pot_width, int pot_height, int width, int h
    glBindTexture(GL_TEXTURE_2D, tex);
 
    frame = (uint8_t*)frame_to_copy;
-   if (!gl1->supports_bgra)
+
+   if (!supports_native)
    {
       frame_rgba = (uint8_t*)malloc(pot_width * pot_height * 4);
       if (frame_rgba)
@@ -617,10 +649,17 @@ static void draw_tex(gl1_t *gl1, int pot_width, int pot_height, int width, int h
             for (x = 0; x < pot_width; x++)
             {
                int index             = (y * pot_width + x) * 4;
+#ifdef MSB_FIRST
+               frame_rgba[index + 2] = frame[index + 3];
+               frame_rgba[index + 1] = frame[index + 2];
+               frame_rgba[index + 0] = frame[index + 1];
+               frame_rgba[index + 3] = frame[index + 0];
+#else
                frame_rgba[index + 2] = frame[index + 0];
                frame_rgba[index + 1] = frame[index + 1];
                frame_rgba[index + 0] = frame[index + 2];
                frame_rgba[index + 3] = frame[index + 3];
+#endif
             }
          }
          frame = frame_rgba;
@@ -924,7 +963,12 @@ static bool gl1_gfx_frame(void *data, const void *frame,
    /* Screenshots. */
    if (gl1->readback_buffer_screenshot)
       gl1_readback(gl1,
-            4, GL_RGBA, GL_UNSIGNED_BYTE,
+            4, GL_RGBA,
+#ifdef MSB_FIRST
+		   GL_UNSIGNED_INT_8_8_8_8_REV,
+#else
+		   GL_UNSIGNED_BYTE,
+#endif
             gl1->readback_buffer_screenshot);
 
 
@@ -1312,7 +1356,12 @@ static void gl1_load_texture_data(
          (use_rgba || !rgb32) ? GL_RGBA : RARCH_GL1_INTERNAL_FORMAT32,
          width, height, 0,
          (use_rgba || !rgb32) ? GL_RGBA : RARCH_GL1_TEXTURE_TYPE32,
-         (rgb32) ? RARCH_GL1_FORMAT32 : GL_UNSIGNED_BYTE, frame);
+#ifdef MSB_FIRST
+	 GL_UNSIGNED_INT_8_8_8_8_REV,
+#else
+	 (rgb32) ? RARCH_GL1_FORMAT32 : GL_UNSIGNED_BYTE,
+#endif
+	 frame);
 }
 
 static void video_texture_load_gl1(

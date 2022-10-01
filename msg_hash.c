@@ -102,6 +102,25 @@ int msg_hash_get_help_enum(enum msg_hash_enums msg, char *s, size_t len)
          break;
       case RETRO_LANGUAGE_FINNISH:
          ret = msg_hash_get_help_fi_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_INDONESIAN:
+         ret = msg_hash_get_help_id_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_SWEDISH:
+         ret = msg_hash_get_help_sv_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_UKRAINIAN:
+         ret = msg_hash_get_help_uk_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_CZECH:
+         ret = msg_hash_get_help_cs_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_CATALAN_VALENCIA:
+         ret = msg_hash_get_help_val_enum(msg, s, len);
+         break;
+      case RETRO_LANGUAGE_CATALAN:
+         ret = msg_hash_get_help_ca_enum(msg, s, len);
+         break;
       default:
          break;
    }
@@ -171,6 +190,18 @@ const char *get_user_language_iso639_1(bool limit)
          return "ast";
       case RETRO_LANGUAGE_FINNISH:
          return "fi";
+      case RETRO_LANGUAGE_INDONESIAN:
+         return "id";
+      case RETRO_LANGUAGE_SWEDISH:
+         return "sv";
+      case RETRO_LANGUAGE_UKRAINIAN:
+         return "uk";
+      case RETRO_LANGUAGE_CZECH:
+         return "cs";
+      case RETRO_LANGUAGE_CATALAN_VALENCIA:
+         return "val";
+      case RETRO_LANGUAGE_CATALAN:
+         return "ca";
    }
    return "en";
 }
@@ -250,6 +281,24 @@ const char *msg_hash_to_str(enum msg_hash_enums msg)
          break;
       case RETRO_LANGUAGE_FINNISH:
          ret = msg_hash_to_str_fi(msg);
+         break;
+      case RETRO_LANGUAGE_INDONESIAN:
+         ret = msg_hash_to_str_id(msg);
+         break;
+      case RETRO_LANGUAGE_SWEDISH:
+         ret = msg_hash_to_str_sv(msg);
+         break;
+      case RETRO_LANGUAGE_UKRAINIAN:
+         ret = msg_hash_to_str_uk(msg);
+         break;
+      case RETRO_LANGUAGE_CZECH:
+         ret = msg_hash_to_str_cs(msg);
+         break;
+      case RETRO_LANGUAGE_CATALAN_VALENCIA:
+         ret = msg_hash_to_str_val(msg);
+         break;
+      case RETRO_LANGUAGE_CATALAN:
+         ret = msg_hash_to_str_ca(msg);
          break;
       default:
          break;

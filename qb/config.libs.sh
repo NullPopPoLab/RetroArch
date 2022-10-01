@@ -550,6 +550,7 @@ fi
 
 check_lib '' STRCASESTR "$CLIB" strcasestr
 check_lib '' MMAP "$CLIB" mmap
+check_lib '' MEMFD_CREATE "$CLIB" memfd_create
 
 check_enabled CXX VULKAN vulkan 'The C++ compiler is' false
 check_enabled CXX OPENGL_CORE 'OpenGL core' 'The C++ compiler is' false
@@ -594,7 +595,25 @@ if [ "$HAVE_STEAM" = 'yes' ]; then
    add_opt UPDATE_CORES no
    die : 'Notice: Steam build enabled, disabling:'
    die : '* Core info cache.'
+   die : '* Core updater.'
    die : '* Online updater.'
+
+   # Keep base directory relative to installation on Linux just like it is on Windows
+   if [ "$OS" = "Linux" ]; then
+      add_define MAKEFILE UNIX_CWD_ENV 1
+   fi
+fi
+
+if [ "$HAVE_MIST" = 'yes' ]; then
+   if [ "$HAVE_STEAM" != 'yes' ]; then
+      die 1 'Error: mist builds requires steam to be enabled'
+   fi
+
+   if [ ! -d "$MIST_PATH" ]; then
+      die 1 'Error: MIST_PATH must be pointing to the location of mist artifacts'
+   fi
+
+   add_define MAKEFILE MIST_PATH "$MIST_PATH"
 fi
 
 check_enabled CXX SLANG slang 'The C++ compiler is' false
@@ -611,6 +630,8 @@ if [ "$HAVE_GLSLANG" != no ]; then
    check_lib cxx GLSLANG -lglslang '' '-lSPIRV'
    check_lib cxx GLSLANG_OSDEPENDENT -lOSDependent
    check_lib cxx GLSLANG_OGLCOMPILER -lOGLCompiler
+   check_lib cxx GLSLANG_MACHINEINDEPENDENT -lMachineIndependent
+   check_lib cxx GLSLANG_GENERICCODEGEN -lGenericCodeGen
    check_lib cxx GLSLANG_HLSL -lHLSL '' '-lglslang -lSPIRV'
    check_lib cxx GLSLANG_SPIRV -lSPIRV
    check_lib cxx GLSLANG_SPIRV_TOOLS_OPT -lSPIRV-Tools-opt
@@ -631,6 +652,14 @@ if [ "$HAVE_GLSLANG" != no ]; then
       fi
    else
       HAVE_GLSLANG=yes
+   fi
+fi
+
+if [ "$HAVE_CRTSWITCHRES" != no ]; then
+   if [ "$HAVE_CXX11" = 'no' ]; then
+      HAVE_CRTSWITCHRES=no
+   else
+      HAVE_CRTSWITCHRES=yes
    fi
 fi
 

@@ -450,9 +450,9 @@ static int16_t udev_mouse_get_pointer_y(const udev_input_mouse_t *mouse, bool sc
          src_min = vp.y;
          src_height = vp.height;
       }
+      y = -32767.0 + 65535.0 / src_height * (mouse->y_abs - src_min);
    }
 
-   y = -32767.0 + 65535.0 / src_height * (mouse->y_abs - src_min);
    y += (y < 0 ? -0.5 : 0.5);
 
    if (y < -0x7fff)
@@ -1450,7 +1450,7 @@ static void *udev_input_init(const char *joypad_driver)
    /* If using KMS and we forgot this,
     * we could lock ourselves out completely. */
    if (!udev->num_devices)
-      RARCH_WARN("[udev]: Couldn't open any keyboard, mouse or touchpad. Are permissions set correctly for /dev/input/event*?\n");
+      RARCH_WARN("[udev]: Couldn't open any keyboard, mouse or touchpad. Are permissions set correctly for /dev/input/event* and /run/udev/?\n");
 
    input_keymaps_init_keyboard_lut(rarch_key_map_linux);
 
