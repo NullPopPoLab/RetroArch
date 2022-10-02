@@ -68,6 +68,21 @@ bool drm_get_connector(int fd, unsigned monitor_index)
    unsigned i;
    unsigned monitor_index_count = 0;
    unsigned monitor       = MAX(monitor_index, 1);
+   int drmConn = 0;
+
+   // batocera
+   {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+	 if(drmConnRead>=0 && drmConn<g_drm_resources->count_connectors) {
+	   drmConn = drmConnRead;
+	 }
+       }
+     }
+   }
+   //
 
    /* Enumerate all connectors. */
 
@@ -75,7 +90,11 @@ bool drm_get_connector(int fd, unsigned monitor_index)
 
    for (i = 0; (int)i < g_drm_resources->count_connectors; i++)
    {
-      drmModeConnectorPtr conn = drmModeGetConnector(
+     drmModeConnectorPtr conn;
+
+     if(i != drmConn) continue;
+
+     conn = drmModeGetConnector(
             fd, g_drm_resources->connectors[i]);
 
       if (conn)
@@ -96,6 +115,8 @@ bool drm_get_connector(int fd, unsigned monitor_index)
 
    for (i = 0; (int)i < g_drm_resources->count_connectors; i++)
    {
+      if(i != drmConn) continue;
+
       g_drm_connector = drmModeGetConnector(fd,
             g_drm_resources->connectors[i]);
 
@@ -160,6 +181,22 @@ bool drm_get_encoder(int fd)
             g_drm_connector->modes[i].vdisplay,
             drm_calc_refresh_rate(&g_drm_connector->modes[i]));
    }
+
+   // batocera - set resolution
+   FILE* fdDrmMode;
+   int drmMode;
+   if((fdDrmMode = fopen("/var/run/drmMode", "r")) != NULL) {
+     if(fscanf(fdDrmMode, "%i", &drmMode) == 1) {
+       if(drmMode>=0 && drmMode<g_drm_connector->count_modes) {
+	 drmModeCrtc *pcrtc = drmModeGetCrtc(fd, g_drm_encoder->crtc_id);
+	 if(pcrtc != NULL) {
+	   drmModeSetCrtc(fd, pcrtc->crtc_id, pcrtc->buffer_id, 0, 0, &g_drm_connector->connector_id, 1, &g_drm_connector->modes[drmMode]);
+	 }
+       }
+     }
+     fclose(fdDrmMode);
+   }
+   //
 
    return true;
 }
