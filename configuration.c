@@ -4352,11 +4352,32 @@ static void save_keybind_mbutton(config_file_t *conf,
       case RETRO_DEVICE_ID_MOUSE_MIDDLE:
          config_set_uint64(conf, key, 3);
          break;
-      case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_1:
          config_set_uint64(conf, key, 4);
          break;
-      case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_2:
          config_set_uint64(conf, key, 5);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_3:
+         config_set_uint64(conf, key, 6);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
+         config_set_uint64(conf, key, 7);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
+         config_set_uint64(conf, key, 8);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_6:
+         config_set_uint64(conf, key, 9);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_7:
+         config_set_uint64(conf, key, 10);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_8:
+         config_set_uint64(conf, key, 11);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_9:
+         config_set_uint64(conf, key, 12);
          break;
       case RETRO_DEVICE_ID_MOUSE_WHEELUP:
          config_set_string(conf, key, "wu");
@@ -5680,10 +5701,31 @@ void input_config_parse_mouse_button(
                bind->mbutton = RETRO_DEVICE_ID_MOUSE_MIDDLE;
                break;
             case 4:
-               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_4;
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_1;
                break;
             case 5:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_2;
+               break;
+            case 6:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_3;
+               break;
+            case 7:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_4;
+               break;
+            case 8:
                bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_5;
+               break;
+            case 9:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_6;
+               break;
+            case 10:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_7;
+               break;
+            case 11:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_8;
+               break;
+            case 12:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_9;
                break;
          }
       }
