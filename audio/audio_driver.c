@@ -1332,8 +1332,8 @@ static void audio_driver_load_menu_bgm_callback(retro_task_t *task,
 void audio_driver_load_system_sounds(void)
 {
    char basename_noext[256];
-   char sounds_path[PATH_MAX_LENGTH];
-   char sounds_fallback_path[PATH_MAX_LENGTH];
+   char* sounds_path = "/usr/share/libretro/assets/sounds";
+   char* sounds_fallback_path = "/userdata/sounds/retroachievements";
    settings_t *settings                  = config_get_ptr();
    const char *dir_assets                = settings->paths.directory_assets;
    const bool audio_enable_menu          = settings->bools.audio_enable_menu;
@@ -1353,19 +1353,6 @@ void audio_driver_load_system_sounds(void)
 
    if (!audio_enable_menu && !audio_enable_cheevo_unlock)
       goto end;
-
-   sounds_path[0] = basename_noext[0] ='\0';
-
-   fill_pathname_join_special(
-         sounds_fallback_path,
-         dir_assets,
-         "sounds",
-         sizeof(sounds_fallback_path));
-
-   fill_pathname_application_special(
-         sounds_path,
-         sizeof(sounds_path),
-         APPLICATION_SPECIAL_DIRECTORY_ASSETS_SOUNDS);
 
    list          = dir_list_new(sounds_path, MENU_SOUND_FORMATS, false, false, false, false);
    list_fallback = dir_list_new(sounds_fallback_path, MENU_SOUND_FORMATS, false, false, false, false);
@@ -1410,8 +1397,13 @@ void audio_driver_load_system_sounds(void)
             path_notice = path;
          else if (string_is_equal_noncase(basename_noext, "bgm"))
             path_bgm = path;
-         else if (string_is_equal_noncase(basename_noext, "unlock"))
-            path_cheevo_unlock = path;
+         else if(string_is_empty(settings->arrays.cheevos_unlock_sound)) {
+            if (string_is_equal_noncase(basename_noext, "unlock"))
+               path_cheevo_unlock = path;
+            } else {
+               if (string_is_equal_noncase(basename_noext, settings->arrays.cheevos_unlock_sound))
+                  path_cheevo_unlock = path;
+            }
       }
    }
 

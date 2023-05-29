@@ -456,6 +456,8 @@ static void input_autoconfigure_connect_handler(retro_task_t *task)
        || !(autoconfig_handle->flags & AUTOCONF_FLAG_AUTOCONFIG_ENABLED))
       goto task_finished;
 
+   goto task_finished;
+
    /* Annoyingly, we have to scan all the autoconfig
     * files (and in-built configs) in a single shot
     * > Would prefer to scan one config per iteration

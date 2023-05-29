@@ -117,7 +117,7 @@ typedef struct
    int32_t x_min, y_min;
    int32_t x_max, y_max;
    int32_t x_rel, y_rel;
-   bool l, r, m, b4, b5;
+   bool l, r, m, b1, b2, b3, b4, b5, b6, b7, b8, b9;
    bool wu, wd, whu, whd;
    bool pp;
    int32_t abs;
@@ -487,6 +487,34 @@ static void udev_handle_mouse(void *data,
             case BTN_TOUCH:
                mouse->pp = event->value;
                break;
+	    case BTN_1:
+               mouse->b1 = event->value;
+               break;
+	    case BTN_2:
+               mouse->b2 = event->value;
+               break;
+	    case BTN_3:
+               mouse->b3 = event->value;
+               break;
+	    case BTN_4:
+               mouse->b4 = event->value;
+               break;
+	    case BTN_5:
+               mouse->b5 = event->value;
+               break;
+	    case BTN_6:
+               mouse->b6 = event->value;
+               break;
+	    case BTN_7:
+               mouse->b7 = event->value;
+               break;
+	    case BTN_8:
+               mouse->b8 = event->value;
+               break;
+	    case BTN_9:
+               mouse->b9 = event->value;
+               break;
+	       
             /*case BTN_??:
                mouse->b4 = event->value;
                break;*/
@@ -584,11 +612,9 @@ static int udev_input_add_device(udev_input_t *udev,
    if (type == UDEV_INPUT_MOUSE || type == UDEV_INPUT_TOUCHPAD )
    {
       bool mouse = 0;
-      /* gotta have some buttons!  return -1 to skip error logging for this:)  */
-      if (ioctl(fd, EVIOCGBIT(EV_KEY, sizeof (keycaps)), keycaps) == -1)
-      {
-         ret = -1;
-         goto end;
+
+      if (type == UDEV_INPUT_MOUSE) {
+	mouse = 1; // if it's a mouse, it is a mouse ; otherwise, guessing the mouse index to configure is a hell. (case of configurable keyboard which can have left/right mouse button settable)
       }
 
       if (ioctl(fd, EVIOCGBIT(EV_REL, sizeof (relcaps)), relcaps) != -1)
@@ -1002,10 +1028,24 @@ static int16_t udev_mouse_state(udev_input_t *udev,
          return mouse->r;
       case RETRO_DEVICE_ID_MOUSE_MIDDLE:
          return mouse->m;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_1:
+         return mouse->b1;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_2:
+         return mouse->b2;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_3:
+         return mouse->b3;
       case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
          return mouse->b4;
       case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
          return mouse->b5;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_6:
+         return mouse->b6;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_7:
+         return mouse->b7;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_8:
+         return mouse->b8;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_9:
+         return mouse->b9;
       case RETRO_DEVICE_ID_MOUSE_WHEELUP:
          return mouse->wu;
       case RETRO_DEVICE_ID_MOUSE_WHEELDOWN:
@@ -1041,10 +1081,24 @@ static bool udev_mouse_button_pressed(
          return mouse->r;
       case RETRO_DEVICE_ID_MOUSE_MIDDLE:
          return mouse->m;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_1:
+         return mouse->b1;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_2:
+         return mouse->b2;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_3:
+         return mouse->b3;
       case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
          return mouse->b4;
       case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
          return mouse->b5;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_6:
+         return mouse->b6;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_7:
+         return mouse->b7;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_8:
+         return mouse->b8;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_9:
+         return mouse->b9;
       case RETRO_DEVICE_ID_MOUSE_WHEELUP:
          return mouse->wu;
       case RETRO_DEVICE_ID_MOUSE_WHEELDOWN:
@@ -1262,7 +1316,7 @@ static int16_t udev_input_state(
                   const uint64_t bind_joyaxis    = input_config_binds[port][new_id].joyaxis;
                   const uint64_t autobind_joykey = input_autoconf_binds[port][new_id].joykey;
                   const uint64_t autobind_joyaxis= input_autoconf_binds[port][new_id].joyaxis;
-                  uint16_t port                  = joypad_info->joy_idx;
+                  uint16_t joyport                  = joypad_info->joy_idx;
                   float axis_threshold           = joypad_info->axis_threshold;
                   const uint64_t joykey          = (bind_joykey != NO_BTN)
                      ? bind_joykey  : autobind_joykey;
@@ -1276,12 +1330,13 @@ static int16_t udev_input_state(
                   if (binds[port][new_id].valid)
                   {
                      if ((uint16_t)joykey != NO_BTN && joypad->button(
-                              port, (uint16_t)joykey))
+                              joyport, (uint16_t)joykey))
                         return 1;
                      if (joyaxis != AXIS_NONE &&
-                           ((float)abs(joypad->axis(port, joyaxis))
+                           ((float)abs(joypad->axis(joyport, joyaxis))
                             / 0x8000) > axis_threshold)
                         return 1;
+
                      if (udev_mouse_button_pressed(udev, port,
                               binds[port][new_id].mbutton))
                         return 1;
@@ -1340,6 +1395,65 @@ static void udev_input_free(void *data)
    free(udev);
 }
 
+int event_isNumber(const char *s) {
+  int n;
+
+  if(strlen(s) == 0) {
+    return 0;
+  }
+
+  for(n=0; n<strlen(s); n++) {
+    if(!(s[n] == '0' || s[n] == '1' || s[n] == '2' || s[n] == '3' || s[n] == '4' ||
+         s[n] == '5' || s[n] == '6' || s[n] == '7' || s[n] == '8' || s[n] == '9'))
+      return 0;
+  }
+  return 1;
+}
+
+// compare /dev/input/eventX and /dev/input/eventY where X and Y are numbers
+int event_strcmp_events(const char* x, const char* y) {
+
+  // find a common string
+  int n, common, is_number;
+  int a, b;
+
+  n=0;
+  while(x[n] == y[n] && x[n] != '\0' && y[n] != '\0') {
+    n++;
+  }
+  common = n;
+
+  // check if remaining string is a number
+  is_number = 1;
+  if(event_isNumber(x+common) == 0) is_number = 0;
+  if(event_isNumber(y+common) == 0) is_number = 0;
+
+  if(is_number == 1) {
+    a = atoi(x+common);
+    b = atoi(y+common);
+
+    if(a == b) return  0;
+    if(a < b)  return -1;
+    return 1;
+  } else {
+    return strcmp(x, y);
+  }
+}
+
+struct event_udev_entry
+{
+   const char *devnode;
+   struct udev_list_entry *item;
+};
+
+/* Used for sorting devnodes to appear in the correct order */
+static int sort_devnodes(const void *a, const void *b)
+{
+   const struct event_udev_entry *aa = (const struct event_udev_entry*)a;
+   const struct event_udev_entry *bb = (const struct event_udev_entry*)b;
+   return event_strcmp_events(aa->devnode, bb->devnode);
+}
+
 static bool open_devices(udev_input_t *udev,
       enum udev_input_dev_type type, device_handle_cb cb)
 {
@@ -1347,6 +1461,10 @@ static bool open_devices(udev_input_t *udev,
    struct udev_list_entry     *devs = NULL;
    struct udev_list_entry     *item = NULL;
    struct udev_enumerate *enumerate = udev_enumerate_new(udev->udev);
+
+   unsigned i;
+   unsigned sorted_count = 0;
+   struct event_udev_entry sorted[64];
 
    if (!enumerate)
       return false;
@@ -1357,8 +1475,28 @@ static bool open_devices(udev_input_t *udev,
    devs = udev_enumerate_get_list_entry(enumerate);
 
    for (item = devs; item; item = udev_list_entry_get_next(item))
+     {
+       const char         *name = udev_list_entry_get_name(item);
+       struct udev_device  *dev = udev_device_new_from_syspath(udev->udev, name);
+       const char      *devnode = udev_device_get_devnode(dev);
+
+       if (devnode != NULL && sorted_count < 64) {
+	 sorted[sorted_count].devnode = devnode;
+	 sorted[sorted_count].item = item;
+	 sorted_count++;
+       } else {
+	 udev_device_unref(dev);
+       }
+     }
+
+   /* Sort the udev entries by devnode name so that they are
+    * created in the proper order */
+   qsort(sorted, sorted_count,
+         sizeof(struct event_udev_entry), sort_devnodes);
+
+   for (i = 0; i < sorted_count; i++)
    {
-      const char *name        = udev_list_entry_get_name(item);
+      const char *name = udev_list_entry_get_name(sorted[i].item);
 
       /* Get the filename of the /sys entry for the device
        * and create a udev_device object (dev) representing it. */

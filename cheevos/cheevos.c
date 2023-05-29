@@ -372,9 +372,10 @@ void rcheevos_award_achievement(rcheevos_locals_t* locals,
 
       if (shotname)
       {
-         snprintf(shotname, shotname_len, "%s/%s-cheevo-%u",
+         snprintf(shotname, shotname_len, "%s/%s - %s (%u)",
                settings->paths.directory_screenshot,
                path_basename(path_get(RARCH_PATH_BASENAME)),
+               cheevo->title,
                cheevo->id);
          shotname[shotname_len - 1] = '\0';
 
