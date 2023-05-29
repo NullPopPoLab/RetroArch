@@ -1434,6 +1434,7 @@ static struct config_array_setting *populate_settings_array(settings_t *settings
    SETTING_ARRAY("cheevos_custom_host",      settings->arrays.cheevos_custom_host, false, NULL, true);
    SETTING_ARRAY("cheevos_username",         settings->arrays.cheevos_username, false, NULL, true);
    SETTING_ARRAY("cheevos_password",         settings->arrays.cheevos_password, false, NULL, true);
+   SETTING_ARRAY("cheevos_unlock_sound",     settings->arrays.cheevos_unlock_sound, false, NULL, true);
    SETTING_ARRAY("cheevos_token",            settings->arrays.cheevos_token, false, NULL, true);
    SETTING_ARRAY("cheevos_leaderboards_enable", settings->arrays.cheevos_leaderboards_enable, true, "true", true);
 #endif
@@ -2712,6 +2713,7 @@ void config_set_defaults(void *data)
 #ifdef HAVE_CHEEVOS
    *settings->arrays.cheevos_username                 = '\0';
    *settings->arrays.cheevos_password                 = '\0';
+   *settings->arrays.cheevos_unlock_sound             = '\0';
    *settings->arrays.cheevos_token                    = '\0';
 #endif
 
@@ -4237,6 +4239,7 @@ bool config_load_remap(const char *directory_input_remapping,
    char content_dir_name[PATH_MAX_LENGTH];
    /* final path for core-specific configuration (prefix+suffix) */
    char core_path[PATH_MAX_LENGTH];
+   char common_path[PATH_MAX_LENGTH];
    /* final path for game-specific configuration (prefix+suffix) */
    char game_path[PATH_MAX_LENGTH];
    /* final path for content-dir-specific configuration (prefix+suffix) */
@@ -4253,6 +4256,7 @@ bool config_load_remap(const char *directory_input_remapping,
 
    content_dir_name[0] = '\0';
    core_path[0]        = '\0';
+   common_path[0]        = '\0';
    game_path[0]        = '\0';
    content_path[0]     = '\0';
 
@@ -4288,6 +4292,12 @@ bool config_load_remap(const char *directory_input_remapping,
          core_name,
          FILE_PATH_REMAP_EXTENSION,
          sizeof(core_path));
+
+   fill_pathname_join_special_ext(common_path,
+         directory_input_remapping, "common",
+         "common",
+         FILE_PATH_REMAP_EXTENSION,
+         sizeof(common_path));
 
    input_remapping_set_defaults(false);
 
@@ -4333,6 +4343,19 @@ bool config_load_remap(const char *directory_input_remapping,
       {
          retroarch_ctl(RARCH_CTL_SET_REMAPS_CORE_ACTIVE, NULL);
          msg_remap_loaded = MSG_CORE_REMAP_FILE_LOADED;
+         goto success;
+      }
+   }
+
+   /* common file */
+   if ((new_conf = config_file_new_from_path_to_string(common_path)))
+   {
+      bool ret = input_remapping_load_file(new_conf, common_path);
+      config_file_free(new_conf);
+      new_conf = NULL;
+      RARCH_LOG("[Remaps]: common remap found at \"%s\".\n", common_path);
+      if (ret)
+      {
          goto success;
       }
    }
@@ -4515,11 +4538,32 @@ static void save_keybind_mbutton(config_file_t *conf,
       case RETRO_DEVICE_ID_MOUSE_MIDDLE:
          config_set_uint64(conf, key, 3);
          break;
-      case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_1:
          config_set_uint64(conf, key, 4);
          break;
-      case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_2:
          config_set_uint64(conf, key, 5);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_3:
+         config_set_uint64(conf, key, 6);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
+         config_set_uint64(conf, key, 7);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
+         config_set_uint64(conf, key, 8);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_6:
+         config_set_uint64(conf, key, 9);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_7:
+         config_set_uint64(conf, key, 10);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_8:
+         config_set_uint64(conf, key, 11);
+         break;
+      case RETRO_DEVICE_ID_MOUSE_BUTTON_9:
+         config_set_uint64(conf, key, 12);
          break;
       case RETRO_DEVICE_ID_MOUSE_WHEELUP:
          config_set_string(conf, key, "wu");
@@ -6030,10 +6074,31 @@ void input_config_parse_mouse_button(
                bind->mbutton = RETRO_DEVICE_ID_MOUSE_MIDDLE;
                break;
             case 4:
-               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_4;
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_1;
                break;
             case 5:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_2;
+               break;
+            case 6:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_3;
+               break;
+            case 7:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_4;
+               break;
+            case 8:
                bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_5;
+               break;
+            case 9:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_6;
+               break;
+            case 10:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_7;
+               break;
+            case 11:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_8;
+               break;
+            case 12:
+               bind->mbutton = RETRO_DEVICE_ID_MOUSE_BUTTON_9;
                break;
          }
       }

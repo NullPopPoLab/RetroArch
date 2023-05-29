@@ -532,7 +532,21 @@ bool drmkms_timing::init()
 	char drm_name[15] = "/dev/dri/card_";
 	drmModeRes *p_res;
 	drmModeConnector *p_connector;
+	int drmConn = 0;
 
+   // batocera
+   {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+         if(drmConnRead>=0 && drmConn<p_res->count_connectors) {
+            drmConn = drmConnRead;
+         }
+       }
+     }
+   }
+   //
 	int output_position = 0;
 	for (int num = 0; !m_desktop_output && num < MAX_CARD_ID; num++)
 	{
