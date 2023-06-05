@@ -4652,6 +4652,9 @@ bool config_save_autoconf_profile(const
       }
    }
 
+   /* autoconf_dir is required */
+   if(!path_is_directory(autoconf_dir))path_mkdir(autoconf_dir);
+ 
    /* Generate autoconfig file path */
    fill_pathname_join_special(buf, autoconf_dir, joypad_driver, sizeof(buf));
 
