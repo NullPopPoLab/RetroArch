@@ -855,21 +855,20 @@ void retroarch_path_set_redirect(settings_t *settings)
          savestate_is_dir   = path_is_directory(runloop_st->name.savestate);
 
 		fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+		if(string_is_empty(subdir)){
+			strlcpy(subdir,system->library_name,sizeof(subdir));
+		}
 
       if (savefile_is_dir)
       {
-		if(string_is_empty(subdir)){
-         fill_pathname_dir(runloop_st->name.savefile,
-			   system->library_name,
-               FILE_PATH_SRM_EXTENSION,
-               sizeof(runloop_st->name.savefile));
-		}
-		else{
-			fill_pathname_subdir(runloop_st->name.savefile,
-			   subdir,
-			   FILE_PATH_SRM_EXTENSION,
-			   sizeof(runloop_st->name.savefile));
-		}
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+		fill_pathname_subdir(runloop_st->name.savefile,
+		   subdir2,
+           "sram",
+           sizeof(runloop_st->name.savefile));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
                runloop_st->name.savefile);
@@ -877,18 +876,14 @@ void retroarch_path_set_redirect(settings_t *settings)
 
       if (savestate_is_dir)
       {
-		if(string_is_empty(subdir)){
-         fill_pathname_dir(runloop_st->name.savestate,
-			   system->library_name,
-			   FILE_PATH_STATE_EXTENSION,
-			   sizeof(runloop_st->name.savestate));
-		}
-		else{
-			fill_pathname_subdir(runloop_st->name.savestate,
-			   subdir,
-               FILE_PATH_STATE_EXTENSION,
-               sizeof(runloop_st->name.savestate));
-		}
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+		fill_pathname_subdir(runloop_st->name.savestate,
+		   subdir2,
+           "state",
+           sizeof(runloop_st->name.savestate));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_SAVESTATE_TO),
                runloop_st->name.savestate);
@@ -897,18 +892,10 @@ void retroarch_path_set_redirect(settings_t *settings)
 #ifdef HAVE_CHEATS
       if (path_is_directory(runloop_st->name.cheatfile))
       {
-		if(string_is_empty(subdir)){
-         fill_pathname_dir(runloop_st->name.cheatfile,
-			   system->library_name,
-			   FILE_PATH_CHT_EXTENSION,
-			   sizeof(runloop_st->name.cheatfile));
-		}
-		else{
-			fill_pathname_subdir(runloop_st->name.cheatfile,
-			   subdir,
-               FILE_PATH_CHT_EXTENSION,
-               sizeof(runloop_st->name.cheatfile));
-		}
+		fill_pathname_subdir(runloop_st->name.cheatfile,
+		   subdir,
+           FILE_PATH_CHT_EXTENSION,
+           sizeof(runloop_st->name.cheatfile));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_CHEATFILE_TO),
                runloop_st->name.cheatfile);
@@ -965,9 +952,13 @@ void path_set_special(char **argv, unsigned num_content)
 
    if (is_dir)
    {
+	char str2[PATH_MAX_LENGTH];
+	str2[0]=0;
+	strlcat(str2, str, sizeof(str2));
+	fill_pathname_slash(str2,sizeof(str2));
       fill_pathname_dir(runloop_st->name.savestate,
-            str,
-            ".state",
+            str2,
+            "state",
             sizeof(runloop_st->name.savestate));
       RARCH_LOG("%s \"%s\".\n",
             msg_hash_to_str(MSG_REDIRECTING_SAVESTATE_TO),

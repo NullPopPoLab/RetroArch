@@ -5642,18 +5642,36 @@ bool runloop_path_init_subsystem(void)
    /* Let other relevant paths be inferred 
       from the main SRAM location. */
    if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savefile,
-            subdir,
-            ".srm",
-            sizeof(runloop_st->name.savefile));
+            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+         fill_pathname_dir(subdir2,
+               subdir,
+               "",
+               sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+	}
 
    if (path_is_directory(runloop_st->name.savefile))
    {
-      fill_pathname_subdir(runloop_st->name.savefile,
-            subdir,
-            ".srm",
-            sizeof(runloop_st->name.savefile));
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+         fill_pathname_dir(subdir2,
+               subdir,
+               "",
+               sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+
       RARCH_LOG("%s \"%s\".\n",
             msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
             runloop_st->name.savefile);
@@ -7872,12 +7890,10 @@ bool retroarch_get_current_savestate_path(char *path, size_t len)
    if (string_is_empty(name_savestate))
       return false;
 
-   if (state_slot > 0)
-      snprintf(path, len, "%s%d",  name_savestate, state_slot);
-   else if (state_slot < 0)
+   if (state_slot < 0)
       fill_pathname_join_delim(path, name_savestate, "auto", '.', len);
    else
-      strlcpy(path, name_savestate, len);
+      snprintf(path, len, "%s%d",  name_savestate, state_slot);
 
    return true;
 }
@@ -8296,16 +8312,30 @@ void runloop_path_set_names(void)
 	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 
    if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savefile,
-            subdir,
-            ".srm", sizeof(runloop_st->name.savefile));
+            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+	}
 
    if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_STATE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savestate,
-            subdir,
-            ".state", sizeof(runloop_st->name.savestate));
+            RARCH_OVERRIDE_SETTING_STATE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savestate,
+               subdir2,
+               "state",
+               sizeof(runloop_st->name.savestate));
+	}
 
 #ifdef HAVE_CHEATS
    if (!string_is_empty(runloop_st->runtime_content_path_basename))

@@ -3685,13 +3685,18 @@ static bool config_load_file(global_t *global,
 
       else if (path_is_directory(tmp_str))
       {
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
          dir_set(RARCH_DIR_SAVEFILE, tmp_str);
 
          strlcpy(runloop_st->name.savefile, tmp_str,
                sizeof(runloop_st->name.savefile));
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savefile,
-               subdir,
-               FILE_PATH_SRM_EXTENSION,
+               subdir2,
+               "sram",
                sizeof(runloop_st->name.savefile));
       }
       else
@@ -3705,13 +3710,18 @@ static bool config_load_file(global_t *global,
          dir_set(RARCH_DIR_SAVESTATE, g_defaults.dirs[DEFAULT_DIR_SAVESTATE]);
       else if (path_is_directory(tmp_str))
       {
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
          dir_set(RARCH_DIR_SAVESTATE, tmp_str);
 
          strlcpy(runloop_st->name.savestate, tmp_str,
                sizeof(runloop_st->name.savestate));
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savestate,
-               subdir,
-               ".state",
+               subdir2,
+               "state",
                sizeof(runloop_st->name.savestate));
       }
       else
