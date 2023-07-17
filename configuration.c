@@ -3245,7 +3245,6 @@ static bool config_load_file(global_t *global,
    struct config_array_setting *array_settings     = NULL;
    struct config_path_setting *path_settings       = NULL;
    config_file_t *conf                             = path ? config_file_new_from_path_to_string(path) : open_default_config_file();
-	char subdir[PATH_MAX_LENGTH];
 
    tmp_str[0]                                      = '\0';
 
@@ -3675,24 +3674,22 @@ static bool config_load_file(global_t *global,
          settings->bools.bluetooth_enable, filestream_exists(LAKKA_BLUETOOTH_PATH));
 #endif
 
-	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
-
    if (!retroarch_override_setting_is_set(RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL) &&
          config_get_path(conf, "savefile_directory", tmp_str, sizeof(tmp_str)))
    {
       if (string_is_equal(tmp_str, "default"))
          dir_set(RARCH_DIR_SAVEFILE, g_defaults.dirs[DEFAULT_DIR_SRAM]);
-
       else if (path_is_directory(tmp_str))
       {
 		char subdir2[PATH_MAX_LENGTH];
 		subdir2[0]=0;
 
+		fill_pathname_specific_game_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
+
          dir_set(RARCH_DIR_SAVEFILE, tmp_str);
 
          strlcpy(runloop_st->name.savefile, tmp_str,
                sizeof(runloop_st->name.savefile));
-		strlcat(subdir2, subdir, sizeof(subdir2));
 		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savefile,
                subdir2,
@@ -3713,11 +3710,12 @@ static bool config_load_file(global_t *global,
 		char subdir2[PATH_MAX_LENGTH];
 		subdir2[0]=0;
 
+		fill_pathname_specific_game_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
+
          dir_set(RARCH_DIR_SAVESTATE, tmp_str);
 
          strlcpy(runloop_st->name.savestate, tmp_str,
                sizeof(runloop_st->name.savestate));
-		strlcat(subdir2, subdir, sizeof(subdir2));
 		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savestate,
                subdir2,
@@ -3824,30 +3822,19 @@ bool config_load_override(void *data)
    if (string_is_empty(core_name) || string_is_empty(game_name))
       return false;
 
-   config_directory[0] = core_path[0] = game_path[0] = '\0';
+   config_directory[0] = core_path[0] = game_path[0] = content_path[0] = '\0';
 
-   fill_pathname_application_special(config_directory, sizeof(config_directory),
-         APPLICATION_SPECIAL_DIRECTORY_CONFIG);
+	strlcpy(config_directory,dir_get_ptr(RARCH_DIR_CURRENT_SAVEFILE),sizeof(config_directory));
 
    /* Concatenate strings into full paths for core_path, game_path, 
     * content_path */
-   fill_pathname_join_special_ext(game_path,
-         config_directory, core_name,
-         game_name,
-         ".cfg",
-         sizeof(game_path));
+	fill_pathname_specific_game_name(game_path,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
+	fill_pathname_join_special_ext(game_path, game_path, NULL, core_name, ".cfg", sizeof(game_path));
 
-   fill_pathname_join_special_ext(content_path,
-      config_directory, core_name,
-      content_dir_name,
-      ".cfg",
-      sizeof(content_path));
+	fill_pathname_specific_folder_name(content_path,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
+	fill_pathname_join_special_ext(content_path, content_path, NULL, core_name, ".cfg", sizeof(content_path));
 
-   fill_pathname_join_special_ext(core_path,
-         config_directory, NULL,
-         core_name,
-         ".cfg",
-         sizeof(core_path));
+	fill_pathname_join_special_ext(core_path, config_directory, NULL, core_name, ".cfg", sizeof(core_path));
 
    /* per-core overrides */
    /* Create a new config file from core_path */
@@ -4033,24 +4020,17 @@ bool config_load_remap(const char *directory_input_remapping,
 
    remap_directory[0] = core_path[0] = game_path[0] = '\0';
 
-   strlcpy(remap_directory,
-         directory_input_remapping, sizeof(remap_directory));
+	strlcpy(remap_directory,dir_get_ptr(RARCH_DIR_CURRENT_SAVEFILE),sizeof(remap_directory));
    RARCH_LOG("[Remaps]: Remap directory: \"%s\".\n", remap_directory);
 
    /* Concatenate strings into full paths for core_path, game_path */
-   fill_pathname_join_special_ext(core_path,
-         remap_directory, NULL,
-         core_name,
-         FILE_PATH_REMAP_EXTENSION,
-         sizeof(core_path));
+	fill_pathname_join_special_ext(core_path, remap_directory, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(core_path));
 
-	fill_pathname_join(content_path,remap_directory,core_name,sizeof(content_path));
-	fill_pathname_specific_folder_name(content_path,content_path,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
-	strlcat(content_path, FILE_PATH_REMAP_EXTENSION, sizeof(content_path));
+	fill_pathname_specific_folder_name(content_path,remap_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
+	fill_pathname_join_special_ext(content_path, content_path, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(content_path));
 
-	fill_pathname_join(game_path,remap_directory,core_name,sizeof(game_path));
-	fill_pathname_specific_game_name(game_path,game_path,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
-	strlcat(game_path, FILE_PATH_REMAP_EXTENSION, sizeof(game_path));
+	fill_pathname_specific_boot_name(game_path,remap_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
+	fill_pathname_join_special_ext(game_path, game_path, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(game_path));
 
    input_remapping_set_defaults(false);
 

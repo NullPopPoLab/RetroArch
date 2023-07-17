@@ -1101,7 +1101,7 @@ static bool validate_game_options(
 		fill_pathname_specific_folder_name(config_directory,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(config_directory),true);
 	}
 
-	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+	fill_pathname_specific_boot_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 	   return validate_per_core_options(s, len, mkdir,
 	         core_name, subdir);
 }
@@ -1988,9 +1988,29 @@ bool runloop_environment_cb(unsigned cmd, void *data)
          }
          break;
 
-      case RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY:
-         RARCH_LOG("[Environ]: GET_SAVE_DIRECTORY.\n");
-         *(const char**)data = runloop_st->savefile_dir;
+      case RETRO_ENVIRONMENT_GET_ROOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_ROOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->root_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_SYSTEM_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_SYSTEM_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->sys_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GROUP_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GROUP_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->grp_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GAME_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GAME_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->game_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_BOOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_BOOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->boot_savefile_dir;
          break;
 
       case RETRO_ENVIRONMENT_GET_USERNAME:
@@ -5414,7 +5434,7 @@ bool runloop_event_init_core(
    disk_control_set_initial_index(
          &sys_info->disk_control,
          path_get(RARCH_PATH_CONTENT),
-         runloop_st->savefile_dir);
+         runloop_st->game_savefile_dir);
 
    if (!event_init_content(settings, input_st))
    {
@@ -5575,15 +5595,11 @@ bool runloop_path_init_subsystem(void)
    runloop_state_t             *runloop_st = &runloop_state;
    rarch_system_info_t             *system = &runloop_st->system;
    bool subsystem_path_empty               = path_is_empty(RARCH_PATH_SUBSYSTEM);
-   const char                *savefile_dir = runloop_st->savefile_dir;
    settings_t            *settings         = config_get_ptr();
-	char subdir[PATH_MAX_LENGTH];
 
    if (!system || subsystem_path_empty)
       return false;
    /* For subsystems, we know exactly which RAM types are supported. */
-
-	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 
    info = libretro_find_subsystem_info(
          system->subsystem.data,
@@ -5618,19 +5634,15 @@ bool runloop_path_init_subsystem(void)
                   sizeof(savename));
             path_remove_extension(savename);
 
-            if (path_is_directory(savefile_dir))
+            if (path_is_directory(runloop_st->sys_savefile_dir))
             {
                /* Use SRAM dir */
                /* Redirect content fullpath to save directory. */
-               strlcpy(path, savefile_dir, sizeof(path));
+               strlcpy(path, runloop_st->sys_savefile_dir, sizeof(path));
                fill_pathname_dir(path, savename, ext, sizeof(path));
             }
             else
                fill_pathname(path, savename, ext, sizeof(path));
-
-            RARCH_LOG("%s \"%s\".\n",
-               msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
-               path);
 
             attr.i = mem->type;
             string_list_append((struct string_list*)savefile_ptr_get(),
@@ -5646,11 +5658,6 @@ bool runloop_path_init_subsystem(void)
 		char subdir2[PATH_MAX_LENGTH];
 		subdir2[0]=0;
 
-         fill_pathname_dir(subdir2,
-               subdir,
-               "",
-               sizeof(subdir2));
-		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savefile,
                subdir2,
                "sram",
@@ -5662,11 +5669,6 @@ bool runloop_path_init_subsystem(void)
 		char subdir2[PATH_MAX_LENGTH];
 		subdir2[0]=0;
 
-         fill_pathname_dir(subdir2,
-               subdir,
-               "",
-               sizeof(subdir2));
-		fill_pathname_slash(subdir2,sizeof(subdir2));
          fill_pathname_dir(runloop_st->name.savefile,
                subdir2,
                "sram",
@@ -6540,7 +6542,7 @@ static enum runloop_state_enum runloop_check_state(
 			{
 				char basename[PATH_MAX_LENGTH];
 	            char *p;
-				fill_pathname_specific_game_name(basename,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(basename),false);
+				fill_pathname_specific_boot_name(basename,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(basename),false);
 				for(p=basename;*p;++p)if(*p=='/'||*p=='\\')*p='-';
                screenshot_path          = basename;
 			}

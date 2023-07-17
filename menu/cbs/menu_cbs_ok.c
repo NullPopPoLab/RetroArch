@@ -3394,7 +3394,7 @@ static int generic_action_ok_remap_file_operation(const char *path,
 	         break;
 	      case ACTION_OK_REMAP_FILE_SAVE_GAME:
 	      case ACTION_OK_REMAP_FILE_REMOVE_GAME:
-					fill_pathname_specific_game_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
+					fill_pathname_specific_boot_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
 	         break;
 	      case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
 	      case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:

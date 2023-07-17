@@ -2011,6 +2011,8 @@ bool content_save_ram_file(unsigned slot, bool compress)
          msg_hash_to_str(MSG_TO),
          ram.path);
 
+	path_parent_mkdir(ram.path);
+
 #if defined(HAVE_ZLIB)
    if (compress)
       write_success = rzipstream_write_file(
