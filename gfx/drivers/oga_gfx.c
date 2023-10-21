@@ -21,7 +21,7 @@
 
 #include <fcntl.h>
 #include <rga/RgaApi.h>
-#include <rga/RockchipRgaMacro.h>
+#include <rga/drmrga.h>
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 #include <drm/drm_fourcc.h>
@@ -108,6 +108,7 @@ static bool oga_create_display(oga_video_t* vid)
    drmModeModeInfo *mode;
    drmModeEncoder *encoder;
    drmModeRes *resources;
+   int drmConn = 0;
 
    vid->fd = open("/dev/dri/card0", O_RDWR);
    if (vid->fd < 0)
@@ -123,8 +124,24 @@ static bool oga_create_display(oga_video_t* vid)
       goto err_01;
    }
 
+   // batocera
+   {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+    if(drmConnRead>=0 && drmConn<resources->count_connectors) {
+      drmConn = drmConnRead;
+    }
+       }
+     }
+   }
+   //
+
    for (i = 0; i < resources->count_connectors; i++)
    {
+      if(i != drmConn) continue;
+
       connector = drmModeGetConnector(vid->fd, resources->connectors[i]);
       if (connector->connection == DRM_MODE_CONNECTED)
          break;

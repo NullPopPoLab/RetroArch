@@ -336,6 +336,13 @@ void rcheevos_award_achievement(rcheevos_locals_t* locals,
    CHEEVOS_LOG(RCHEEVOS_TAG "Awarding achievement %u: %s (%s)\n",
          cheevo->id, cheevo->title, cheevo->description);
 
+   const char* cheevos_cmd = settings->arrays.cheevos_cmd;
+   if (cheevos_cmd[0]) {
+     char cmdargs[256];
+     snprintf(cmdargs, sizeof(cmdargs), "%s %u \"%s\" \"%s\" > /dev/null 2>/dev/null", cheevos_cmd, cheevo->id, cheevo->title, cheevo->description);
+     system(cmdargs);
+   }
+
    /* Show the on screen message. */
    if (settings->bools.cheevos_visibility_unlock)
    {
@@ -377,9 +384,10 @@ void rcheevos_award_achievement(rcheevos_locals_t* locals,
       if (shotname)
       {
          video_driver_state_t *video_st  = video_state_get_ptr();;
-         snprintf(shotname, shotname_len, "%s/%s-cheevo-%u",
+         snprintf(shotname, shotname_len, "%s/%s - %s (%u)",
                settings->paths.directory_screenshot,
                path_basename(path_get(RARCH_PATH_BASENAME)),
+               cheevo->title,
                cheevo->id);
          shotname[shotname_len - 1] = '\0';
 

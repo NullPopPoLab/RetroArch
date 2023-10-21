@@ -1628,8 +1628,15 @@ static bool menu_input_key_bind_poll_find_trigger_pad(
          case RETRO_DEVICE_ID_MOUSE_LEFT:
          case RETRO_DEVICE_ID_MOUSE_RIGHT:
          case RETRO_DEVICE_ID_MOUSE_MIDDLE:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_1:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_2:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_3:
          case RETRO_DEVICE_ID_MOUSE_BUTTON_4:
          case RETRO_DEVICE_ID_MOUSE_BUTTON_5:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_6:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_7:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_8:
+         case RETRO_DEVICE_ID_MOUSE_BUTTON_9:
          case RETRO_DEVICE_ID_MOUSE_WHEELUP:
          case RETRO_DEVICE_ID_MOUSE_WHEELDOWN:
          case RETRO_DEVICE_ID_MOUSE_HORIZ_WHEELUP:

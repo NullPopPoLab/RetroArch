@@ -99,6 +99,7 @@ typedef struct go2_presenter
 go2_display_t* go2_display_create()
 {
     int i;
+    int drmConn = 0;
 
     go2_display_t* result = malloc(sizeof(*result));
     if (!result)
@@ -126,11 +127,26 @@ go2_display_t* go2_display_create()
         goto err_01;
     }
 
+   // batocera
+    {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+    if(drmConnRead>=0 && drmConn<resources->count_connectors) {
+      drmConn = drmConnRead;
+    }
+       }
+     }
+   }
+   //
 
     // Find connector
     drmModeConnector* connector;
     for (i = 0; i < resources->count_connectors; i++)
     {
+        if(i != drmConn) continue;
+
         connector = drmModeGetConnector(result->fd, resources->connectors[i]);
         if (connector->connection == DRM_MODE_CONNECTED) {
             break;
@@ -148,13 +164,29 @@ go2_display_t* go2_display_create()
 
     result->connector_id = connector->connector_id;
 
+   // batocera - set resolution
+    int drmMode = 0;
+    {
+      FILE* fdDrmMode;
+      int readDrmMode;
+      if((fdDrmMode = fopen("/var/run/drmMode", "r")) != NULL) {
+	if(fscanf(fdDrmMode, "%i", &readDrmMode) == 1) {
+	  if(readDrmMode>=0 && readDrmMode<connector->count_modes) {
+	    drmMode = readDrmMode;
+	  }
+	}
+	fclose(fdDrmMode);
+      }
+    }
+   //
 
     // Find prefered mode
     drmModeModeInfo* mode;
     for (i = 0; i < connector->count_modes; i++)
     {
         drmModeModeInfo *current_mode = &connector->modes[i];
-        if (current_mode->type & DRM_MODE_TYPE_PREFERRED)
+        //if (current_mode->type & DRM_MODE_TYPE_PREFERRED)
+	if(i == drmMode)
         {
             mode = current_mode;
             break;
@@ -1211,7 +1243,7 @@ go2_context_t* go2_context_create(go2_display_t* display, int width, int height,
     }
 
 
-    result->eglSurface = eglCreateWindowSurface(result->eglDisplay, eglConfig, (EGLNativeWindowType)result->gbmSurface, NULL);	
+    result->eglSurface = eglCreateWindowSurface(result->eglDisplay, eglConfig, (EGLNativeWindowType)result->gbmSurface, NULL);
     if (result->eglSurface == EGL_NO_SURFACE)
     {
         printf("eglCreateWindowSurface failed\n");

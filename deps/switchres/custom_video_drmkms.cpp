@@ -532,7 +532,21 @@ bool drmkms_timing::init()
 	char drm_name[15] = "/dev/dri/card_";
 	drmModeRes *p_res;
 	drmModeConnector *p_connector;
+	int drmConn = 0;
 
+   // batocera
+   {
+     FILE* fdDrmConn;
+     int drmConnRead;
+     if((fdDrmConn = fopen("/var/run/drmConn", "r")) != NULL) {
+       if(fscanf(fdDrmConn, "%i", &drmConnRead) == 1) {
+         if(drmConnRead>=0 && drmConn<p_res->count_connectors) {
+            drmConn = drmConnRead;
+         }
+       }
+     }
+   }
+   //
 	int output_position = 0;
 	for (int num = 0; !m_desktop_output && num < MAX_CARD_ID; num++)
 	{
@@ -549,12 +563,12 @@ bool drmkms_timing::init()
 		log_verbose("DRM/KMS: <%d> (init) version %d.%d.%d type %s\n", m_id, version->version_major, version->version_minor, version->version_patchlevel, version->name);
 		drmFreeVersion(version);
 
-		uint64_t check_dumb = 0;
+		/*uint64_t check_dumb = 0;
 		if (drmGetCap(m_drm_fd, DRM_CAP_DUMB_BUFFER, &check_dumb) < 0)
 			log_error("DRM/KMS: <%d> (init) [ERROR] ioctl DRM_CAP_DUMB_BUFFER\n", m_id);
 
 		if (!check_dumb)
-			log_error("DRM/KMS: <%d> (init) [ERROR] dumb buffer not supported\n", m_id);
+			log_error("DRM/KMS: <%d> (init) [ERROR] dumb buffer not supported\n", m_id);*/
 
 		p_res = drmModeGetResources(m_drm_fd);
 

@@ -415,6 +415,10 @@ static void gfx_ctx_wl_input_driver(void *data,
       const char *joypad_name,
       input_driver_t **input, void **input_data)
 {
+   *input      = NULL;
+   *input_data = NULL;
+   return;
+
    gfx_ctx_wayland_data_t *wl = (gfx_ctx_wayland_data_t*)data;
    /* Input is heavily tied to the window stuff
     * on Wayland, so just implement the input driver here. */

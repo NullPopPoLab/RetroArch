@@ -430,9 +430,11 @@ typedef struct settings
       char menu_driver[32];
       char cheevos_username[32];
       char cheevos_password[256];
+      char cheevos_unlock_sound[128];
       char cheevos_token[32];
       char cheevos_leaderboards_enable[32];
       char cheevos_custom_host[64];
+      char cheevos_cmd[256];
       char video_context_driver[32];
       char audio_driver[32];
       char audio_resampler[32];
