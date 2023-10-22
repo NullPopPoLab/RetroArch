@@ -2059,7 +2059,8 @@ bool runloop_environment_cb(unsigned cmd, void *data)
             "B (bottom)", "Y (left)", "Select", "Start",
             "D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
             "A (right)", "X (up)",
-            "L", "R", "L2", "R2", "L3", "R3",
+            "L", "R", "L2", "R2", "L3", "R3", "C", "Z", "Menu", "Opt",
+            "L4", "R4", "L5", "R5", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"
          };
 
          if (system)
@@ -2162,7 +2163,7 @@ bool runloop_environment_cb(unsigned cmd, void *data)
                   {
                      unsigned mapped_port = settings->uints.input_remap_ports[p];
 
-                     for (retro_id = 0; retro_id < RARCH_FIRST_CUSTOM_BIND; retro_id++)
+                     for (retro_id = 0; retro_id < RARCH_DIGITAL_BIND_LIST_END; retro_id++)
                      {
                         const char *description = system->input_desc_btn[mapped_port][retro_id];
 
@@ -4447,7 +4448,7 @@ static bool core_verify_api_version(runloop_state_t *runloop_st)
    return true;
 }
 
-static int16_t core_input_state_poll_late(unsigned port,
+static int32_t core_input_state_poll_late(unsigned port,
       unsigned device, unsigned idx, unsigned id)
 {
    runloop_state_t     *runloop_st       = &runloop_state;
@@ -6271,6 +6272,24 @@ static enum runloop_state_enum runloop_check_state(
       input_st->ai_gamepad_state[13] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R2);
       input_st->ai_gamepad_state[14] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L3);
       input_st->ai_gamepad_state[15] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R3);
+
+      input_st->ai_gamepad_state[16] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_C);
+      input_st->ai_gamepad_state[17] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_Z);
+      input_st->ai_gamepad_state[18] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_MENU);
+      input_st->ai_gamepad_state[19] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_OPT);
+
+      input_st->ai_gamepad_state[20] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L4);
+      input_st->ai_gamepad_state[21] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R4);
+      input_st->ai_gamepad_state[22] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L5);
+      input_st->ai_gamepad_state[23] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R5);
+      input_st->ai_gamepad_state[24] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G1);
+      input_st->ai_gamepad_state[25] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G2);
+      input_st->ai_gamepad_state[26] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G3);
+      input_st->ai_gamepad_state[27] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G4);
+      input_st->ai_gamepad_state[28] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G5);
+      input_st->ai_gamepad_state[29] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G6);
+      input_st->ai_gamepad_state[30] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G7);
+      input_st->ai_gamepad_state[31] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G8);
    }
 #endif
 #endif

@@ -85,7 +85,7 @@ static void kb_key_callback(KBDKeyEvent *key)
          RETRO_DEVICE_KEYBOARD);
 }
 
-static int16_t wiiu_input_state(
+static int32_t wiiu_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,

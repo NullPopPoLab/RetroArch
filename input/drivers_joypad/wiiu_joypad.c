@@ -77,13 +77,13 @@ static int16_t wiiu_joypad_axis(unsigned port, uint32_t joyaxis)
    return joypad_state.pads[port].input_driver->axis(port, joyaxis);
 }
 
-static int16_t wiiu_joypad_state(
+static int32_t wiiu_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
 
    if (!wiiu_joypad_query_pad(port_idx))

@@ -549,7 +549,7 @@ static unsigned dinput_retro_id_to_rarch(unsigned id)
    return 0;
 }
 
-static int16_t dinput_input_state(
+static int32_t dinput_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -570,7 +570,7 @@ static int16_t dinput_input_state(
       {
          case RETRO_DEVICE_JOYPAD:
             {
-               int16_t ret = 0;
+               int32_t ret = 0;
                settings    = config_get_ptr();
 
                if (id == RETRO_DEVICE_ID_JOYPAD_MASK)

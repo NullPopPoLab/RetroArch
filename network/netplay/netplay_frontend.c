@@ -7503,7 +7503,7 @@ static void netplay_toggle_play_spectate(netplay_t *netplay)
    }
 }
 
-static int16_t netplay_input_state(netplay_t *netplay,
+static int32_t netplay_input_state(netplay_t *netplay,
       unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
@@ -7662,9 +7662,9 @@ static bool get_self_input_state(
                /* no break */
 
             case RETRO_DEVICE_JOYPAD:
-               for (i = 0; i <= RETRO_DEVICE_ID_JOYPAD_R3; i++)
+               for (i = 0; i < RARCH_DIGITAL_BIND_LIST_END; i++)
                {
-                  int16_t tmp = cb(local_device,
+                  int32_t tmp = cb(local_device,
                         RETRO_DEVICE_JOYPAD, 0, (unsigned)i);
                   state[0] |= tmp ? 1 << i : 0;
                }
@@ -8451,7 +8451,7 @@ static bool netplay_mitm_query(const char *handle)
    return !string_is_empty(host_room->mitm_address) && host_room->mitm_port;
 }
 
-int16_t input_state_net(unsigned port, unsigned device,
+int32_t input_state_net(unsigned port, unsigned device,
       unsigned idx, unsigned id)
 {
    net_driver_state_t *net_st  = &networking_driver_st;

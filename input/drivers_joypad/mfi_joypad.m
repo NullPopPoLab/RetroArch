@@ -562,13 +562,13 @@ static int16_t apple_gamecontroller_joypad_axis(
     return 0;
 }
 
-static int16_t apple_gamecontroller_joypad_state(
+static int32_t apple_gamecontroller_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
 
    if (port_idx < DEFAULT_MAX_PADS)
