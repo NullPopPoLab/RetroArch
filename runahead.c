@@ -37,7 +37,7 @@
 #include "runloop.h"
 #include "verbosity.h"
 
-static int16_t input_state_get_last(unsigned port,
+static int32_t input_state_get_last(unsigned port,
       unsigned device, unsigned index, unsigned id)
 {
    int i;
@@ -723,8 +723,8 @@ static void *input_list_element_constructor(void)
    element->port               = 0;
    element->device             = 0;
    element->index              = 0;
-   element->state              = (int16_t*)calloc(NAME_MAX_LENGTH,
-         sizeof(int16_t));
+   element->state              = (int32_t*)calloc(NAME_MAX_LENGTH,
+         sizeof(int32_t));
    element->state_size         = NAME_MAX_LENGTH;
 
    return ptr;
@@ -736,10 +736,10 @@ static void input_list_element_realloc(
 {
    if (new_size > element->state_size)
    {
-      element->state = (int16_t*)realloc(element->state,
-            new_size * sizeof(int16_t));
+      element->state = (int32_t*)realloc(element->state,
+            new_size * sizeof(int32_t));
       memset(&element->state[element->state_size], 0,
-            (new_size - element->state_size) * sizeof(int16_t));
+            (new_size - element->state_size) * sizeof(int32_t));
       element->state_size = new_size;
    }
 }
@@ -768,7 +768,7 @@ static void input_list_element_destructor(void* element_ptr)
 static void runahead_input_state_set_last(
       runloop_state_t *runloop_st,
       unsigned port, unsigned device,
-      unsigned index, unsigned id, int16_t value)
+      unsigned index, unsigned id, int32_t value)
 {
    unsigned i;
    input_list_element *element = NULL;
@@ -809,17 +809,17 @@ static void runahead_input_state_set_last(
    }
 }
 
-static int16_t runahead_input_state_with_logging(unsigned port,
+static int32_t runahead_input_state_with_logging(unsigned port,
       unsigned device, unsigned index, unsigned id)
 {
    runloop_state_t     *runloop_st  = runloop_state_get_ptr();
 
    if (runloop_st->input_state_callback_original)
    {
-      int16_t result                = 
+      int32_t result                = 
          runloop_st->input_state_callback_original(
             port, device, index, id);
-      int16_t last_input            =
+      int32_t last_input            =
          input_state_get_last(port, device, index, id);
       if (result != last_input)
          runloop_st->flags         |= RUNLOOP_FLAG_INPUT_IS_DIRTY;

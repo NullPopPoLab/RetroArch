@@ -3504,9 +3504,9 @@ static uintptr_t xmb_icon_get_id(xmb_handle_t *xmb,
             return xmb->textures.list[XMB_TEXTURE_RELOAD];
          if (type == input_id + 5)
             return xmb->textures.list[XMB_TEXTURE_SAVING];
-         if ((type > (input_id + 29)) && (type < (input_id + 41)))
+         if ((type > (input_id + 5 + RARCH_ANALOG_BIND_LIST_END)) && (type < (input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)))
             return xmb->textures.list[XMB_TEXTURE_INPUT_LGUN];
-         if (type == input_id + 41)
+         if (type == input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)
             return xmb->textures.list[XMB_TEXTURE_INPUT_TURBO];
          /* Align to use the same code of Quickmenu controls */
          input_id = input_id + 6;
@@ -3519,8 +3519,8 @@ static uintptr_t xmb_icon_get_id(xmb_handle_t *xmb,
             input_id = MENU_SETTINGS_INPUT_DESC_BEGIN;
          else
             input_id = MENU_SETTINGS_INPUT_DESC_KBD_BEGIN;
-         while (type > (input_id + 23))
-            input_id = (input_id + 24);
+         while (type > (input_id + RARCH_ANALOG_BIND_LIST_END-1))
+            input_id = (input_id + RARCH_ANALOG_BIND_LIST_END);
 
          /* Human readable bind order */
          if (type < (input_id + RARCH_ANALOG_BIND_LIST_END))
@@ -3555,40 +3555,72 @@ static uintptr_t xmb_icon_get_id(xmb_handle_t *xmb,
       else if (type == (input_id + 5))
          return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_D];
       else if (type == (input_id + 6))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_U];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_D];
       else if (type == (input_id + 7))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_L];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_U];
       else if (type == (input_id + 8))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_SELECT];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_L];
       else if (type == (input_id + 9))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_START];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_BTN_L];
       else if (type == (input_id + 10))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_LB];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_SELECT];
       else if (type == (input_id + 11))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_RB];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_START];
       else if (type == (input_id + 12))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_LT];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_LB];
       else if (type == (input_id + 13))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_RT];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_RB];
       else if (type == (input_id + 14))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_LT];
       else if (type == (input_id + 15))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_RT];
       else if (type == (input_id + 16))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_U];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
       else if (type == (input_id + 17))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_D];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
       else if (type == (input_id + 18))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_L];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_LB];
       else if (type == (input_id + 19))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_R];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_RB];
       else if (type == (input_id + 20))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_U];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_LB];
       else if (type == (input_id + 21))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_D];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_RB];
       else if (type == (input_id + 22))
-         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_L];
+         return xmb->textures.list[XMB_TEXTURE_INPUT_SELECT];
       else if (type == (input_id + 23))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_START];
+      else if (type == (input_id + 24))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 25))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 26))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 27))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 28))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 29))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 30))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 31))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_P];
+      else if (type == (input_id + 32))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_U];
+      else if (type == (input_id + 33))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_D];
+      else if (type == (input_id + 34))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_L];
+      else if (type == (input_id + 35))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_R];
+      else if (type == (input_id + 36))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_U];
+      else if (type == (input_id + 37))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_D];
+      else if (type == (input_id + 38))
+         return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_L];
+      else if (type == (input_id + 39))
          return xmb->textures.list[XMB_TEXTURE_INPUT_STCK_R];
    }
    if (

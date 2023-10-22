@@ -57,7 +57,7 @@ struct descriptor {
    int index_max;
    int id_min;
    int id_max;
-   uint16_t *value;
+   uint32_t *value;
 };
 
 struct remote_joypad_message {
@@ -65,7 +65,7 @@ struct remote_joypad_message {
    int device;
    int index;
    int id;
-   uint16_t state;
+   uint32_t state;
 };
 
 static int s;
@@ -142,7 +142,7 @@ void NETRETROPAD_CORE_PREFIX(retro_init)(void)
    {
       struct descriptor *desc = descriptors[i];
       int                size = DESC_NUM_PORTS(desc) * DESC_NUM_INDICES(desc) * DESC_NUM_IDS(desc);
-      descriptors[i]->value   = (uint16_t*)calloc(size, sizeof(uint16_t));
+      descriptors[i]->value   = (uint32_t*)calloc(size, sizeof(uint32_t));
    }
 
    NETRETROPAD_CORE_PREFIX(log_cb)(RETRO_LOG_INFO, "Initialising sockets...\n");
@@ -231,10 +231,10 @@ static void retropad_update_input(void)
                int offset     = DESC_OFFSET(desc, port, index, id);
 
                /* Get old state */
-               uint16_t old   = desc->value[offset];
+               uint32_t old   = desc->value[offset];
 
                /* Get new state */
-               uint16_t state = NETRETROPAD_CORE_PREFIX(input_state_cb)(
+               uint32_t state = NETRETROPAD_CORE_PREFIX(input_state_cb)(
                      port,
                      desc->device,
                      index,

@@ -117,7 +117,7 @@ static bool sdl_key_pressed(int key)
    return keymap[sym];
 }
 
-static int16_t sdl_input_state(
+static int32_t sdl_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -129,7 +129,7 @@ static int16_t sdl_input_state(
       unsigned idx,
       unsigned id)
 {
-   int16_t      ret = 0;
+   int32_t      ret = 0;
    sdl_input_t *sdl = (sdl_input_t*)data;
 
    switch (device)

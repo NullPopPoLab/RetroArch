@@ -35,7 +35,7 @@ typedef struct ps4_input
    const input_device_driver_t *joypad;
 } ps4_input_t;
 
-int16_t ps4_input_state(void *data,
+int32_t ps4_input_state(void *data,
          const input_device_driver_t *joypad_data,
          const input_device_driver_t *sec_joypad_data,
          rarch_joypad_info_t *joypad_info,
@@ -51,7 +51,7 @@ int16_t ps4_input_state(void *data,
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
             for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
             {
                /* Auto-binds are per joypad, not per user. */
