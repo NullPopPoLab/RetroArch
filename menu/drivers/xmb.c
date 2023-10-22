@@ -3504,9 +3504,9 @@ static uintptr_t xmb_icon_get_id(xmb_handle_t *xmb,
             return xmb->textures.list[XMB_TEXTURE_RELOAD];
          if (type == input_id + 5)
             return xmb->textures.list[XMB_TEXTURE_SAVING];
-         if ((type > (input_id + 5 + RARCH_ANALOG_BIND_LIST_END)) && (type < (input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)))
+         if ((type > (input_id + 5 + RARCH_ANALOG_BIND_LIST_END)) && (type < (input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)))
             return xmb->textures.list[XMB_TEXTURE_INPUT_LGUN];
-         if (type == input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)
+         if (type == input_id + input_id + 5 + RARCH_LIGHTGUN_BIND_LIST_END)
             return xmb->textures.list[XMB_TEXTURE_INPUT_TURBO];
          /* Align to use the same code of Quickmenu controls */
          input_id = input_id + 6;

@@ -1260,7 +1260,7 @@ static int32_t input_state_device(
             /* Don't allow turbo for D-pad. */
             if (          (id  < RETRO_DEVICE_ID_JOYPAD_UP)
                   || (    (id  > RETRO_DEVICE_ID_JOYPAD_RIGHT)
-                       && (id <= RETRO_DEVICE_ID_JOYPAD_R3)))
+                       && (id <= RETRO_DEVICE_ID_JOYPAD_R5)))
             {
                /*
                 * Apply turbo button if activated.
@@ -1295,7 +1295,14 @@ static int32_t input_state_device(
                            RETRO_DEVICE_ID_JOYPAD_L2,
                            RETRO_DEVICE_ID_JOYPAD_R2,
                            RETRO_DEVICE_ID_JOYPAD_L3,
-                           RETRO_DEVICE_ID_JOYPAD_R3};
+                           RETRO_DEVICE_ID_JOYPAD_R3,
+                           RETRO_DEVICE_ID_JOYPAD_C,
+                           RETRO_DEVICE_ID_JOYPAD_Z,
+                           RETRO_DEVICE_ID_JOYPAD_L4,
+                           RETRO_DEVICE_ID_JOYPAD_R4,
+                           RETRO_DEVICE_ID_JOYPAD_L5,
+                           RETRO_DEVICE_ID_JOYPAD_R5,
+                        };
                         input_st->turbo_btns.enable[port] = 1 << button_map[
                            MIN(
                                  ARRAY_SIZE(button_map) - 1,
