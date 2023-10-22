@@ -1562,7 +1562,7 @@ static int32_t input_state_internal(
 #endif
    bool bitmask_enabled                    = false;
    unsigned max_users                      = settings->uints.input_max_users;
-   int16_t result                          = 0;
+   int32_t result                          = 0;
 
    device                                 &= RETRO_DEVICE_MASK;
    bitmask_enabled                         =    (device == RETRO_DEVICE_JOYPAD)
@@ -1574,7 +1574,7 @@ static int32_t input_state_internal(
    while ((mapped_port = *(input_remap_port_map++)) < MAX_USERS)
    {
       int32_t ret                     = 0;
-      int16_t port_result             = 0;
+      int32_t port_result             = 0;
       unsigned input_analog_dpad_mode = settings->uints.input_analog_dpad_mode[mapped_port];
 
       joypad_info.joy_idx             = settings->uints.input_joypad_index[mapped_port];
@@ -1702,6 +1702,8 @@ static int32_t input_state_internal(
                   input_analog_dpad_mode, ret, mapped_port,
                   device, idx, id, false);
       }
+
+if(ret)RARCH_LOG("[input_state_internal]: %08x\n",ret);
 
       /* Digital values are represented by a bitmap;
        * we can just perform the logical OR of
