@@ -562,7 +562,7 @@ static bool netplay_lan_ad_server(netplay_t *netplay)
       strlcpy(ad_packet_buffer.core_version, system->library_version,
          sizeof(ad_packet_buffer.core_version));
 
-      strlcpy(ad_packet_buffer.retroarch_version, PACKAGE_VERSION,
+      strlcpy(ad_packet_buffer.retroarch_version, NET_VERSION,
          sizeof(ad_packet_buffer.retroarch_version));
 
       if (subsystem && subsystem->size > 0)
@@ -627,7 +627,7 @@ static uint32_t netplay_impl_magic(void)
 {
    size_t i;
    uint32_t res                        = 0;
-   const char *ver                     = PACKAGE_VERSION;
+   const char *ver                     = NET_VERSION;
    size_t len                          = strlen(ver);
 
    for (i = 0; i < len; i++)
@@ -8326,7 +8326,7 @@ static void netplay_announce(netplay_t *netplay)
       !string_is_empty(settings->paths.netplay_password) ? 1 : 0,
       !string_is_empty(settings->paths.netplay_spectate_password) ? 1 : 0,
       is_mitm,
-      PACKAGE_VERSION,
+      NET_VERSION,
       frontend_ident,
       subsystemname,
       mitm_session,
