@@ -11,3 +11,4 @@ RARCH_VERSION="1.15.0"
 #ifndef PACKAGE_VERSION
 #define PACKAGE_VERSION "1.15.0-NullPopPoCustom38"
 #endif
+#define NET_VERSION PACKAGE_VERSION "(Incompatible on NetPlay)"
