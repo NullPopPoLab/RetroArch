@@ -9,5 +9,5 @@
 RARCH_VERSION="1.15.0"
 #endif
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION "1.15.0"
+#define PACKAGE_VERSION "1.15.0-NullPopPoCustom38"
 #endif
