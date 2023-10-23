@@ -1703,8 +1703,6 @@ static int32_t input_state_internal(
                   device, idx, id, false);
       }
 
-if(ret)RARCH_LOG("[input_state_internal]: %08x\n",ret);
-
       /* Digital values are represented by a bitmap;
        * we can just perform the logical OR of
        * successive samples.
