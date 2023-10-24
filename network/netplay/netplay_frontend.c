@@ -630,7 +630,7 @@ bool netplay_lan_ad_server(netplay_t *netplay)
                      htonl(NETPLAY_PROTOCOL_VERSION);
                   net_st->ad_packet_buffer.port = htonl(netplay->tcp_port);
                   strlcpy(net_st->ad_packet_buffer.retroarch_version,
-                        PACKAGE_VERSION,
+                        NET_VERSION,
                         NETPLAY_HOST_STR_LEN);
                   strlcpy(net_st->ad_packet_buffer.nick,
                         netplay->nick, NETPLAY_HOST_STR_LEN);
@@ -761,7 +761,7 @@ static uint32_t netplay_impl_magic(void)
 {
    size_t i;
    uint32_t res                        = 0;
-   const char *ver                     = PACKAGE_VERSION;
+   const char *ver                     = NET_VERSION;
    size_t len                          = strlen(ver);
 
    for (i = 0; i < len; i++)
@@ -7194,7 +7194,7 @@ static void netplay_announce(void)
       *settings->paths.netplay_password ? 1 : 0,
       *settings->paths.netplay_spectate_password ? 1 : 0,
       settings->bools.netplay_use_mitm_server,
-      PACKAGE_VERSION, frontend_architecture, subsystemname);
+      NET_VERSION, frontend_architecture, subsystemname);
    task_push_http_post_transfer(url, buf, true, NULL,
          netplay_announce_cb, NULL);
 

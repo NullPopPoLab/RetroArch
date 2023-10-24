@@ -9,5 +9,6 @@
 RARCH_VERSION="1.9.14"
 #endif
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION "1.9.14"
+#define PACKAGE_VERSION "1.9.14-NullPopPoCustom33"
 #endif
+#define NET_VERSION PACKAGE_VERSION "(Incompatible on NetPlay)"
