@@ -153,15 +153,17 @@ unsigned int retroarch_get_rotation(void);
 void retroarch_init_task_queue(void);
 
 /* Human readable order of input binds */
-static const unsigned input_config_bind_order[] = {
+static const unsigned input_config_bind_order[RARCH_ANALOG_BIND_LIST_END] = {
    RETRO_DEVICE_ID_JOYPAD_UP,
    RETRO_DEVICE_ID_JOYPAD_DOWN,
    RETRO_DEVICE_ID_JOYPAD_LEFT,
    RETRO_DEVICE_ID_JOYPAD_RIGHT,
    RETRO_DEVICE_ID_JOYPAD_A,
    RETRO_DEVICE_ID_JOYPAD_B,
+   RETRO_DEVICE_ID_JOYPAD_C,
    RETRO_DEVICE_ID_JOYPAD_X,
    RETRO_DEVICE_ID_JOYPAD_Y,
+   RETRO_DEVICE_ID_JOYPAD_Z,
    RETRO_DEVICE_ID_JOYPAD_SELECT,
    RETRO_DEVICE_ID_JOYPAD_START,
    RETRO_DEVICE_ID_JOYPAD_L,
@@ -170,14 +172,28 @@ static const unsigned input_config_bind_order[] = {
    RETRO_DEVICE_ID_JOYPAD_R2,
    RETRO_DEVICE_ID_JOYPAD_L3,
    RETRO_DEVICE_ID_JOYPAD_R3,
-   19, /* Left Analog Up */
-   18, /* Left Analog Down */
-   17, /* Left Analog Left */
-   16, /* Left Analog Right */
-   23, /* Right Analog Up */
-   22, /* Right Analog Down */
-   21, /* Right Analog Left */
-   20, /* Right Analog Right */
+   RETRO_DEVICE_ID_JOYPAD_L4,
+   RETRO_DEVICE_ID_JOYPAD_R4,
+   RETRO_DEVICE_ID_JOYPAD_L5,
+   RETRO_DEVICE_ID_JOYPAD_R5,
+   RETRO_DEVICE_ID_JOYPAD_MENU,
+   RETRO_DEVICE_ID_JOYPAD_OPT,
+   RETRO_DEVICE_ID_JOYPAD_G1,
+   RETRO_DEVICE_ID_JOYPAD_G2,
+   RETRO_DEVICE_ID_JOYPAD_G3,
+   RETRO_DEVICE_ID_JOYPAD_G4,
+   RETRO_DEVICE_ID_JOYPAD_G5,
+   RETRO_DEVICE_ID_JOYPAD_G6,
+   RETRO_DEVICE_ID_JOYPAD_G7,
+   RETRO_DEVICE_ID_JOYPAD_G8,
+   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP,
+   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN,
+   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT,
+   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_RIGHT,
+   RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP,
+   RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_DOWN,
+   RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_LEFT,
+   RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_RIGHT,
 };
 
 /* Creates folder and core options stub file for subsequent runs */
