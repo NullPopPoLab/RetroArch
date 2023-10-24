@@ -281,6 +281,22 @@ const struct input_bind_map input_config_bind_map[RARCH_BIND_LIST_END_NULL] = {
    DECLARE_BIND(r2,                            RETRO_DEVICE_ID_JOYPAD_R2,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R2),
    DECLARE_BIND(l3,                            RETRO_DEVICE_ID_JOYPAD_L3,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L3),
    DECLARE_BIND(r3,                            RETRO_DEVICE_ID_JOYPAD_R3,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R3),
+   DECLARE_BIND(c,                             RETRO_DEVICE_ID_JOYPAD_C,     MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_C),
+   DECLARE_BIND(z,                             RETRO_DEVICE_ID_JOYPAD_Z,     MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_Z),
+   DECLARE_BIND(menu,                          RETRO_DEVICE_ID_JOYPAD_MENU,  MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_MENU),
+   DECLARE_BIND(opt,                           RETRO_DEVICE_ID_JOYPAD_OPT,   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_OPT),
+   DECLARE_BIND(l4,                            RETRO_DEVICE_ID_JOYPAD_L4,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L4),
+   DECLARE_BIND(r4,                            RETRO_DEVICE_ID_JOYPAD_R4,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R4),
+   DECLARE_BIND(l5,                            RETRO_DEVICE_ID_JOYPAD_L5,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L5),
+   DECLARE_BIND(r5,                            RETRO_DEVICE_ID_JOYPAD_R5,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R5),
+   DECLARE_BIND(g1,                            RETRO_DEVICE_ID_JOYPAD_G1,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1),
+   DECLARE_BIND(g2,                            RETRO_DEVICE_ID_JOYPAD_G2,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G2),
+   DECLARE_BIND(g3,                            RETRO_DEVICE_ID_JOYPAD_G3,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G3),
+   DECLARE_BIND(g4,                            RETRO_DEVICE_ID_JOYPAD_G4,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G4),
+   DECLARE_BIND(g5,                            RETRO_DEVICE_ID_JOYPAD_G5,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G5),
+   DECLARE_BIND(g6,                            RETRO_DEVICE_ID_JOYPAD_G6,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6),
+   DECLARE_BIND(g7,                            RETRO_DEVICE_ID_JOYPAD_G7,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7),
+   DECLARE_BIND(g8,                            RETRO_DEVICE_ID_JOYPAD_G8,    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8),
    DECLARE_BIND(l_x_plus,                      RARCH_ANALOG_LEFT_X_PLUS,     MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_PLUS),
    DECLARE_BIND(l_x_minus,                     RARCH_ANALOG_LEFT_X_MINUS,    MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_X_MINUS),
    DECLARE_BIND(l_y_plus,                      RARCH_ANALOG_LEFT_Y_PLUS,     MENU_ENUM_LABEL_VALUE_INPUT_ANALOG_LEFT_Y_PLUS),
@@ -5035,7 +5051,10 @@ bool input_remapping_load_file(void *data, const char *path)
       "b", "y", "select", "start",
       "up", "down", "left", "right",
       "a", "x", "l", "r", "l2", "r2",
-      "l3", "r3", "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
+      "l3", "r3", "c", "z", "menu", "opt",
+      "l4", "r4", "l5", "r5",
+      "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8",
+      "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
 
    if (!conf || string_is_empty(path))
       return false;
@@ -5168,7 +5187,10 @@ bool input_remapping_save_file(const char *path)
       "b", "y", "select", "start",
       "up", "down", "left", "right",
       "a", "x", "l", "r", "l2", "r2",
-      "l3", "r3", "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
+      "l3", "r3", "c", "z", "menu", "opt",
+      "l4", "r4", "l5", "r5",
+      "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8",
+      "l_x+", "l_x-", "l_y+", "l_y-", "r_x+", "r_x-", "r_y+", "r_y-" };
    config_file_t               *conf = NULL;
    settings_t              *settings = config_st;
    unsigned max_users                = settings->uints.input_max_users;

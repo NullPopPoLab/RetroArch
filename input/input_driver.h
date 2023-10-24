@@ -161,7 +161,7 @@ struct remote_message
    int device;
    int index;
    int id;
-   uint16_t state;
+   uint32_t state;
 };
 
 struct input_remote
