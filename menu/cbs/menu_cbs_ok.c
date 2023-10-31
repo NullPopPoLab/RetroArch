@@ -3378,7 +3378,6 @@ static int generic_action_ok_remap_file_operation(const char *path,
 #ifdef HAVE_CONFIGFILE
    char directory[PATH_MAX_LENGTH];
    char file[PATH_MAX_LENGTH];
-   char content_dir[PATH_MAX_LENGTH];
    struct retro_system_info *system     = &runloop_state_get_ptr()->system.info;
    const char *core_name                = system ? system->library_name : NULL;
    settings_t *settings                 = config_get_ptr();
