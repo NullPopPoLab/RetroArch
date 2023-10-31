@@ -332,6 +332,8 @@ size_t fill_dated_filename(char *out_filename,
  **/
 size_t fill_str_dated_filename(char *out_filename,
       const char *in_str, const char *ext, size_t size);
+void fill_str_filenamed_date(char *out_filename,
+      const char *in_str, const char *ext, size_t size);
 
 /**
  * find_last_slash:
@@ -348,6 +350,8 @@ size_t fill_str_dated_filename(char *out_filename,
  * @return pointer to last slash/backslash found in @str.
  **/
 char *find_last_slash(const char *str);
+
+void trim_tail_slash(const char *str);
 
 /**
  * fill_pathname_dir:
@@ -372,6 +376,8 @@ char *find_last_slash(const char *str);
  * - Calls strlcat 2x
  **/
 size_t fill_pathname_dir(char *in_dir, const char *in_basename,
+      const char *replace, size_t size);
+size_t fill_pathname_subdir(char *in_dir, const char *in_basename,
       const char *replace, size_t size);
 
 /**
@@ -424,6 +430,13 @@ void fill_pathname_basedir(char *out_path, const char *in_path, size_t size);
  **/
 bool fill_pathname_parent_dir_name(char *out_dir,
       const char *in_dir, size_t size);
+
+bool fill_pathname_specific_folder_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
+bool fill_pathname_specific_game_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
+bool fill_pathname_specific_boot_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 
 /**
  * fill_pathname_parent_dir:
@@ -653,6 +666,7 @@ void fill_pathname_home_dir(char *buf, size_t size);
  * @return true if directory could be created, otherwise false.
  **/
 bool path_mkdir(const char *dir);
+bool path_parent_mkdir(const char *path);
 
 /**
  * path_is_directory:
