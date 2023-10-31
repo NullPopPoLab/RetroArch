@@ -153,14 +153,14 @@ static int16_t rwebpad_joypad_axis(unsigned port, uint32_t joyaxis)
    return rwebpad_joypad_axis_state(&gamepad_state, port, joyaxis);
 }
 
-static int16_t rwebpad_joypad_state(
+static int32_t rwebpad_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
    EmscriptenGamepadEvent gamepad_state;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
    EMSCRIPTEN_RESULT r                  = emscripten_get_gamepad_status(
          port_idx, &gamepad_state);

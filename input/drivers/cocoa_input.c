@@ -372,7 +372,7 @@ static void cocoa_input_poll(void *data)
    }
 }
 
-static int16_t cocoa_input_state(
+static int32_t cocoa_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -394,7 +394,7 @@ static int16_t cocoa_input_state(
             unsigned i;
             /* Do a bitwise OR to combine both input
              * states together */
-            int16_t ret = 0;
+            int32_t ret = 0;
 
             if (!keyboard_mapping_blocked)
             {

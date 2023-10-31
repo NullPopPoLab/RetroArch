@@ -147,7 +147,7 @@ static int16_t input_wl_touch_state(input_ctx_wayland_data_t *wl,
    return 0;
 }
 
-static int16_t input_wl_state(
+static int32_t input_wl_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -167,7 +167,7 @@ static int16_t input_wl_state(
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
 
             for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
             {

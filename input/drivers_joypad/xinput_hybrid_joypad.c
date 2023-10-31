@@ -543,14 +543,14 @@ static int16_t xinput_joypad_axis(unsigned port, uint32_t joyaxis)
    return xinput_joypad_axis_state(pad, port, joyaxis);
 }
 
-static int16_t xinput_joypad_state_func(
+static int32_t xinput_joypad_state_func(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
    uint16_t btn_word;
-   int16_t ret                = 0;
+   int32_t ret                = 0;
    uint16_t port_idx          = joypad_info->joy_idx;
    int xuser                  = PAD_INDEX_TO_XUSER_INDEX(port_idx);
    xinput_joypad_state *state = &g_xinput_states[xuser];

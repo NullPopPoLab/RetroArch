@@ -281,7 +281,7 @@ static void switch_input_poll(void *data)
 }
 #endif
 
-static int16_t switch_input_state(
+static int32_t switch_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,

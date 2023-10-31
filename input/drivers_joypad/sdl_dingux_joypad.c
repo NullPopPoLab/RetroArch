@@ -558,14 +558,14 @@ static int16_t sdl_dingux_joypad_axis(unsigned port, uint32_t joyaxis)
    return sdl_dingux_joypad_axis_state(port, joyaxis);
 }
 
-static int16_t sdl_dingux_joypad_state(
+static int32_t sdl_dingux_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    dingux_joypad_t *joypad = (dingux_joypad_t*)&dingux_joypad;
    uint16_t port_idx       = joypad_info->joy_idx;
-   int16_t ret             = 0;
+   int32_t ret             = 0;
    size_t i;
 
    if (port_idx != 0)

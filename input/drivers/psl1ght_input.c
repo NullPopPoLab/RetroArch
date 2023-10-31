@@ -211,7 +211,7 @@ static bool psl1ght_keyboard_port_input_pressed(
    return false;
 }
 
-static int16_t ps3_input_state(
+static int32_t ps3_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -234,7 +234,7 @@ static int16_t ps3_input_state(
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
 
             for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
             {
@@ -468,13 +468,13 @@ static int16_t ps3_joypad_axis(unsigned port, uint32_t joyaxis)
    return ps3_joypad_axis_state(port, joyaxis);
 }
 
-static int16_t ps3_joypad_state(
+static int32_t ps3_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t state                       = 0;
    
    if (port >= DEFAULT_MAX_PADS)

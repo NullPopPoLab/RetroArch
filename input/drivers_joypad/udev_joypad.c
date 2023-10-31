@@ -802,13 +802,13 @@ static int16_t udev_joypad_axis(unsigned port, uint32_t joyaxis)
    return udev_joypad_axis_state(pad, port, joyaxis);
 }
 
-static int16_t udev_joypad_state(
+static int32_t udev_joypad_state(
       rarch_joypad_info_t *joypad_info,
       const struct retro_keybind *binds,
       unsigned port)
 {
    unsigned i;
-   int16_t ret                          = 0;
+   int32_t ret                          = 0;
    uint16_t port_idx                    = joypad_info->joy_idx;
    const struct udev_joypad *pad        = (const struct udev_joypad*)
       &udev_pads[port_idx];

@@ -232,7 +232,7 @@ static void vita_input_poll(void *data)
       psp->mouse_y     = MOUSE_MAX_Y;
 }
 
-static int16_t vita_input_state(
+static int32_t vita_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
