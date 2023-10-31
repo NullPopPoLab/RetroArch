@@ -1947,6 +1947,10 @@ MSG_HASH(
    "Ejetar/recolher disco"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "Ejetar/recolher disco"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_AI_SERVICE,
    "Serviço IA"
    )

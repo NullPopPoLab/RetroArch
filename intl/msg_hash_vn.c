@@ -129,6 +129,7 @@ int msg_hash_get_help_vn_enum(enum msg_hash_enums msg, char *s, size_t len)
                   "Đổi qua overlay kế tiếp.");
             break;
          case RARCH_DISK_EJECT_TOGGLE:
+         case RARCH_DISK2_EJECT_TOGGLE:
             snprintf(s, len,
                   "Bật/tắt nhả đĩa. \n"
                   " \n"
