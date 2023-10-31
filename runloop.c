@@ -1077,20 +1077,10 @@ static bool validate_per_core_options(char *s,
 
    fill_pathname_join_special_ext(s,
          config_directory, core_name, game_name,
-         ".opt", len);
+         FILE_PATH_OPT_EXTENSION, len);
 
    /* No need to make a directory if file already exists... */
-   if (mkdir && !path_is_valid(s))
-   {
-      char new_path[PATH_MAX_LENGTH];
-      new_path[0]             = '\0';
-
-      fill_pathname_join(new_path,
-            config_directory, core_name, sizeof(new_path));
-
-      if (!path_is_directory(new_path))
-         path_mkdir(new_path);
-   }
+   if (mkdir) path_parent_mkdir(s);
 
    return true;
 }
@@ -1100,9 +1090,20 @@ static bool validate_game_options(
       const char *core_name,
       char *s, size_t len, bool mkdir)
 {
-   const char *game_name = path_basename(path_get(RARCH_PATH_BASENAME));
-   return validate_per_core_options(s, len, mkdir,
-         core_name, game_name);
+	char config_directory[PATH_MAX_LENGTH];
+	char subdir[PATH_MAX_LENGTH];
+	settings_t            *settings         = config_get_ptr();
+
+	if(mkdir){
+		fill_pathname_application_special(config_directory,
+			sizeof(config_directory), APPLICATION_SPECIAL_DIRECTORY_CONFIG);
+		fill_pathname_join(config_directory,config_directory,core_name,sizeof(config_directory));
+		fill_pathname_specific_folder_name(config_directory,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(config_directory),true);
+	}
+
+	fill_pathname_specific_boot_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+	   return validate_per_core_options(s, len, mkdir,
+	         core_name, subdir);
 }
 
 /**
@@ -5634,19 +5635,15 @@ bool runloop_path_init_subsystem(void)
                   sizeof(savename));
             path_remove_extension(savename);
 
-            if (path_is_directory(savefile_dir))
+            if (path_is_directory(runloop_st->sys_savefile_dir))
             {
                /* Use SRAM dir */
                /* Redirect content fullpath to save directory. */
-               strlcpy(path, savefile_dir, sizeof(path));
+               strlcpy(path, runloop_st->sys_savefile_dir, sizeof(path));
                fill_pathname_dir(path, savename, ext, sizeof(path));
             }
             else
                fill_pathname(path, savename, ext, sizeof(path));
-
-            RARCH_LOG("%s \"%s\".\n",
-               msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
-               path);
 
             attr.i = mem->type;
             string_list_append((struct string_list*)savefile_ptr_get(),
@@ -5658,18 +5655,26 @@ bool runloop_path_init_subsystem(void)
    /* Let other relevant paths be inferred 
       from the main SRAM location. */
    if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
-            ".srm",
-            sizeof(runloop_st->name.savefile));
+            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+	}
 
    if (path_is_directory(runloop_st->name.savefile))
    {
-      fill_pathname_dir(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
-            ".srm",
-            sizeof(runloop_st->name.savefile));
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+
       RARCH_LOG("%s \"%s\".\n",
             msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
             runloop_st->name.savefile);
@@ -6535,7 +6540,13 @@ static enum runloop_state_enum runloop_check_state(
             bool fullpath               = false;
 
             if (string_is_empty(runloop_st->max_frames_screenshot_path))
-               screenshot_path          = path_get(RARCH_PATH_BASENAME);
+			{
+				char basename[PATH_MAX_LENGTH];
+	            char *p;
+				fill_pathname_specific_boot_name(basename,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(basename),false);
+				for(p=basename;*p;++p)if(*p=='/'||*p=='\\')*p='-';
+               screenshot_path          = basename;
+			}
             else
             {
                fullpath                 = true;
@@ -7895,12 +7906,10 @@ bool retroarch_get_current_savestate_path(char *path, size_t len)
    if (string_is_empty(name_savestate))
       return false;
 
-   if (state_slot > 0)
-      snprintf(path, len, "%s%d",  name_savestate, state_slot);
-   else if (state_slot < 0)
+   if (state_slot < 0)
       fill_pathname_join_delim(path, name_savestate, "auto", '.', len);
    else
-      strlcpy(path, name_savestate, len);
+      snprintf(path, len, "%s%d",  name_savestate, state_slot);
 
    return true;
 }
@@ -8312,22 +8321,42 @@ void runloop_path_set_basename(const char *path)
 void runloop_path_set_names(void)
 {
    runloop_state_t *runloop_st = &runloop_state;
-   if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
-            ".srm", sizeof(runloop_st->name.savefile));
+   settings_t            *settings         = config_get_ptr();
+
+	char subdir[PATH_MAX_LENGTH];
+
+	fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
 
    if (!retroarch_override_setting_is_set(
-            RARCH_OVERRIDE_SETTING_STATE_PATH, NULL))
-      fill_pathname_noext(runloop_st->name.savestate,
-            runloop_st->runtime_content_path_basename,
-            ".state", sizeof(runloop_st->name.savestate));
+            RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savefile,
+               subdir2,
+               "sram",
+               sizeof(runloop_st->name.savefile));
+	}
+
+   if (!retroarch_override_setting_is_set(
+            RARCH_OVERRIDE_SETTING_STATE_PATH, NULL)){
+		char subdir2[PATH_MAX_LENGTH];
+		subdir2[0]=0;
+
+		strlcat(subdir2, subdir, sizeof(subdir2));
+		fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_dir(runloop_st->name.savestate,
+               subdir2,
+               "state",
+               sizeof(runloop_st->name.savestate));
+	}
 
 #ifdef HAVE_CHEATS
    if (!string_is_empty(runloop_st->runtime_content_path_basename))
       fill_pathname_noext(runloop_st->name.cheatfile,
-            runloop_st->runtime_content_path_basename,
+            subdir,
             ".cht", sizeof(runloop_st->name.cheatfile));
 #endif
 }
