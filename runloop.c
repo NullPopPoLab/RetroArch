@@ -1987,9 +1987,29 @@ bool runloop_environment_cb(unsigned cmd, void *data)
          }
          break;
 
-      case RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY:
-         RARCH_LOG("[Environ]: GET_SAVE_DIRECTORY.\n");
-         *(const char**)data = runloop_st->savefile_dir;
+      case RETRO_ENVIRONMENT_GET_ROOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_ROOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->root_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_SYSTEM_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_SYSTEM_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->sys_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GROUP_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GROUP_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->grp_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GAME_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GAME_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->game_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_BOOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_BOOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->boot_savefile_dir;
          break;
 
       case RETRO_ENVIRONMENT_GET_USERNAME:
@@ -5400,7 +5420,7 @@ bool runloop_event_init_core(
    disk_control_set_initial_index(
          &sys_info->disk_control,
          path_get(RARCH_PATH_CONTENT),
-         runloop_st->savefile_dir);
+         runloop_st->game_savefile_dir);
 
    if (!event_init_content(settings, input_st))
    {
@@ -5561,8 +5581,7 @@ bool runloop_path_init_subsystem(void)
    runloop_state_t             *runloop_st = &runloop_state;
    rarch_system_info_t             *system = &runloop_st->system;
    bool subsystem_path_empty               = path_is_empty(RARCH_PATH_SUBSYSTEM);
-   const char                *savefile_dir = runloop_st->savefile_dir;
-
+   settings_t            *settings         = config_get_ptr();
 
    if (!system || subsystem_path_empty)
       return false;
