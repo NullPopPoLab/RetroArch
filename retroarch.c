@@ -1358,7 +1358,11 @@ void dir_clear(enum rarch_dir_type type)
          *p_rarch->dir_savefile = '\0';
          break;
       case RARCH_DIR_CURRENT_SAVEFILE:
-         *runloop_st->savefile_dir = '\0';
+         *runloop_st->root_savefile_dir = '\0';
+         *runloop_st->sys_savefile_dir = '\0';
+         *runloop_st->grp_savefile_dir = '\0';
+         *runloop_st->game_savefile_dir = '\0';
+         *runloop_st->boot_savefile_dir = '\0';
          break;
       case RARCH_DIR_SAVESTATE:
          *p_rarch->dir_savestate = '\0';
@@ -1393,7 +1397,7 @@ char *dir_get_ptr(enum rarch_dir_type type)
       case RARCH_DIR_SAVEFILE:
          return p_rarch->dir_savefile;
       case RARCH_DIR_CURRENT_SAVEFILE:
-         return runloop_st->savefile_dir;
+         return runloop_st->sys_savefile_dir;
       case RARCH_DIR_SAVESTATE:
          return p_rarch->dir_savestate;
       case RARCH_DIR_CURRENT_SAVESTATE:
@@ -1411,12 +1415,19 @@ void dir_set(enum rarch_dir_type type, const char *path)
 {
    struct rarch_state *p_rarch = &rarch_st;
    runloop_state_t *runloop_st = runloop_state_get_ptr();
+   settings_t *settings    = config_get_ptr();
 
    switch (type)
    {
       case RARCH_DIR_CURRENT_SAVEFILE:
-         strlcpy(runloop_st->savefile_dir, path,
-               sizeof(runloop_st->savefile_dir));
+         strlcpy(runloop_st->sys_savefile_dir, path,
+               sizeof(runloop_st->sys_savefile_dir));
+
+		fill_pathname_parent_dir(runloop_st->root_savefile_dir,runloop_st->sys_savefile_dir,sizeof(runloop_st->root_savefile_dir));
+		trim_tail_slash(runloop_st->root_savefile_dir);
+		fill_pathname_specific_folder_name(runloop_st->grp_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->grp_savefile_dir),false);
+		fill_pathname_specific_game_name(runloop_st->game_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->game_savefile_dir),false);
+		fill_pathname_specific_boot_name(runloop_st->boot_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->boot_savefile_dir),false);
          break;
       case RARCH_DIR_SAVEFILE:
          strlcpy(p_rarch->dir_savefile, path,
