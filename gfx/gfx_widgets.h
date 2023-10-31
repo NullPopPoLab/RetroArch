@@ -38,7 +38,7 @@
 #define MSG_QUEUE_PENDING_MAX          32
 #define MSG_QUEUE_ONSCREEN_MAX         4
 
-#define MSG_QUEUE_ANIMATION_DURATION      330
+#define MSG_QUEUE_ANIMATION_DURATION      50
 #define TASK_FINISHED_DURATION            3000
 #define HOURGLASS_INTERVAL                5000
 #define HOURGLASS_DURATION                1000
