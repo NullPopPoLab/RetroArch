@@ -93,7 +93,7 @@ static int16_t ps3_mouse_device_state(ps3_input_t *ps3,
 }
 #endif
 
-static int16_t ps3_input_state(
+static int32_t ps3_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,

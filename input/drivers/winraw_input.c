@@ -648,7 +648,7 @@ static unsigned winraw_retro_id_to_rarch(unsigned id)
    return 0;
 }
 
-static int16_t winraw_input_state(
+static int32_t winraw_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -693,7 +693,7 @@ static int16_t winraw_input_state(
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
 
             if (mouse)
             {

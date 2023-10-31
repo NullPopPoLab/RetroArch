@@ -424,7 +424,7 @@ static int16_t rwebinput_is_pressed(
    return 0;
 }
 
-static int16_t rwebinput_input_state(
+static int32_t rwebinput_input_state(
       void *data,
       const input_device_driver_t *joypad,
       const input_device_driver_t *sec_joypad,
@@ -444,7 +444,7 @@ static int16_t rwebinput_input_state(
          if (id == RETRO_DEVICE_ID_JOYPAD_MASK)
          {
             unsigned i;
-            int16_t ret = 0;
+            int32_t ret = 0;
             for (i = 0; i < RARCH_FIRST_CUSTOM_BIND; i++)
             {
                if (binds[port][i].valid)
