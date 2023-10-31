@@ -3386,39 +3386,23 @@ static int generic_action_ok_remap_file_operation(const char *path,
 
    directory[0] = file[0]          = '\0';
 
-   if (!string_is_empty(core_name))
-      fill_pathname_join(
-            directory,
-            path_dir_input_remapping,
-            core_name,
-            sizeof(directory));
-
-   switch (action_type)
-   {
-      case ACTION_OK_REMAP_FILE_SAVE_CORE:
-      case ACTION_OK_REMAP_FILE_REMOVE_CORE:
-         if (!string_is_empty(core_name))
-            fill_pathname_join(file, core_name, core_name, sizeof(file));
-         break;
-      case ACTION_OK_REMAP_FILE_SAVE_GAME:
-      case ACTION_OK_REMAP_FILE_REMOVE_GAME:
-         if (!string_is_empty(core_name))
-            fill_pathname_join(file, core_name,
-                  path_basename(path_get(RARCH_PATH_BASENAME)), sizeof(file));
-         break;
-      case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
-      case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
-         if (!string_is_empty(core_name))
-         {
-            fill_pathname_parent_dir_name(content_dir, path_get(RARCH_PATH_BASENAME), sizeof(content_dir));
-            fill_pathname_join(file, core_name,
-                  content_dir, sizeof(file));
-         }
-         break;
-   }
-
-   if (!path_is_directory(directory))
-       path_mkdir(directory);
+	if (!string_is_empty(core_name)){
+       fill_pathname_join(file, core_name, NULL, sizeof(file));
+	   switch (action_type)
+	   {
+	      case ACTION_OK_REMAP_FILE_SAVE_CORE:
+	      case ACTION_OK_REMAP_FILE_REMOVE_CORE:
+	         break;
+	      case ACTION_OK_REMAP_FILE_SAVE_GAME:
+	      case ACTION_OK_REMAP_FILE_REMOVE_GAME:
+					fill_pathname_specific_boot_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
+	         break;
+	      case ACTION_OK_REMAP_FILE_SAVE_CONTENT_DIR:
+	      case ACTION_OK_REMAP_FILE_REMOVE_CONTENT_DIR:
+					fill_pathname_specific_folder_name(file,file,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(file),false);
+	         break;
+	   }
+	}
 
    if (action_type < ACTION_OK_REMAP_FILE_REMOVE_CORE)
    {
