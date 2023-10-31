@@ -127,6 +127,7 @@ int msg_hash_get_help_cht_enum(enum msg_hash_enums msg, char *s, size_t len)
                   "切換到下一個營幕覆層。將會循環選擇。");
             break;
          case RARCH_DISK_EJECT_TOGGLE:
+         case RARCH_DISK2_EJECT_TOGGLE:
             snprintf(s, len,
                   "切換彈出光碟。 \n"
                   " \n"

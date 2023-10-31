@@ -154,6 +154,7 @@ int msg_hash_get_help_pt_br_enum(enum msg_hash_enums msg, char *s, size_t len)
                    "Mudar para a próxima sobreposição.");
              break;
           case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
              snprintf(s, len,
                    "Alternar ejeção de disco. \n"
                    " \n"

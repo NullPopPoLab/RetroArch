@@ -250,13 +250,31 @@ bool disk_index_file_init(
 
    /* > Get disk index file directory */
    if (!string_is_empty(dir_savefile))
+   {
       strlcpy(disk_index_file_dir, dir_savefile, sizeof(disk_index_file_dir));
+      strlcat(disk_index_file_dir, "/", sizeof(disk_index_file_dir));
+      strlcat(disk_index_file_dir, content_name, sizeof(disk_index_file_dir));
+
+      /* > Generate final path */
+      fill_pathname_join(
+         disk_index_file_path, disk_index_file_dir,
+         "diskidx", sizeof(disk_index_file_path));
+   }
    else
    {
       /* Use content directory */
       strlcpy(disk_index_file_dir, content_path, sizeof(disk_index_file_dir));
       path_basedir(disk_index_file_dir);
+
+      /* > Generate final path */
+      fill_pathname_join(
+         disk_index_file_path, disk_index_file_dir,
+         content_name, sizeof(disk_index_file_path));
    }
+   strlcat(
+      disk_index_file_path,
+      FILE_PATH_DISK_CONTROL_INDEX_EXTENSION,
+      sizeof(disk_index_file_path));
 
    /* > Create directory, if required */
    if (!path_is_directory(disk_index_file_dir))
@@ -270,14 +288,6 @@ bool disk_index_file_init(
       }
    }
 
-   /* > Generate final path */
-   fill_pathname_join(
-         disk_index_file_path, disk_index_file_dir,
-         content_name, sizeof(disk_index_file_path));
-   strlcat(
-         disk_index_file_path,
-         FILE_PATH_DISK_CONTROL_INDEX_EXTENSION,
-         sizeof(disk_index_file_path));
    if (string_is_empty(disk_index_file_path))
       goto error;
 
