@@ -1526,6 +1526,8 @@ static struct config_path_setting *populate_settings_path(
          settings->paths.directory_system, true, NULL, true);
    SETTING_PATH("cache_directory",
          settings->paths.directory_cache, false, NULL, true);
+   SETTING_PATH("content_root_directory",
+         settings->paths.directory_content_root, false, NULL, true);
    SETTING_PATH("input_remapping_directory",
          settings->paths.directory_input_remapping, false, NULL, true);
    SETTING_PATH("resampler_directory",
@@ -2668,6 +2670,7 @@ void config_set_defaults(void *data)
    *settings->paths.directory_screenshot = '\0';
    *settings->paths.directory_system = '\0';
    *settings->paths.directory_cache = '\0';
+   *settings->paths.directory_content_root = '\0';
    *settings->paths.directory_input_remapping = '\0';
    *settings->paths.directory_core_assets = '\0';
    *settings->paths.directory_assets = '\0';
