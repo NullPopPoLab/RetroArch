@@ -6599,6 +6599,18 @@ static void setting_get_string_representation_turbo_default_button(
       case INPUT_TURBO_DEFAULT_BUTTON_Z:
          strlcpy(s, "Z", len);
          break;
+      case INPUT_TURBO_DEFAULT_BUTTON_L4:
+         strlcpy(s, "L4", len);
+         break;
+      case INPUT_TURBO_DEFAULT_BUTTON_R4:
+         strlcpy(s, "R4", len);
+         break;
+      case INPUT_TURBO_DEFAULT_BUTTON_L5:
+         strlcpy(s, "L5", len);
+         break;
+      case INPUT_TURBO_DEFAULT_BUTTON_R5:
+         strlcpy(s, "R5", len);
+         break;
    }
 }
 

@@ -579,6 +579,31 @@ static void handle_translation_cb(
                input_st->ai_gamepad_state[18] = 2;
             if (string_is_equal(key, "opt"))
                input_st->ai_gamepad_state[19] = 2;
+
+            if (string_is_equal(key, "l4"))
+               input_st->ai_gamepad_state[20] = 2;
+            if (string_is_equal(key, "r4"))
+               input_st->ai_gamepad_state[21] = 2;
+            if (string_is_equal(key, "l5"))
+               input_st->ai_gamepad_state[22] = 2;
+            if (string_is_equal(key, "r5"))
+               input_st->ai_gamepad_state[23] = 2;
+            if (string_is_equal(key, "g1"))
+               input_st->ai_gamepad_state[24] = 2;
+            if (string_is_equal(key, "g2"))
+               input_st->ai_gamepad_state[25] = 2;
+            if (string_is_equal(key, "g3"))
+               input_st->ai_gamepad_state[26] = 2;
+            if (string_is_equal(key, "g4"))
+               input_st->ai_gamepad_state[27] = 2;
+            if (string_is_equal(key, "g5"))
+               input_st->ai_gamepad_state[28] = 2;
+            if (string_is_equal(key, "g6"))
+               input_st->ai_gamepad_state[29] = 2;
+            if (string_is_equal(key, "g7"))
+               input_st->ai_gamepad_state[30] = 2;
+            if (string_is_equal(key, "g8"))
+               input_st->ai_gamepad_state[31] = 2;
 #endif
 
             if (string_is_equal(key, "pause"))
@@ -1011,7 +1036,8 @@ bool run_translation_service(settings_t *settings, bool paused)
    rjsonwriter_add_space(jsonwriter);
    rjsonwriter_add_unsigned(jsonwriter, (paused ? 1 : 0));
    {
-      static const char* state_labels[] = { "b", "y", "select", "start", "up", "down", "left", "right", "a", "x", "l", "r", "l2", "r2", "l3", "r3","c","z","menu","opt" };
+      static const char* state_labels[] = { "b", "y", "select", "start", "up", "down", "left", "right", "a", "x", "l", "r", "l2", "r2", "l3", "r3",
+         "c", "z", "menu", "opt", "l4", "r4", "l5", "r5", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8" };
       int i;
       for (i = 0; i < ARRAY_SIZE(state_labels); i++)
       {
