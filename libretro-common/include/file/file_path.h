@@ -433,8 +433,6 @@ bool fill_pathname_parent_dir_name(char *out_dir,
 
 bool fill_pathname_specific_folder_name(char *out_dir,
       const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
-bool fill_pathname_specific_game_name(char *out_dir,
-      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 bool fill_pathname_specific_boot_name(char *out_dir,
       const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 

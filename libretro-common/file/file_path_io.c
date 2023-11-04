@@ -163,7 +163,7 @@ bool path_parent_mkdir(const char *dir)
    if (!basedir)
 	   return false;
 
-   path_parent_dir(basedir);
+   path_parent_dir(basedir,strlen(basedir));
 
    if (!*basedir || !strcmp(basedir, dir))
    {
