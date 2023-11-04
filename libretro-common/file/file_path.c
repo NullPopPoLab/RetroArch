@@ -364,6 +364,13 @@ char *find_last_slash(const char *str)
    return (char*)slash;
 }
 
+void trim_tail_slash(const char *str)
+{
+	int len=strlen(str);
+	char* lsp=find_last_slash(str);
+	if(lsp-str==len-1)*lsp=0;
+}
+
 /**
  * fill_pathname_slash:
  * @path               : path
@@ -416,6 +423,17 @@ size_t fill_pathname_dir(char *in_dir, const char *in_basename,
 
    fill_pathname_slash(in_dir, size);
    base = path_basename(in_basename);
+   strlcat(in_dir, base, size);
+   return strlcat(in_dir, replace, size);
+}
+
+size_t fill_pathname_subdir(char *in_dir, const char *in_basename,
+      const char *replace, size_t size)
+{
+   const char *base = NULL;
+
+   fill_pathname_slash(in_dir, size);
+   base = in_basename;
    strlcat(in_dir, base, size);
    return strlcat(in_dir, replace, size);
 }
@@ -505,6 +523,55 @@ bool fill_pathname_parent_dir_name(char *out_dir,
    return false;
 }
 
+bool fill_pathname_specific_folder_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir)
+{
+	if(!out_dir || size<1)return false;
+
+	if(!in_dir)out_dir[0]=0;
+	else if(out_dir!=in_dir)fill_pathname_join(out_dir, in_dir, NULL, size);
+	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+
+	size_t rl=strlen(rootpath);
+	size_t gl=strlen(gamepath);
+	if(rl<gl && !memcmp(rootpath,gamepath,rl)){
+		const char* sp=strrchr(&gamepath[rl],'/');
+		if(out_dir[0])fill_pathname_slash(out_dir,size);
+		if(sp){
+			int ol=strlen(out_dir);
+			int zl=sp-&gamepath[rl];
+			if(ol+zl>size)zl=size-ol;
+			memcpy(&out_dir[ol],&gamepath[rl],zl);
+			out_dir[ol+zl]=0;
+		}
+	}
+
+	trim_tail_slash(out_dir);
+	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+	return true;
+}
+
+bool fill_pathname_specific_boot_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir)
+{
+	if(!out_dir || size<1)return false;
+
+	if(!in_dir)out_dir[0]=0;
+	else if(out_dir!=in_dir)fill_pathname_join(out_dir, in_dir, NULL, size);
+	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+
+	size_t rl=strlen(rootpath);
+	size_t gl=strlen(gamepath);
+	if(rl<gl && !memcmp(rootpath,gamepath,rl)){
+		if(out_dir[0])fill_pathname_slash(out_dir,size);
+		strlcat(out_dir,&gamepath[rl],size);
+	}
+
+	trim_tail_slash(out_dir);
+	if(mkdir && out_dir[0] && !path_is_directory(out_dir))if(!path_mkdir(out_dir))return false;
+	return true;
+}
+
 /**
  * fill_pathname_parent_dir:
  * @out_dir            : output directory
@@ -585,6 +652,29 @@ size_t fill_str_dated_filename(char *out_filename,
    strftime(format, sizeof(format), "-%y%m%d-%H%M%S.", &tm_);
    strlcat(out_filename, format, size);
    return strlcat(out_filename, ext, size);
+}
+
+void fill_str_filenamed_date(char *out_filename,
+      const char *in_str, const char *ext, size_t size)
+{
+   char format[256];
+   struct tm tm_;
+   time_t cur_time = time(NULL);
+
+   format[0]       = '\0';
+
+   rtime_localtime(&cur_time, &tm_);
+
+   strftime(format, sizeof(format), "%y%m%d-%H%M%S", &tm_);
+
+   if (string_is_empty(ext))
+   {
+		snprintf(out_filename,size,"%s-%s",format,in_str);
+   }
+   else
+   {
+		snprintf(out_filename,size,"%s-%s.%s",format,in_str,ext);
+   }
 }
 
 /**
@@ -964,8 +1054,11 @@ void fill_pathname_resolve_relative(char *out_path,
 size_t fill_pathname_join(char *out_path,
       const char *dir, const char *path, size_t size)
 {
-   if (out_path != dir)
+   if(!dir)out_path[0]=0;
+   else if (out_path != dir)
       strlcpy(out_path, dir, size);
+   if(!path)return strlen(out_path);
+
    if (*out_path)
       fill_pathname_slash(out_path, size);
    return strlcat(out_path, path, size);
@@ -992,7 +1085,18 @@ size_t fill_pathname_join(char *out_path,
 size_t fill_pathname_join_special(char *out_path,
       const char *dir, const char *path, size_t size)
 {
-   size_t len = strlcpy(out_path, dir, size);
+   size_t len;
+   if(!dir){
+      out_path[0]=0;
+      len = 0;
+   }
+   else if (out_path != dir){
+      len = strlcpy(out_path, dir, size);
+   }
+   else{
+      len = strlen(dir);
+   }
+   if(!path)return len;
 
    if (*out_path)
    {
@@ -1025,7 +1129,8 @@ size_t fill_pathname_join_special_ext(char *out_path,
    if (*out_path)
       fill_pathname_slash(out_path, size);
 
-   strlcat(out_path, last, size);
+   if(last)strlcat(out_path, last, size);
+   if(!ext)return strlen(out_path);
    return strlcat(out_path, ext, size);
 }
 
