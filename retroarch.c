@@ -2075,14 +2075,6 @@ void dir_clear(enum rarch_dir_type type)
       case RARCH_DIR_SAVEFILE:
          *p_rarch->dir_savefile = '\0';
          break;
-      case RARCH_DIR_CURRENT_SAVEFILE:
-         runloop_st = runloop_state_get_ptr();
-         *runloop_st->root_savefile_dir = '\0';
-         *runloop_st->sys_savefile_dir = '\0';
-         *runloop_st->grp_savefile_dir = '\0';
-         *runloop_st->game_savefile_dir = '\0';
-         *runloop_st->boot_savefile_dir = '\0';
-         break;
       case RARCH_DIR_SAVESTATE:
          *p_rarch->dir_savestate = '\0';
          break;
@@ -2093,7 +2085,11 @@ void dir_clear(enum rarch_dir_type type)
          break;
       case RARCH_DIR_CURRENT_SAVEFILE:
          runloop_st = runloop_state_get_ptr();
+         *runloop_st->root_savefile_dir = '\0';
          *runloop_st->sys_savefile_dir = '\0';
+         *runloop_st->grp_savefile_dir = '\0';
+         *runloop_st->game_savefile_dir = '\0';
+         *runloop_st->boot_savefile_dir = '\0';
          break;
       case RARCH_DIR_CURRENT_SAVESTATE:
          runloop_st = runloop_state_get_ptr();
