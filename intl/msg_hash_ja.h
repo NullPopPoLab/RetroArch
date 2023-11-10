@@ -2835,8 +2835,20 @@ MSG_HASH(
    )
 
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_EJECT_TOGGLE,
+   "1番目のディスクの取り出し"
+   )
+MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
-   "仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
+   "1番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "2番目のディスクの取り出し"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
+   "2番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT,
@@ -2916,22 +2928,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_ENABLE_HOTKEY,
    "割り当てられた場合, 他のホットキーが認識される前に'ホットキー有効'キーを押す(押したままにする)必要があります. 通常の入力に影響を与えることなく, コントローラのボタンをホットキーにマッピングできます."
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_EJECT_TOGGLE,
-   "1番目のディスクの取り出し"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE,
-   "1番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
-   "2番目のディスクの取り出し"
-   )
-MSG_HASH(
-   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
-   "2番目の仮想ディスクトレイが閉じられている場合, それを開き, ロードされたディスクを取り除きます. それ以外の場合は, 現在選択されているディスクを挿入してトレイを閉じます. "
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_DISK_NEXT,
