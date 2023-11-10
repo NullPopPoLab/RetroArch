@@ -4505,15 +4505,15 @@ bool config_load_remap(const char *directory_input_remapping,
             sizeof(content_path));
    }
 
-   strlcpy(remap_directory,dir_get_ptr(RARCH_DIR_CURRENT_SAVEFILE),sizeof(remap_directory));
-   RARCH_LOG("[Remaps]: Remap directory: \"%s\".\n", remap_directory);
+   const char* savedir=dir_get_ptr(RARCH_DIR_CURRENT_SAVEFILE);
 
-   fill_pathname_join_special_ext(core_path, remap_directory, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(core_path));
+   fill_pathname_join_special_ext(common_path, savedir, NULL, "common", FILE_PATH_REMAP_EXTENSION, sizeof(core_path));
+   fill_pathname_join_special_ext(core_path, savedir, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(core_path));
    
-   fill_pathname_specific_folder_name(content_path,remap_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
+   fill_pathname_specific_folder_name(content_path,savedir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
    fill_pathname_join_special_ext(content_path, content_path, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(content_path));
    
-   fill_pathname_specific_boot_name(game_path,remap_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
+   fill_pathname_specific_boot_name(game_path,savedir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
    fill_pathname_join_special_ext(game_path, game_path, NULL, core_name, FILE_PATH_REMAP_EXTENSION, sizeof(game_path));
 
    input_remapping_set_defaults(false);
