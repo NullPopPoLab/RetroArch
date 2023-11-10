@@ -429,6 +429,7 @@ DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_replay_slot_plus,       M
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_replay_slot_minus,      MENU_ENUM_SUBLABEL_INPUT_META_REPLAY_SLOT_MINUS)
 
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_eject_toggle,     MENU_ENUM_SUBLABEL_INPUT_META_DISK_EJECT_TOGGLE)
+DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk2_eject_toggle,    MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_next,             MENU_ENUM_SUBLABEL_INPUT_META_DISK_NEXT)
 DEFAULT_SUBLABEL_MACRO(action_bind_sublabel_input_meta_disk_prev,             MENU_ENUM_SUBLABEL_INPUT_META_DISK_PREV)
 
@@ -2265,6 +2266,9 @@ int menu_cbs_init_bind_sublabel(menu_file_list_cbs_t *cbs,
 
             case RARCH_DISK_EJECT_TOGGLE:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk_eject_toggle);
+               return 0;
+            case RARCH_DISK2_EJECT_TOGGLE:
+               BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk2_eject_toggle);
                return 0;
             case RARCH_DISK_NEXT:
                BIND_ACTION_SUBLABEL(cbs, action_bind_sublabel_input_meta_disk_next);

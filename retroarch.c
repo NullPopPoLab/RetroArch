@@ -3322,7 +3322,7 @@ bool command_event(enum event_command cmd, void *data)
 
             /* Ensure that disk control interface is reset */
             if (sys_info)
-               disk_control_set_ext_callback(&sys_info->disk_control, NULL);
+               disk_control_set_ext2_callback(&sys_info->disk_control, NULL);
 
             /* Ensure that audio callback interface is reset */
             audio_st->callback.callback  = NULL;
@@ -4072,6 +4072,40 @@ bool command_event(enum event_command cmd, void *data)
                 * menu when toggling the tray state */
                menu_st->flags                 |=  MENU_ST_FLAG_ENTRIES_NEED_REFRESH
                                                |  MENU_ST_FLAG_PREVENT_POPULATE;
+#endif
+            }
+            else
+               runloop_msg_queue_push(
+                     msg_hash_to_str(MSG_CORE_DOES_NOT_SUPPORT_DISK_OPTIONS),
+                     1, 120, true,
+                     NULL, MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
+         }
+         break;
+      case CMD_EVENT_DISK2_EJECT_TOGGLE:
+         {
+            rarch_system_info_t *sys_info = &runloop_st->system;
+
+            if (!sys_info)
+               return false;
+
+            if (disk_control_get_num_drives(&sys_info->disk_control)>1)
+            {
+               bool *show_msg = (bool*)data;
+               bool eject     = !disk_control_get_drive_eject_state(&sys_info->disk_control,1);
+               bool verbose   = true;
+               bool refresh   = false;
+
+               if (show_msg)
+                  verbose     = *show_msg;
+
+               disk_control_set_drive_eject_state(
+                     &sys_info->disk_control, 1, eject, verbose);
+
+#if defined(HAVE_MENU)
+               /* It is necessary to refresh the disk options
+                * menu when toggling the tray state */
+               menu_entries_ctl(MENU_ENTRIES_CTL_SET_REFRESH, &refresh);
+               menu_driver_ctl(RARCH_MENU_CTL_SET_PREVENT_POPULATE, NULL);
 #endif
             }
             else
