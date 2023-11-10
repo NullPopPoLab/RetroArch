@@ -734,13 +734,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_MENU_TOGGLE, RETROK_UNKNOWN,
-      RARCH_MENU_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_GAME_WATCH, RETROK_UNKNOWN,
       RARCH_NETPLAY_GAME_WATCH, NO_BTN, NO_BTN, 0,
       true
@@ -1495,13 +1488,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_MENU_TOGGLE, RETROK_UNKNOWN,
-      RARCH_MENU_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_GAME_WATCH, RETROK_UNKNOWN,
       RARCH_NETPLAY_GAME_WATCH, NO_BTN, NO_BTN, 0,
       true
@@ -1913,13 +1899,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_FAST_FORWARD_KEY, RETROK_UNKNOWN,
-      RARCH_LIGHTGUN_DPAD_LEFT, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_ENABLE_HOTKEY, RETROK_UNKNOWN,
       RARCH_ENABLE_HOTKEY, NO_BTN, NO_BTN, 0,
       true
@@ -1993,13 +1972,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_LOAD_STATE_KEY, RETROK_UNKNOWN,
-      RARCH_LOAD_STATE_KEY, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_REWIND, RETROK_UNKNOWN,
       RARCH_REWIND, NO_BTN, NO_BTN, 0,
       true
@@ -2007,22 +1979,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_SAVE_STATE_KEY, RETROK_UNKNOWN,
-      RARCH_SAVE_STATE_KEY, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_PAUSE_TOGGLE, RETROK_UNKNOWN,
       RARCH_PAUSE_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_FULLSCREEN_TOGGLE_KEY, RETROK_UNKNOWN,  
-      RARCH_FULLSCREEN_TOGGLE_KEY, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2042,13 +2000,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_RESTART_KEY, RETROK_UNKNOWN,
-      RARCH_QUIT_KEY, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_VOLUME_UP, RETROK_UNKNOWN,
       RARCH_VOLUME_UP, NO_BTN, NO_BTN, 0,
       true
@@ -2056,22 +2007,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_QUIT_KEY, RETROK_UNKNOWN,
-      RARCH_QUIT_KEY, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_VOLUME_DOWN, RETROK_UNKNOWN,
       RARCH_VOLUME_DOWN, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_STATE_SLOT_PLUS, RETROK_UNKNOWN,
-      RARCH_FRAMEADVANCE, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2105,13 +2042,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_REWIND, RETROK_UNKNOWN,
-      RARCH_REWIND, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_PLAY_REPLAY_KEY, RETROK_UNKNOWN,
       RARCH_PLAY_REPLAY_KEY, NO_BTN, NO_BTN, 0,
       true
@@ -2126,22 +2056,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_PAUSE_TOGGLE, RETROK_UNKNOWN,
-      RARCH_PAUSE_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_HALT_REPLAY_KEY, RETROK_UNKNOWN,
       RARCH_HALT_REPLAY_KEY, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_FRAMEADVANCE, RETROK_UNKNOWN,
-      RARCH_FRAMEADVANCE, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2154,22 +2070,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_RESET, RETROK_UNKNOWN,
-      RARCH_RESET, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_REPLAY_SLOT_MINUS, RETROK_UNKNOWN,
       RARCH_REPLAY_SLOT_MINUS, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_SHADER_NEXT, RETROK_UNKNOWN,
-      RARCH_SHADER_NEXT, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2182,22 +2084,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_SHADER_PREV, RETROK_UNKNOWN,
-      RARCH_SHADER_PREV, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE, RETROK_UNKNOWN,
       RARCH_DISK2_EJECT_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_CHEAT_INDEX_PLUS, RETROK_UNKNOWN,
-      RARCH_CHEAT_INDEX_PLUS, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2210,22 +2098,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_CHEAT_INDEX_MINUS, RETROK_UNKNOWN,
-      RARCH_CHEAT_INDEX_MINUS, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_PREV, RETROK_UNKNOWN,
       RARCH_DISK_PREV, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_CHEAT_TOGGLE, RETROK_UNKNOWN,
-      RARCH_CHEAT_INDEX_PLUS, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2259,22 +2133,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_SCREENSHOT, RETROK_UNKNOWN,
-      RARCH_SCREENSHOT, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_CHEAT_INDEX_PLUS, RETROK_UNKNOWN,
       RARCH_CHEAT_INDEX_PLUS, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_MUTE, RETROK_UNKNOWN,
-      RARCH_MUTE, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2287,13 +2147,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_OSK, RETROK_UNKNOWN,
-      RARCH_OSK, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_SCREENSHOT, RETROK_UNKNOWN,
       RARCH_SCREENSHOT, NO_BTN, NO_BTN, 0,
       true
@@ -2301,22 +2154,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_FPS_TOGGLE, RETROK_UNKNOWN,
-      RARCH_FPS_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_RECORDING_TOGGLE, RETROK_UNKNOWN,
       RARCH_RECORDING_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_SEND_DEBUG_INFO, RETROK_UNKNOWN,
-      RARCH_SEND_DEBUG_INFO, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2336,13 +2175,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_GAME_WATCH, RETROK_UNKNOWN,
-      RARCH_NETPLAY_GAME_WATCH, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_GAME_FOCUS_TOGGLE, RETROK_UNKNOWN,
       RARCH_GAME_FOCUS_TOGGLE, NO_BTN, NO_BTN, 0,
       true
@@ -2357,22 +2189,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_VOLUME_UP, RETROK_UNKNOWN,
-      RARCH_VOLUME_UP, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_UI_COMPANION_TOGGLE, RETROK_UNKNOWN,
       RARCH_UI_COMPANION_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_VOLUME_DOWN, RETROK_UNKNOWN,
-      RARCH_VOLUME_DOWN, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2413,22 +2231,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_GRAB_MOUSE_TOGGLE, RETROK_UNKNOWN,
-      RARCH_GRAB_MOUSE_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_AI_SERVICE, RETROK_UNKNOWN,
       RARCH_AI_SERVICE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_GAME_FOCUS_TOGGLE, RETROK_UNKNOWN,
-      RARCH_GAME_FOCUS_TOGGLE, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2441,22 +2245,8 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_UI_COMPANION_TOGGLE, RETROK_UNKNOWN,
-      RARCH_UI_COMPANION_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_META_NETPLAY_HOST_TOGGLE, RETROK_UNKNOWN,
       RARCH_NETPLAY_HOST_TOGGLE, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_META_MENU_TOGGLE, RETROK_UNKNOWN,
-      RARCH_MENU_TOGGLE, NO_BTN, NO_BTN, 0,
       true
    },
    {
