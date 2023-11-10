@@ -109,6 +109,12 @@ int msg_hash_get_help_us_enum(enum msg_hash_enums msg, char *s, size_t len)
           case MENU_ENUM_LABEL_FILE_BROWSER_CHEAT:
              strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_HELP_FILE_BROWSER_CHEAT), len);
              break;
+          case RARCH_DISK_EJECT_TOGGLE:
+          case RARCH_DISK2_EJECT_TOGGLE:
+             snprintf(s, len,
+                   "Toggles eject for disks. \n"
+                   " \n"
+                   "Used for multiple-disk content.");
           case MENU_ENUM_LABEL_FILE_BROWSER_OVERLAY:
              strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_HELP_FILE_BROWSER_OVERLAY), len);
              break;
