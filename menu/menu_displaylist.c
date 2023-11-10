@@ -4973,11 +4973,11 @@ static unsigned menu_displaylist_parse_disk_options(file_list_t *list)
 
    /* Only show disk index if disk is currently ejected */
    if (disk_ejected1||disk_ejected2){
-      if (menu_entries_append_enum(list,
+      if (menu_entries_append(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_INDEX),
                msg_hash_to_str(MENU_ENUM_LABEL_DISK_INDEX),
                MENU_ENUM_LABEL_DISK_INDEX,
-               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX, 0, 0))
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX, 0, 0, NULL))
          count++;
    }
 
@@ -5005,19 +5005,19 @@ static unsigned menu_displaylist_parse_disk_options(file_list_t *list)
 	if(drives<2);
    else if (disk_ejected2)
    {
-      if (menu_entries_append_enum(list,
+      if (menu_entries_append(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_INSERT),
                msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_INSERT),
                MENU_ENUM_LABEL_DISK_TRAY_INSERT,
-               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0, NULL))
          count++;
    }
    else{
-      if (menu_entries_append_enum(list,
+      if (menu_entries_append(list,
                msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_TRAY_EJECT),
                msg_hash_to_str(MENU_ENUM_LABEL_DISK_TRAY_EJECT),
                MENU_ENUM_LABEL_DISK_TRAY_EJECT,
-               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0))
+               MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS, 0, 0, NULL))
          count++;
    }
 
