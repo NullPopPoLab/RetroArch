@@ -3587,6 +3587,7 @@ static int generic_action_ok_remap_file_operation(const char *path,
    if (string_is_empty(core_name))
       return -1;
 	if (!string_is_empty(core_name)){
+       char file[PATH_MAX_LENGTH];
        fill_pathname_join(file, core_name, NULL, sizeof(file));
 	   switch (action_type)
 	   {
