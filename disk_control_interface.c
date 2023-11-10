@@ -51,7 +51,7 @@ static void disk_control_reset_callback(
       return;
 
    memset(&disk_control->cb, 0,
-         sizeof(struct retro_disk_control_ext_callback));
+         sizeof(struct retro_disk_control_ext2_callback));
 }
 
 /**
@@ -83,7 +83,7 @@ void disk_control_set_callback(
 /**
  * disk_control_set_ext_callback:
  *
- * Set v1+ disk interface callback functions
+ * Set v1 disk interface callback functions
  **/
 void disk_control_set_ext_callback(
       disk_control_interface_t *disk_control,
@@ -110,6 +110,37 @@ void disk_control_set_ext_callback(
    disk_control->cb.get_image_label     = cb->get_image_label;
 }
 
+/* Set v2+ disk interface callback functions */
+void disk_control_set_ext2_callback(
+      disk_control_interface_t *disk_control,
+      const struct retro_disk_control_ext2_callback *cb)
+{
+   if (!disk_control)
+      return;
+
+   disk_control_reset_callback(disk_control);
+
+   if (!cb)
+      return;
+
+   disk_control->cb.set_eject_state     = cb->set_eject_state;
+   disk_control->cb.get_eject_state     = cb->get_eject_state;
+   disk_control->cb.get_image_index     = cb->get_image_index;
+   disk_control->cb.set_image_index     = cb->set_image_index;
+   disk_control->cb.get_num_images      = cb->get_num_images;
+   disk_control->cb.replace_image_index = cb->replace_image_index;
+   disk_control->cb.add_image_index     = cb->add_image_index;
+
+   disk_control->cb.set_initial_image   = cb->set_initial_image;
+   disk_control->cb.get_image_path      = cb->get_image_path;
+   disk_control->cb.get_image_label     = cb->get_image_label;
+
+   disk_control->cb.get_num_drives     = cb->get_num_drives;
+   disk_control->cb.set_drive_eject_state = cb->set_drive_eject_state;
+   disk_control->cb.get_drive_eject_state = cb->get_drive_eject_state;
+   disk_control->cb.get_drive_image_index = cb->get_drive_image_index;
+}
+
 /**********/
 /* Status */
 /**********/
@@ -132,8 +163,8 @@ bool disk_control_enabled(
    if (!disk_control)
       return false;
 
-   if (disk_control->cb.set_eject_state &&
-       disk_control->cb.get_eject_state &&
+   if ((disk_control->cb.set_eject_state || disk_control->cb.set_drive_eject_state) &&
+       (disk_control->cb.get_eject_state || disk_control->cb.get_drive_eject_state) &&
        disk_control->cb.get_image_index &&
        disk_control->cb.set_image_index &&
        disk_control->cb.get_num_images)
@@ -206,9 +237,28 @@ bool disk_control_initial_image_enabled(
 bool disk_control_get_eject_state(
       disk_control_interface_t *disk_control)
 {
-   if (!disk_control || !disk_control->cb.get_eject_state)
-      return false;
-   return disk_control->cb.get_eject_state();
+   return disk_control_get_drive_eject_state(disk_control,0);
+}
+
+/* Returns true if disk is currently ejected */
+bool disk_control_get_drive_eject_state(
+      disk_control_interface_t *disk_control, unsigned drive)
+{
+   if (!disk_control) return false;
+   if (disk_control->cb.get_drive_eject_state) return disk_control->cb.get_drive_eject_state(drive);
+   if (drive!=0)return false;
+   if (disk_control->cb.get_eject_state) return disk_control->cb.get_eject_state();
+   return false;
+}
+
+/* Returns number of disk drives registered
+ * by the core */
+unsigned disk_control_get_num_drives(
+      disk_control_interface_t *disk_control)
+{
+   if (!disk_control) return 0;
+   if (disk_control->cb.get_num_drives)return disk_control->cb.get_num_drives();
+   return 1;
 }
 
 /**
@@ -260,10 +310,24 @@ void disk_control_get_image_label(
    if (!disk_control->cb.get_image_label(index, label, len))
       goto error;
 
+	label[len-1]=0;
    return;
 
 error:
    label[0] = '\0';
+}
+
+/* Returns drive inserted disk index.
+	-1: not inserted
+	-2: unknown(not impremented)
+*/
+int disk_control_get_drive_image_index(
+      disk_control_interface_t *disk_control, unsigned drive)
+{
+   if (!disk_control) return -1;
+   if (!disk_control->cb.get_drive_image_index) return -2;
+
+   return disk_control->cb.get_drive_image_index(drive);
 }
 
 /***********/
@@ -339,31 +403,39 @@ bool disk_control_set_eject_state(
       disk_control_interface_t *disk_control,
       bool eject, bool verbosity)
 {
+   return disk_control_set_drive_eject_state(disk_control,0,eject,verbosity);
+}
+
+/* Sets the eject state of the virtual disk tray */
+bool disk_control_set_drive_eject_state(
+      disk_control_interface_t *disk_control,
+      unsigned drive,bool eject, bool verbosity)
+{
    bool error = false;
+   bool done = false;
    char msg[128];
 
    msg[0] = '\0';
 
-   if (!disk_control || !disk_control->cb.set_eject_state)
-      return false;
+   if (!disk_control) return false;
+
+   if (disk_control->cb.set_drive_eject_state)done=disk_control->cb.set_drive_eject_state(drive,eject);
+   else if (drive!=0);
+   else if (disk_control->cb.set_eject_state)done=disk_control->cb.set_eject_state(eject);
 
    /* Set eject state */
-   if (disk_control->cb.set_eject_state(eject))
-      strlcpy(
-            msg,
-            eject 
-            ? msg_hash_to_str(MSG_DISK_EJECTED)
-            : msg_hash_to_str(MSG_DISK_CLOSED),
-              sizeof(msg));
+   if (done)
+      snprintf(
+            msg, sizeof(msg), "drive %u: %s",drive,
+            eject ? msg_hash_to_str(MSG_DISK_EJECTED) :
+                  msg_hash_to_str(MSG_DISK_CLOSED));
    else
    {
       error = true;
-      strlcpy(
-            msg,
-            eject 
-            ? msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_EJECT)
-            : msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_CLOSE),
-              sizeof(msg));
+      snprintf(
+            msg, sizeof(msg), "drive %u: %s",drive,
+            eject ? msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_EJECT) :
+                  msg_hash_to_str(MSG_VIRTUAL_DISK_TRAY_CLOSE));
    }
 
    if (!string_is_empty(msg))
@@ -416,17 +488,14 @@ bool disk_control_set_index(
 
    msg[0] = '\0';
 
-   if (!disk_control)
+   if (!disk_control_enabled(disk_control))
       return false;
 
-   if (!disk_control->cb.get_eject_state ||
-       !disk_control->cb.get_num_images ||
-       !disk_control->cb.set_image_index)
-      return false;
-
+#if 0
    /* Ensure that disk is currently ejected */
    if (!disk_control->cb.get_eject_state())
       return false;
+#endif
 
    /* Get current number of disk images */
    num_images = disk_control->cb.get_num_images();
@@ -508,7 +577,7 @@ bool disk_control_set_index_next(
    /* Would seem more sensible to check (num_images > 1)
     * here, but seems we need to be able to cycle the
     * same image for legacy reasons... */
-   disk_next_enable = (num_images > 0) && (num_images != UINT_MAX);
+   disk_next_enable = (num_images > 1) && (num_images != UINT_MAX);
 
    if (!disk_next_enable)
    {
@@ -516,8 +585,7 @@ bool disk_control_set_index_next(
       return false;
    }
 
-   if (image_index < (num_images - 1))
-      image_index++;
+   image_index=(image_index+1)%num_images;
 
    return disk_control_set_index(disk_control, image_index, verbosity);
 }
@@ -547,7 +615,7 @@ bool disk_control_set_index_prev(
    /* Would seem more sensible to check (num_images > 1)
     * here, but seems we need to be able to cycle the
     * same image for legacy reasons... */
-   disk_prev_enable = (num_images > 0);
+   disk_prev_enable = (num_images > 1);
 
    if (!disk_prev_enable)
    {
@@ -555,8 +623,7 @@ bool disk_control_set_index_prev(
       return false;
    }
 
-   if (image_index > 0)
-      image_index--;
+   image_index=(image_index+num_images-1)%num_images;
 
    return disk_control_set_index(disk_control, image_index, verbosity);
 }
@@ -571,7 +638,7 @@ bool disk_control_append_image(
       const char *image_path)
 {
    size_t _len;
-   bool initial_disk_ejected   = false;
+/*   bool initial_disk_ejected   = false;*/
    unsigned initial_index      = 0;
    unsigned new_index          = 0;
    const char *image_filename  = NULL;
@@ -587,8 +654,8 @@ bool disk_control_append_image(
    if (!disk_control->cb.get_image_index ||
        !disk_control->cb.get_num_images ||
        !disk_control->cb.add_image_index ||
-       !disk_control->cb.replace_image_index ||
-       !disk_control->cb.get_eject_state)
+       !disk_control->cb.replace_image_index /*||
+       !disk_control->cb.get_eject_state*/)
       return false;
 
    if (string_is_empty(image_path))
@@ -599,16 +666,20 @@ bool disk_control_append_image(
    if (string_is_empty(image_filename))
       return false;
 
+#if 0
    /* Get initial disk eject state */
    initial_disk_ejected = disk_control_get_eject_state(disk_control);
+#endif
 
    /* Cache initial image index */
    initial_index        = disk_control->cb.get_image_index();
 
+#if 0
    /* If tray is currently closed, eject disk */
    if (!initial_disk_ejected &&
        !disk_control_set_eject_state(disk_control, true, false))
       goto error;
+#endif
 
    /* Append image */
    if (!disk_control->cb.add_image_index())
@@ -622,6 +693,7 @@ bool disk_control_append_image(
    if (!disk_control->cb.replace_image_index(new_index, &info))
       goto error;
 
+#if 0
    /* Set new index */
    if (!disk_control_set_index(disk_control, new_index, false))
       goto error;
@@ -631,6 +703,7 @@ bool disk_control_append_image(
    if (   !initial_disk_ejected
        && !disk_control_set_eject_state(disk_control, false, false))
       goto error;
+#endif
 
    /* Display log */
    _len        = strlcpy(msg, msg_hash_to_str(MSG_APPENDED_DISK), sizeof(msg));
@@ -649,6 +722,7 @@ bool disk_control_append_image(
    return true;
 
 error:
+#if 0
    /* If we reach this point then everything is
     * broken and the disk control interface is
     * in an undefined state. Try to restore some
@@ -661,6 +735,7 @@ error:
    disk_control_set_index(disk_control, initial_index, false);
    if (!initial_disk_ejected)
       disk_control_set_eject_state(disk_control, false, false);
+#endif
 
    _len        = strlcpy(msg,
          msg_hash_to_str(MSG_FAILED_TO_APPEND_DISK), sizeof(msg));
