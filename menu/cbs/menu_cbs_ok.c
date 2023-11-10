@@ -7510,9 +7510,9 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
-   if (disk_ejected2)
-      menu_navigation_set_selection(0);
-   else menu_navigation_set_selection(disk_ejected1?2:1);
+   if (disk_ejected2)menu_st->selection_ptr=0;
+   else if (disk_ejected1)menu_st->selection_ptr=2;
+   else menu_st->selection_ptr=1;
 
 #if 0
    /* If disk is now inserted and user has enabled
