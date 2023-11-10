@@ -1159,8 +1159,94 @@ static void menu_action_setting_disp_set_label_menu_disk_index(
 
    if (current >= images)
       strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
-   else
-      snprintf(s, len, "%u", current + 1);
+   else{
+		char buf[256];
+		disk_control_get_image_label(&sys_info->disk_control,current,buf,sizeof(buf));
+		if(buf[0])snprintf(s, len, "%s (%u/%u)",buf, current + 1, images);
+		else snprintf(s, len, "(%u/%u)", current + 1, images);
+	}
+}
+
+static void menu_action_setting_disp_set_label_menu_inserted_disk_index(
+      file_list_t* list,
+      unsigned *w, unsigned type, unsigned i,
+      const char *label,
+      char *s, size_t len,
+      const char *path,
+      char *s2, size_t len2)
+{
+   rarch_system_info_t *system = &runloop_state_get_ptr()->system;
+
+   if (!system)
+      return;
+
+   if (!disk_control_enabled(&system->disk_control))
+      return;
+
+   *w = 19;
+   strlcpy(s2, path, len2);
+
+	if(disk_control_get_drive_eject_state(&system->disk_control,0)){
+		s[0]=0;
+	}
+	else{
+		unsigned images = disk_control_get_num_images(&system->disk_control);
+		int current = disk_control_get_drive_image_index(&system->disk_control,0);
+
+		if (current==-2){
+			s[0]=0;
+		}
+		else if(current<0 || current >= images){
+			strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
+		}
+		else{
+			char buf[256];
+			disk_control_get_image_label(&system->disk_control,current,buf,sizeof(buf));
+			if(buf[0])snprintf(s, len, "%s (%u/%u)",buf, current + 1, images);
+			else snprintf(s, len, "(%u/%u)", current + 1, images);
+		}
+	}
+}
+
+static void menu_action_setting_disp_set_label_menu_inserted_disk2_index(
+      file_list_t* list,
+      unsigned *w, unsigned type, unsigned i,
+      const char *label,
+      char *s, size_t len,
+      const char *path,
+      char *s2, size_t len2)
+{
+   rarch_system_info_t *system = &runloop_state_get_ptr()->system;
+
+   if (!system)
+      return;
+
+   if (!disk_control_enabled(&system->disk_control))
+      return;
+
+   *w = 19;
+   strlcpy(s2, path, len2);
+
+	if(disk_control_get_drive_eject_state(&system->disk_control,1)){
+		s[0]=0;
+	}
+	else{
+		unsigned images = disk_control_get_num_images(&system->disk_control);
+		int current = disk_control_get_drive_image_index(&system->disk_control,1);
+
+		if (current==-2){
+			s[0]=0;
+		}
+		else if(current<0 || current >= images){
+			strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
+		}
+		else{
+			char buf[256];
+			disk_control_get_image_label(&system->disk_control,current,buf,sizeof(buf));
+			if(buf[0])snprintf(s, len, "%s (%u/%u)",buf, current + 1, images);
+			else snprintf(s, len, "(%u/%u)", current + 1, images);
+		}
+	}
 }
 
 static void menu_action_setting_disp_set_label_menu_video_resolution(
@@ -2230,6 +2316,14 @@ static int menu_cbs_init_bind_get_string_representation_compare_type(
       case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_INDEX:
          BIND_ACTION_GET_VALUE(cbs,
                menu_action_setting_disp_set_label_menu_disk_index);
+         break;
+      case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK_CYCLE_TRAY_STATUS:
+         BIND_ACTION_GET_VALUE(cbs,
+               menu_action_setting_disp_set_label_menu_inserted_disk_index);
+         break;
+      case MENU_SETTINGS_CORE_DISK_OPTIONS_DISK2_CYCLE_TRAY_STATUS:
+         BIND_ACTION_GET_VALUE(cbs,
+               menu_action_setting_disp_set_label_menu_inserted_disk2_index);
          break;
       case 31: /* Database entry */
          BIND_ACTION_GET_VALUE(cbs, menu_action_setting_disp_set_label_db_entry);

@@ -3371,6 +3371,14 @@ MSG_HASH(
    "控制虛擬光碟機的開關。"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_META_DISK2_EJECT_TOGGLE,
+   "虛擬光碟機 (進/退)"
+   )
+MSG_HASH(
+   MENU_ENUM_SUBLABEL_INPUT_META_DISK2_EJECT_TOGGLE,
+   "控制虛擬光碟機的開關。"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_DISK_NEXT,
    "下一個映像檔編號"
    )
