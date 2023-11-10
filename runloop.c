@@ -4090,7 +4090,7 @@ static bool runloop_path_init_subsystem(runloop_state_t *runloop_st)
    const struct retro_subsystem_info *info = NULL;
    rarch_system_info_t             *system = &runloop_st->system;
    bool subsystem_path_empty               = path_is_empty(RARCH_PATH_SUBSYSTEM);
-   const char                *savefile_dir = runloop_st->savefile_dir;
+   const char                *savefile_dir = runloop_st->sys_savefile_dir;
 
    if (!system || subsystem_path_empty)
       return false;
