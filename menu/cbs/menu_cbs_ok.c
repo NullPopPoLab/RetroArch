@@ -7454,8 +7454,6 @@ static int action_ok_disk_cycle_tray_status(const char *path,
    if (disk_ejected1)
       menu_navigation_set_selection(0);
    else menu_navigation_set_selection(disk_ejected2?1:0);
-   if (disk_ejected)
-      menu_st->selection_ptr = 1;
 
 #if 0
    /* If disk is now inserted and user has enabled

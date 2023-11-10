@@ -1161,7 +1161,7 @@ static void menu_action_setting_disp_set_label_menu_disk_index(
       strlcpy(s, msg_hash_to_str(MENU_ENUM_LABEL_VALUE_NO_DISK), len);
    else{
 		char buf[256];
-		disk_control_get_image_label(&system->disk_control,current,buf,sizeof(buf));
+		disk_control_get_image_label(&sys_info->disk_control,current,buf,sizeof(buf));
 		if(buf[0])snprintf(s, len, "%s (%u/%u)",buf, current + 1, images);
 		else snprintf(s, len, "(%u/%u)", current + 1, images);
 	}
