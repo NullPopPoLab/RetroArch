@@ -8121,7 +8121,7 @@ void runloop_path_set_redirect(settings_t *settings,
       else
          savestate_is_dir   = path_is_directory(runloop_st->name.savestate);
 
-      fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+      fill_pathname_specific_folder_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
       if(string_is_empty(subdir)){
          strlcpy(subdir,"_bycore_",sizeof(subdir));
          fill_pathname_slash(subdir,sizeof(subdir));
