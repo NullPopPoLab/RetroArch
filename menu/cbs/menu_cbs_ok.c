@@ -7471,6 +7471,7 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
    bool disk_ejected1             = false;
    bool disk_ejected2             = false;
    bool print_log                 = false;
+   struct menu_state *menu_st     = menu_state_get_ptr();
    rarch_system_info_t *sys_info  = &runloop_state_get_ptr()->system;
    settings_t *settings           = config_get_ptr();
 #ifdef HAVE_AUDIOMIXER
@@ -7480,7 +7481,7 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
    bool menu_insert_disk_resume   = settings->bools.menu_insert_disk_resume;
 
    if (!settings)
-      return menu_cbs_exit();
+      return -1;
 
 #ifdef HAVE_AUDIOMIXER
    if (audio_enable_menu && audio_enable_menu_ok)
@@ -7501,7 +7502,7 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
    print_log = menu_insert_disk_resume && disk_ejected2;
 
    if (!command_event(CMD_EVENT_DISK2_EJECT_TOGGLE, &print_log))
-      return menu_cbs_exit();
+      return -1;
 
    /* If we reach this point, then tray toggle
     * was successful */
@@ -7510,8 +7511,8 @@ static int action_ok_disk2_cycle_tray_status(const char *path,
    /* If disk is now ejected, menu selection should
     * automatically increment to the 'current disk
     * index' option */
-   if (disk_ejected2)menu_st->selection_ptr=0;
-   else if (disk_ejected1)menu_st->selection_ptr=2;
+   if (disk_ejected1)menu_st->selection_ptr=0;
+   else if (disk_ejected2)menu_st->selection_ptr=2;
    else menu_st->selection_ptr=1;
 
 #if 0
