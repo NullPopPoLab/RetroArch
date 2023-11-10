@@ -282,7 +282,11 @@ struct runloop
 #endif
    char runtime_content_path[PATH_MAX_LENGTH];
    char runtime_core_path[PATH_MAX_LENGTH];
-   char savefile_dir[PATH_MAX_LENGTH];
+   char root_savefile_dir[PATH_MAX_LENGTH];
+   char sys_savefile_dir[PATH_MAX_LENGTH];
+   char grp_savefile_dir[PATH_MAX_LENGTH];
+   char game_savefile_dir[PATH_MAX_LENGTH];
+   char boot_savefile_dir[PATH_MAX_LENGTH];
    char savestate_dir[PATH_MAX_LENGTH];
 
    struct

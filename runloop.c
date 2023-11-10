@@ -2004,9 +2004,29 @@ bool runloop_environment_cb(unsigned cmd, void *data)
          }
          break;
 
-      case RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY:
-         RARCH_LOG("[Environ]: GET_SAVE_DIRECTORY.\n");
-         *(const char**)data = runloop_st->savefile_dir;
+      case RETRO_ENVIRONMENT_GET_ROOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_ROOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->root_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_SYSTEM_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_SYSTEM_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->sys_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GROUP_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GROUP_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->grp_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_GAME_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_GAME_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->game_savefile_dir;
+         break;
+
+      case RETRO_ENVIRONMENT_GET_BOOT_SAVE_DIRECTORY:
+         RARCH_LOG("[Environ]: GET_BOOT_SAVE_DIRECTORY.\n");
+         *(const char**)data = runloop_st->boot_savefile_dir;
          break;
 
       case RETRO_ENVIRONMENT_GET_USERNAME:
@@ -4106,11 +4126,11 @@ static bool runloop_path_init_subsystem(runloop_state_t *runloop_st)
                   sizeof(savename));
             path_remove_extension(savename);
 
-            if (path_is_directory(savefile_dir))
+            if (path_is_directory(runloop_st->sys_savefile_dir))
             {
                /* Use SRAM dir */
                /* Redirect content fullpath to save directory. */
-               strlcpy(path, savefile_dir, sizeof(path));
+               strlcpy(path, runloop_st->sys_savefile_dir, sizeof(path));
                fill_pathname_dir(path, savename, ext, sizeof(path));
             }
             else
@@ -4132,20 +4152,25 @@ static bool runloop_path_init_subsystem(runloop_state_t *runloop_st)
    if (!retroarch_override_setting_is_set(
             RARCH_OVERRIDE_SETTING_SAVE_PATH, NULL))
    {
-      size_t len = strlcpy(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
-            sizeof(runloop_st->name.savefile));
-      strlcpy(runloop_st->name.savefile       + len,
-            ".srm",
-            sizeof(runloop_st->name.savefile) - len);
+      char subdir2[PATH_MAX_LENGTH];
+      subdir2[0]=0;
+
+      fill_pathname_dir(runloop_st->name.savefile,
+         subdir2,
+         "sram",
+         sizeof(runloop_st->name.savefile));
    }
 
    if (path_is_directory(runloop_st->name.savefile))
    {
+      char subdir2[PATH_MAX_LENGTH];
+      subdir2[0]=0;
+
       fill_pathname_dir(runloop_st->name.savefile,
-            runloop_st->runtime_content_path_basename,
-            ".srm",
-            sizeof(runloop_st->name.savefile));
+         subdir2,
+         "sram",
+         sizeof(runloop_st->name.savefile));
+
       RARCH_LOG("%s \"%s\".\n",
             msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
             runloop_st->name.savefile);
@@ -4676,7 +4701,7 @@ bool runloop_event_init_core(
    disk_control_set_initial_index(
          &sys_info->disk_control,
          path_get(RARCH_PATH_CONTENT),
-         runloop_st->savefile_dir);
+         runloop_st->game_savefile_dir);
 
    if (!event_init_content(runloop_st, settings, input_st))
    {
@@ -8077,6 +8102,7 @@ void runloop_path_set_redirect(settings_t *settings,
 
    if (system && !string_is_empty(system->library_name))
    {
+      char subdir[PATH_MAX_LENGTH];
       bool savefile_is_dir  = path_is_directory(new_savefile_dir);
       bool savestate_is_dir = path_is_directory(new_savestate_dir);
       if (savefile_is_dir)
@@ -8095,14 +8121,23 @@ void runloop_path_set_redirect(settings_t *settings,
       else
          savestate_is_dir   = path_is_directory(runloop_st->name.savestate);
 
+      fill_pathname_specific_game_name(subdir,NULL,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir),false);
+      if(string_is_empty(subdir)){
+         strlcpy(subdir,"_bycore_",sizeof(subdir));
+         fill_pathname_slash(subdir,sizeof(subdir));
+         strlcat(subdir,system->library_name,sizeof(subdir));
+      }
+
       if (savefile_is_dir)
       {
-         fill_pathname_dir(runloop_st->name.savefile,
-               !string_is_empty(runloop_st->runtime_content_path_basename)
-               ? runloop_st->runtime_content_path_basename
-               : system->library_name,
-               FILE_PATH_SRM_EXTENSION,
-               sizeof(runloop_st->name.savefile));
+         char subdir2[PATH_MAX_LENGTH];
+         subdir2[0]=0;
+         strlcat(subdir2, subdir, sizeof(subdir2));
+         fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_subdir(runloop_st->name.savefile,
+            subdir2,
+            "sram",
+            sizeof(runloop_st->name.savefile));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_SAVEFILE_TO),
                runloop_st->name.savefile);
@@ -8110,18 +8145,18 @@ void runloop_path_set_redirect(settings_t *settings,
 
       if (savestate_is_dir)
       {
-         fill_pathname_dir(runloop_st->name.savestate,
-               !string_is_empty(runloop_st->runtime_content_path_basename)
-               ? runloop_st->runtime_content_path_basename
-               : system->library_name,
-               FILE_PATH_STATE_EXTENSION,
-               sizeof(runloop_st->name.savestate));
-         fill_pathname_dir(runloop_st->name.replay,
-               !string_is_empty(runloop_st->runtime_content_path_basename)
-               ? runloop_st->runtime_content_path_basename
-               : system->library_name,
-               FILE_PATH_BSV_EXTENSION,
-               sizeof(runloop_st->name.replay));
+         char subdir2[PATH_MAX_LENGTH];
+         subdir2[0]=0;
+         strlcat(subdir2, subdir, sizeof(subdir2));
+         fill_pathname_slash(subdir2,sizeof(subdir2));
+         fill_pathname_subdir(runloop_st->name.savestate,
+            subdir2,
+            "state",
+            sizeof(runloop_st->name.savestate));
+         fill_pathname_subdir(runloop_st->name.replay,
+            subdir2,
+            "replay",
+            sizeof(runloop_st->name.replay));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_SAVESTATE_TO),
                runloop_st->name.savestate);
@@ -8130,12 +8165,10 @@ void runloop_path_set_redirect(settings_t *settings,
 #ifdef HAVE_CHEATS
       if (path_is_directory(runloop_st->name.cheatfile))
       {
-         fill_pathname_dir(runloop_st->name.cheatfile,
-               !string_is_empty(runloop_st->runtime_content_path_basename)
-               ? runloop_st->runtime_content_path_basename
-               : system->library_name,
-               FILE_PATH_CHT_EXTENSION,
-               sizeof(runloop_st->name.cheatfile));
+         fill_pathname_subdir(runloop_st->name.cheatfile,
+            subdir,
+            FILE_PATH_CHT_EXTENSION,
+            sizeof(runloop_st->name.cheatfile));
          RARCH_LOG("[Overrides]: %s \"%s\".\n",
                msg_hash_to_str(MSG_REDIRECTING_CHEATFILE_TO),
                runloop_st->name.cheatfile);
@@ -8202,13 +8235,17 @@ void runloop_path_set_special(char **argv, unsigned num_content)
 
    if (is_dir)
    {
+      char str2[PATH_MAX_LENGTH];
+      str2[0]=0;
+      strlcat(str2, str, sizeof(str2));
+      fill_pathname_slash(str2,sizeof(str2));
       fill_pathname_dir(runloop_st->name.savestate,
-            str,
-            ".state",
+            str2,
+            "state",
             sizeof(runloop_st->name.savestate));
       fill_pathname_dir(runloop_st->name.replay,
-            str,
-            ".replay",
+            str2,
+            "replay",
             sizeof(runloop_st->name.replay));
       RARCH_LOG("%s \"%s\".\n",
             msg_hash_to_str(MSG_REDIRECTING_SAVESTATE_TO),

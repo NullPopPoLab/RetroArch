@@ -1443,6 +1443,7 @@ static void task_push_save_state(const char *path, void *data, size_t size, bool
    if (!task || !state)
       goto error;
 
+   path_parent_mkdir(path);
    strlcpy(state->path, path, sizeof(state->path));
    state->data                   = data;
    state->size                   = size;
@@ -2161,6 +2162,8 @@ bool content_save_ram_file(unsigned slot, bool compress)
          ram.type,
          msg_hash_to_str(MSG_TO),
          ram.path);
+
+	path_parent_mkdir(ram.path);
 
 #if defined(HAVE_ZLIB)
    if (compress)
