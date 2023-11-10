@@ -533,6 +533,7 @@ typedef struct settings
       char directory_system[PATH_MAX_LENGTH];
       char directory_cache[PATH_MAX_LENGTH];
       char directory_playlist[PATH_MAX_LENGTH];
+      char directory_content_root[PATH_MAX_LENGTH];
       char directory_content_favorites[PATH_MAX_LENGTH];
       char directory_content_history[PATH_MAX_LENGTH];
       char directory_content_image_history[PATH_MAX_LENGTH];
