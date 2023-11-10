@@ -5985,9 +5985,8 @@ bool input_remapping_save_file(const char *path)
       config_set_int(conf, s1, settings->uints.input_remap_ports[i]);
    }
 
-   ret = config_file_write(conf, path, true);
-   ret = path_parent_mkdir(remap_file);
-   if(ret)ret = config_file_write(conf, remap_file, true);
+   ret = path_parent_mkdir(path);
+   if(ret)ret = config_file_write(conf, path, true);
    config_file_free(conf);
 
    /* Cache remap file path
