@@ -2163,7 +2163,7 @@ void dir_set(enum rarch_dir_type type, const char *path)
          fill_pathname_parent_dir(runloop_st->root_savefile_dir,runloop_st->sys_savefile_dir,sizeof(runloop_st->root_savefile_dir));
          trim_tail_slash(runloop_st->root_savefile_dir);
          fill_pathname_specific_folder_name(runloop_st->grp_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->grp_savefile_dir),false);
-         fill_pathname_specific_folder_name(runloop_st->game_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->game_savefile_dir),false);
+         fill_pathname_specific_game_name(runloop_st->game_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->game_savefile_dir),false);
          fill_pathname_specific_boot_name(runloop_st->boot_savefile_dir,runloop_st->sys_savefile_dir,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(runloop_st->boot_savefile_dir),false);
          break;
       case RARCH_DIR_CURRENT_SAVESTATE:

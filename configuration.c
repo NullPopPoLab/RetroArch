@@ -4032,7 +4032,7 @@ static bool config_load_file(global_t *global,
          char subdir2[PATH_MAX_LENGTH];
          subdir2[0]=0;
          
-         fill_pathname_specific_folder_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
+         fill_pathname_specific_game_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
 
          dir_set(RARCH_DIR_SAVEFILE, tmp_str);
 
@@ -4058,7 +4058,7 @@ static bool config_load_file(global_t *global,
          char subdir2[PATH_MAX_LENGTH];
          subdir2[0]=0;
 
-         fill_pathname_specific_folder_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
+         fill_pathname_specific_game_name(subdir2,tmp_str,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(subdir2),false);
 
          dir_set(RARCH_DIR_SAVESTATE, tmp_str);
 
@@ -4220,7 +4220,7 @@ bool config_load_override(void *data)
    }
    /* Concatenate strings into full paths for core_path, game_path, 
     * content_path */
-   fill_pathname_specific_folder_name(game_path,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
+   fill_pathname_specific_game_name(game_path,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(game_path),false);
    fill_pathname_join_special_ext(game_path, game_path, NULL, core_name, ".cfg", sizeof(game_path));
    
    fill_pathname_specific_folder_name(content_path,config_directory,settings->paths.directory_content_root,path_get(RARCH_PATH_BASENAME),sizeof(content_path),false);
