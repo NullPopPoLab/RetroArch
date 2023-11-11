@@ -572,6 +572,9 @@ bool fill_pathname_specific_game_name(char *out_dir,
 			memcpy(&out_dir[ol],&gamepath[rl],zl);
 			out_dir[ol+zl]=0;
 		}
+		else{
+			strlcat(out_dir,&gamepath[rl],size);
+		}
 	}
 
 	trim_tail_slash(out_dir);
