@@ -261,6 +261,7 @@ struct key_desc key_descriptors[RARCH_MAX_KEYS] =
    {RETROK_DICT        ,  "Dictionary"},
    {RETROK_REGISTER    ,  "Register"},
    {RETROK_REMOVE      ,  "Remove"},
+   {RETROK_SYMBOL      ,  "Symbol"},
    {RETROK_KP000       ,  "Numpad 000"},
    {RETROK_KP789       ,  "Numpad 7,8,9 (Upside)"},
    {RETROK_KP123       ,  "Numpad 1,2,3 (Downside)"},
