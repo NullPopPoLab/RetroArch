@@ -685,6 +685,52 @@ enum retro_key
    RETROK_LAUNCH_APP1       = 340,
    RETROK_LAUNCH_APP2       = 341,
 
+   RETROK_CANCEL         = 350, /* for MSX */
+   RETROK_EXEC           = 351, /* for MSX,PC88 */
+   RETROK_CODE           = 352, /* for X68 */
+   RETROK_CONVERT        = 353, /* for PC88 */
+   RETROK_PC             = 354, /* for PC88 */
+   RETROK_KANA           = 355, /* for MSX,PC98,X68 */
+   RETROK_KP_COMMA       = 356, /* for PC98,X68 */
+   RETROK_ROMAN          = 357, /* for X68 */
+   RETROK_COPY           = 358, /* for X68 */
+   RETROK_HIRAGANA       = 359, /* for X68 */
+   RETROK_ZENKAKU        = 360, /* for X68 */
+   RETROK_NMI            = 361, /* for X1,X68 */
+   RETROK_F16            = 362, /* for FMTowns */
+   RETROK_F17            = 363, /* for FMTowns */
+   RETROK_F18            = 364, /* for FMTowns */
+   RETROK_F19            = 365, /* for FMTowns */
+   RETROK_F20            = 366, /* for FMTowns */
+   RETROK_KP000          = 367, /* for FMTowns */
+   RETROK_DICT           = 368, /* for FMTowns */
+   RETROK_REGISTER       = 369, /* for FMTowns */
+   RETROK_REMOVE         = 370, /* for FMTowns */
+
+   RETROK_KP789          = 376, /* for Joy2NumPad */
+   RETROK_KP123          = 377, /* for Joy2NumPad */
+   RETROK_KP147          = 378, /* for Joy2NumPad */
+   RETROK_KP369          = 379, /* for Joy2NumPad */
+
+   RETROK_JOYPAD_UP      = 380,
+   RETROK_JOYPAD_DOWN    = 381,
+   RETROK_JOYPAD_LEFT    = 382,
+   RETROK_JOYPAD_RIGHT   = 383,
+   RETROK_JOYPAD_1       = 384,
+   RETROK_JOYPAD_2       = 385,
+   RETROK_JOYPAD_3       = 386,
+   RETROK_JOYPAD_4       = 387,
+   RETROK_JOYPAD_5       = 388,
+   RETROK_JOYPAD_6       = 389,
+   RETROK_JOYPAD_7       = 390,
+   RETROK_JOYPAD_8       = 391,
+
+   RETROK_MOUSE_1        = 395,
+   RETROK_MOUSE_2        = 396,
+   RETROK_MOUSE_3        = 397,
+   RETROK_MOUSE_4        = 398,
+   RETROK_MOUSE_5        = 399,
+
    RETROK_LAST,
 
    RETROK_DUMMY          = INT_MAX /* Ensure sizeof(enum) == sizeof(int) */
