@@ -511,24 +511,19 @@ enum retro_key
    // Legacy PC extra 
    RETROK_RESET          = 400,
    RETROK_NMI            = 401, /* for X1,X68 */
-   RETROK_STOP           = 402, /* for PC88,PC98 */
-   RETROK_COPY           = 403, /* for X68 */
-   RETROK_CANCEL         = 404, /* for MSX */
-   RETROK_EXEC           = 405, /* for MSX,PC88 */
-   RETROK_CODE           = 406, /* for X68 */
-   RETROK_PC             = 407, /* for PC88 */
-   RETROK_KP_COMMA       = 408, /* for PC98,X68 */
-   RETROK_ZENKAKU        = 409, /* for X68 */
-   RETROK_F16            = 410, /* for FMTowns */
-   RETROK_F17            = 411, /* for FMTowns */
-   RETROK_F18            = 412, /* for FMTowns */
-   RETROK_F19            = 413, /* for FMTowns */
-   RETROK_F20            = 414, /* for FMTowns */
-   RETROK_KP000          = 415, /* for FMTowns */
-   RETROK_DICT           = 416, /* for FMTowns */
-   RETROK_REGISTER       = 417, /* for X68,FMTowns */
-   RETROK_REMOVE         = 418, /* for FMTowns */
-   RETROK_SYMBOL         = 419, /* for X68 */
+   RETROK_COPY           = 402, /* for PC98,X68 */
+   RETROK_CODE           = 403, /* for X68 */
+   RETROK_REGISTER       = 404, /* for X68,FMTowns */
+   RETROK_SYMBOL         = 405, /* for X68 */
+   RETROK_KP_COMMA       = 406, /* for PC88,PC98,X68 */
+   RETROK_KP000          = 407, /* for FMTowns */
+   RETROK_F16            = 408, /* for FMTowns */
+   RETROK_F17            = 409, /* for FMTowns */
+   RETROK_F18            = 410, /* for FMTowns */
+   RETROK_F19            = 411, /* for FMTowns */
+   RETROK_F20            = 412, /* for FMTowns */
+   RETROK_DICT           = 413, /* for FMTowns */
+   RETROK_REMOVE         = 414, /* for FMTowns */
 
    // for 8 directional Joy2NumPad 
    RETROK_KP789          = 467,
