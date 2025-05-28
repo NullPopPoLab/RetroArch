@@ -1184,7 +1184,7 @@ const struct rarch_key_map rarch_key_map_linux[] = {
    { KEY_RIGHTBRACE, RETROK_RIGHTBRACKET },
    /* { ?, RETROK_CARET }, */
    /* { ?, RETROK_UNDERSCORE }, */
-   { KEY_GRAVE, RETROK_CARET },
+   { KEY_GRAVE, RETROK_BACKQUOTE },
    { KEY_A, RETROK_a },
    { KEY_B, RETROK_b },
    { KEY_C, RETROK_c },
@@ -1288,7 +1288,6 @@ const struct rarch_key_map rarch_key_map_linux[] = {
    { KEY_HENKAN, RETROK_CONVERT },
    { KEY_MUHENKAN, RETROK_DONTCONV },
    { KEY_YEN, RETROK_YEN },
-   { KEY_KPCOMMA, RETROK_KP_COMMA },
 
 #ifndef ANDROID
    { KEY_MUTE,         RETROK_VOLUME_MUTE },
