@@ -214,11 +214,6 @@ struct key_desc key_descriptors[RARCH_MAX_KEYS] =
    {RETROK_F13,           "F13"},
    {RETROK_F14,           "F14"},
    {RETROK_F15,           "F15"},
-   {RETROK_F16,           "F16"},
-   {RETROK_F17,           "F17"},
-   {RETROK_F18,           "F18"},
-   {RETROK_F19,           "F19"},
-   {RETROK_F20,           "F20"},
 
    {RETROK_NUMLOCK,       "Num Lock"},
    {RETROK_CAPSLOCK,      "Caps Lock"},
@@ -265,6 +260,9 @@ struct key_desc key_descriptors[RARCH_MAX_KEYS] =
    {RETROK_LAUNCH_APP1,       "Launch App1"},
    {RETROK_LAUNCH_APP2,       "Launch App2"},
 
+   {RETROK_CALC        ,  "Calc"},
+   {RETROK_SLEEP       ,  "Sleep"},
+
    {RETROK_ROMAN       ,  "Roman"},
    {RETROK_KATAKANA    ,  "KataKana"},
    {RETROK_HIRAGANA    ,  "Hiragana"},
@@ -273,19 +271,7 @@ struct key_desc key_descriptors[RARCH_MAX_KEYS] =
    {RETROK_CONVERT     ,  "Henkan"},
    {RETROK_DONTCONV    ,  "Muhenkan"},
    {RETROK_YEN         ,  "Yen"},
-
-   {RETROK_RESET       ,  "Reset"},
-   {RETROK_NMI         ,  "NMI"},
-   {RETROK_STOP        ,  "Stop"},
-   {RETROK_COPY        ,  "Copy"},
-   {RETROK_CODE        ,  "Code"},
-   {RETROK_KP_COMMA    ,  "Numpad Comma"},
-   {RETROK_ZENKAKU     ,  "Zenkaku"},
-   {RETROK_KP000       ,  "Numpad 000"},
-   {RETROK_DICT        ,  "Dictionary"},
-   {RETROK_REGISTER    ,  "Register"},
-   {RETROK_REMOVE      ,  "Remove"},
-   {RETROK_SYMBOL      ,  "Symbol"},
+   {RETROK_KP_COMMA    ,  "Numpad ,"},
 
    {RETROK_KP789       ,  "Numpad 7,8,9 (Upside)"},
    {RETROK_KP123       ,  "Numpad 1,2,3 (Downside)"},
