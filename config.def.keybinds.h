@@ -194,6 +194,20 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_L0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_R0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G1, NO_BTN, NO_BTN, 0,
       true
@@ -231,20 +245,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G6, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G7, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G8, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -949,6 +949,20 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_L0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_R0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G1, NO_BTN, NO_BTN, 0,
       true
@@ -986,20 +1000,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G6, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G7, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G8, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -1703,6 +1703,20 @@ static const struct retro_keybind retro_keybinds_1[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_L0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_R0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G1, NO_BTN, NO_BTN, 0,
       true
@@ -1740,20 +1754,6 @@ static const struct retro_keybind retro_keybinds_1[] = {
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G6, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G7, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G8, NO_BTN, NO_BTN, 0,
       true
    },
    {
@@ -2471,6 +2471,20 @@ static const struct retro_keybind retro_keybinds_rest[] = {
    {
       NULL, NULL,
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_L0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
+      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R0, RETROK_UNKNOWN,
+      RETRO_DEVICE_ID_JOYPAD_R0, NO_BTN, NO_BTN, 0,
+      true
+   },
+   {
+      NULL, NULL,
+      AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G1, NO_BTN, NO_BTN, 0,
       true
@@ -2508,20 +2522,6 @@ static const struct retro_keybind retro_keybinds_rest[] = {
       AXIS_NONE, AXIS_NONE, AXIS_NONE,
       MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6, RETROK_UNKNOWN,
       RETRO_DEVICE_ID_JOYPAD_G6, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G7, NO_BTN, NO_BTN, 0,
-      true
-   },
-   {
-      NULL, NULL,
-      AXIS_NONE, AXIS_NONE, AXIS_NONE,
-      MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8, RETROK_UNKNOWN,
-      RETRO_DEVICE_ID_JOYPAD_G8, NO_BTN, NO_BTN, 0,
       true
    },
    {

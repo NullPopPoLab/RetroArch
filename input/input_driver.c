@@ -115,6 +115,8 @@ const unsigned input_config_bind_order[RARCH_ANALOG_BIND_LIST_END] = {
    RETRO_DEVICE_ID_JOYPAD_R4,
    RETRO_DEVICE_ID_JOYPAD_L5,
    RETRO_DEVICE_ID_JOYPAD_R5,
+   RETRO_DEVICE_ID_JOYPAD_L0,
+   RETRO_DEVICE_ID_JOYPAD_R0,
    RETRO_DEVICE_ID_JOYPAD_MENU,
    RETRO_DEVICE_ID_JOYPAD_OPT,
    RETRO_DEVICE_ID_JOYPAD_G1,
@@ -123,8 +125,6 @@ const unsigned input_config_bind_order[RARCH_ANALOG_BIND_LIST_END] = {
    RETRO_DEVICE_ID_JOYPAD_G4,
    RETRO_DEVICE_ID_JOYPAD_G5,
    RETRO_DEVICE_ID_JOYPAD_G6,
-   RETRO_DEVICE_ID_JOYPAD_G7,
-   RETRO_DEVICE_ID_JOYPAD_G8,
    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP,
    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN,
    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT,
@@ -1260,7 +1260,7 @@ static int32_t input_state_device(
             /* Don't allow turbo for D-pad. */
             if (          (id  < RETRO_DEVICE_ID_JOYPAD_UP)
                   || (    (id  > RETRO_DEVICE_ID_JOYPAD_RIGHT)
-                       && (id <= RETRO_DEVICE_ID_JOYPAD_R5)))
+                       && (id <= RETRO_DEVICE_ID_JOYPAD_G6)))
             {
                /*
                 * Apply turbo button if activated.
@@ -1302,6 +1302,14 @@ static int32_t input_state_device(
                            RETRO_DEVICE_ID_JOYPAD_R4,
                            RETRO_DEVICE_ID_JOYPAD_L5,
                            RETRO_DEVICE_ID_JOYPAD_R5,
+                           RETRO_DEVICE_ID_JOYPAD_L0,
+                           RETRO_DEVICE_ID_JOYPAD_R0,
+                           RETRO_DEVICE_ID_JOYPAD_G1,
+                           RETRO_DEVICE_ID_JOYPAD_G2,
+                           RETRO_DEVICE_ID_JOYPAD_G3,
+                           RETRO_DEVICE_ID_JOYPAD_G4,
+                           RETRO_DEVICE_ID_JOYPAD_G5,
+                           RETRO_DEVICE_ID_JOYPAD_G6,
                         };
                         input_st->turbo_btns.enable[port] = 1 << button_map[
                            MIN(

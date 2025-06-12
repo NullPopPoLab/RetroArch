@@ -6319,14 +6319,14 @@ static enum runloop_state_enum runloop_check_state(
       input_st->ai_gamepad_state[21] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R4);
       input_st->ai_gamepad_state[22] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L5);
       input_st->ai_gamepad_state[23] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R5);
-      input_st->ai_gamepad_state[24] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G1);
-      input_st->ai_gamepad_state[25] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G2);
-      input_st->ai_gamepad_state[26] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G3);
-      input_st->ai_gamepad_state[27] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G4);
-      input_st->ai_gamepad_state[28] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G5);
-      input_st->ai_gamepad_state[29] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G6);
-      input_st->ai_gamepad_state[30] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G7);
-      input_st->ai_gamepad_state[31] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G8);
+      input_st->ai_gamepad_state[24] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_L0);
+      input_st->ai_gamepad_state[25] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_R0);
+      input_st->ai_gamepad_state[26] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G1);
+      input_st->ai_gamepad_state[27] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G2);
+      input_st->ai_gamepad_state[28] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G3);
+      input_st->ai_gamepad_state[29] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G4);
+      input_st->ai_gamepad_state[30] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G5);
+      input_st->ai_gamepad_state[31] = BIT256_GET(current_bits, RETRO_DEVICE_ID_JOYPAD_G6);
    }
 #endif
 #endif
