@@ -2453,6 +2453,14 @@ MSG_HASH(
    "R5 Knappen"
    )
 MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_L0,
+   "L0 Knappen"
+   )
+MSG_HASH(
+   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_R0,
+   "R0 Knappen"
+   )
+MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G1,
    "G1 Knappen"
    )
@@ -2475,14 +2483,6 @@ MSG_HASH(
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G6,
    "G6 Knappen"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G7,
-   "G7 Knappen"
-   )
-MSG_HASH(
-   MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_G8,
-   "G8 Knappen"
    )
 
 /* Settings > Latency */
